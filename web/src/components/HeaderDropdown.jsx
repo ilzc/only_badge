@@ -29,7 +29,7 @@ export default function HeaderDropdown() {
         <Menu.Button className="w-10 h-10 hover:opacity-80">
           <Avatar address={address} />
         </Menu.Button>
-        <button
+        {/* <button
           onClick={switchToAdminView}
           className="flex items-center justify-center h-10 px-5 ml-2 text-sm text-white bg-black rounded-full hover:opacity-80"
         >
@@ -39,7 +39,7 @@ export default function HeaderDropdown() {
             alt="Switch to Admin View"
             className="ml-2"
           />
-        </button>
+        </button> */}
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"
