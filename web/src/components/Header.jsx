@@ -50,7 +50,7 @@ export default function Header() {
               </div>
               {!!currentUser && (
                 <div className="hidden mr-2 md:flex">
-                  <HeaderLink href={paths.profile(currentUser.addr)}>My badges</HeaderLink>
+                  <HeaderLink href={paths.profile(currentUser.addr)}>My Badges</HeaderLink>
                   <HeaderFLOWBalance />
                 </div>
               )}

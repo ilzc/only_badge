@@ -47,13 +47,13 @@ export default function Profile() {
           <Tab.List className="text-center mb-12">
             <Tab as={Fragment}>
               {({selected}) => (
-                <button className={getTabClasses(selected)}>My Items</button>
+                <button className={getTabClasses(selected)}>My Badges</button>
               )}
             </Tab>
             <Tab as={Fragment}>
               {({selected}) => (
                 <button className={getTabClasses(selected)}>
-                  Listed Items
+                  Listed Badges
                 </button>
               )}
             </Tab>
