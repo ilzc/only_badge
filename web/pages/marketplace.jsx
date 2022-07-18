@@ -19,7 +19,7 @@ const MainContent = ({queryState}) => {
   const {currentUser} = useAppContext()
   const {listings, data} = useApiListings({
     ...queryState,
-    marketplace: true,
+    // marketplace: true,
   })
   const showPagination = data?.total !== undefined
 
