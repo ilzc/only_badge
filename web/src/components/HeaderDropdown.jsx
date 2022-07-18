@@ -70,9 +70,9 @@ export default function HeaderDropdown() {
               </Menu.Item>
               <Menu.Item>
                 {({active}) => (
-                  <button onClick={signOut} className={menuItemClasses(active)}>
-                    Claim badge
-                  </button>
+                  <Link href={paths.claimBadges}>
+                    <a className={menuItemClasses(active)}>Claim Badge</a>
+                  </Link>
                 )}
               </Menu.Item>
               <Menu.Item>

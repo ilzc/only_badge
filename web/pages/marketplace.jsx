@@ -50,7 +50,7 @@ const MainContent = ({queryState}) => {
         {!!currentUser && (
           <Link href={paths.profile(currentUser.addr)}>
             <a className="rounded uppercase font-bold text-sm rounded-full bg-green hover:opacity-80 py-2.5 px-5">
-              List My Kitty Items
+              List My Badges
             </a>
           </Link>
         )}
