@@ -64,6 +64,20 @@ export default function HeaderDropdown() {
               <Menu.Item>
                 {({active}) => (
                   <button onClick={signOut} className={menuItemClasses(active)}>
+                    Mint badge
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({active}) => (
+                  <button onClick={signOut} className={menuItemClasses(active)}>
+                    Claim badge
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({active}) => (
+                  <button onClick={signOut} className={menuItemClasses(active)}>
                     Sign Out
                   </button>
                 )}

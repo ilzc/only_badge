@@ -31,10 +31,10 @@ export default function Header() {
             </div>
             <div className="ml-2 d-flex flex-column">
               <div className="text-sm font-bold sm:text-2xl lg:text-3xl sm:ml-3 text-gray-darkest">
-                Kitty Items
+                Only Badge
               </div>
               <div className="text-sm sm:ml-3 text-gray-darkest">
-                Crypto Kitties Sample App
+                A web3 bridge connecting merchants and customers
               </div>
             </div>
           </a>
@@ -43,11 +43,14 @@ export default function Header() {
           {!isAdminPath && (
             <>
               <div className="mr-2 md:mr-4">
-                <HeaderLink href={paths.root}>Store</HeaderLink>
+                <HeaderLink href={paths.root}>Home</HeaderLink>
+                {/* <HeaderLink href={paths.root}>Store</HeaderLink> */}
                 <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
+                
               </div>
               {!!currentUser && (
                 <div className="hidden mr-2 md:flex">
+                  <HeaderLink href={paths.marketplace}>My badges</HeaderLink>
                   <HeaderFLOWBalance />
                 </div>
               )}

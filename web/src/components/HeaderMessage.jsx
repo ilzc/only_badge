@@ -90,7 +90,7 @@ export default function HeaderMessage() {
 
   return (
     <HeaderContainer>
-      <span className="mr-3 text-sm">💻</span>Kitty Items is a demo application
+      <span className="mr-3 text-sm">💻</span>Only Badge is a demo application
       running on the Flow test network.{" "}
       <a
         className="border-b border-white"
