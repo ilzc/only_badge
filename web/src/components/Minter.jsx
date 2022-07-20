@@ -1,8 +1,9 @@
-import Button from "src/components/Button"
+// import Button from "src/components/Button"
 import useMintAndList from "src/hooks/useMintAndList"
 import MinterLoader from "./MinterLoader"
 import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
+import { Button } from 'antd';
 
 export default function Minter() {
   const [{isLoading, transactionStatus}, mint] = useMintAndList()
@@ -18,7 +19,8 @@ export default function Minter() {
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
-          <Button onClick={mint} disabled={isLoading} roundedFull={true}>
+          // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
+          <Button onClick={mint} disabled={isLoading}>
             Mint Item
           </Button>
         )}

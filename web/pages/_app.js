@@ -5,6 +5,7 @@ import {TransactionsContextProvider} from "src/components/Transactions/Transacti
 import {AppContextProvider} from "src/contexts/AppContext"
 import "styles/fonts.css"
 import "styles/globals.css"
+import "styles/app.css"
 import {SWRConfig} from "swr"
 import Router from "next/router"
 import analytics from "src/global/analytics"
