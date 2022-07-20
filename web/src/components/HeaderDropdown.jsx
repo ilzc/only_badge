@@ -62,10 +62,10 @@ export default function HeaderDropdown() {
                 )}
               </Menu.Item>
               <Menu.Item>
-                {({active}) => (
-                  <button onClick={signOut} className={menuItemClasses(active)}>
-                    Mint badge
-                  </button>
+              {({active}) => (
+                  <Link href={paths.mintBadges}>
+                    <a className={menuItemClasses(active)}>Mint Badge</a>
+                  </Link>
                 )}
               </Menu.Item>
               <Menu.Item>
