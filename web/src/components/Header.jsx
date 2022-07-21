@@ -23,7 +23,7 @@ export default function Header() {
           <a className="flex items-center hover:opacity-80">
             <div className="flex w-12 sm:w-auto">
               <img
-                src="/images/kitty-items-logo.svg"
+                src="/images/badge-logo.svg"
                 alt="Kitty Items"
                 width="60"
                 height="60"

@@ -8,7 +8,7 @@ export default function HomeEmptyMessage() {
     <div className="flex justify-center my-12 text-center">
       <div className="bg-white border border-gray-200 p-6 w-[32rem] rounded-md inline-flex flex-col justify-center">
         <img
-          src="/images/kitty-items-logo.svg"
+          src="/images/badge-logo.svg"
           alt="Kitty Items"
           width="100"
           className="mx-auto mt-6 mb-4"
