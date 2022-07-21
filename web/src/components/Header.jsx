@@ -25,8 +25,8 @@ export default function Header() {
               <img
                 src="/images/badge-logo.svg"
                 alt="Kitty Items"
-                width="60"
-                height="60"
+                width="150"
+                height="150"
               />
             </div>
             <div className="ml-2 d-flex flex-column">

@@ -5,12 +5,14 @@ const COLOR_CLASS = {
   green: "bg-green",
   gray: "bg-gray-300",
   outline: "bg-gray-50 border border-gray-200",
+  blue: "bg-blue",
+  purple: "bg-purple",
 }
 
 const getButtonClasses = (color, roundedFull, className) => {
   return `${COLOR_CLASS[color]} ${
     roundedFull ? "rounded-full" : "rounded-md"
-  } font-bold text-sm text-center uppercase py-4 px-2 w-full disabled:cursor-default disabled:opacity-50 hover:opacity-80 ${
+  } font-bold text-sm text-white text-center uppercase py-4 px-2 w-full disabled:cursor-default disabled:opacity-50 hover:opacity-80 ${
     className ?? ""
   }`
 }
@@ -48,7 +50,7 @@ ButtonLink.propTypes = {
 export default function Button({
   onClick,
   disabled,
-  color = "green",
+  color = "purple",
   roundedFull,
   type,
   className,
