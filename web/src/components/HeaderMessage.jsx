@@ -10,7 +10,7 @@ import useLogin from "src/hooks/useLogin"
 
 const HeaderContainer = ({children}) => {
   return (
-    <div className="bg-green-muted text-white text-md font-bold text-center py-3 px-2">
+    <div className="bg-purple text-white text-md font-bold text-center py-3 px-2">
       {children}
     </div>
   )
@@ -57,7 +57,7 @@ export default function HeaderMessage() {
             >
               {isInitLoading ? "Initializing..." : "Initialize"}
             </button>
-            the Service Account to mint Kitty Items.
+            the Service Account to mint Badges.
           </>
         ) : (
           <>
@@ -82,7 +82,7 @@ export default function HeaderMessage() {
           onClick={switchToAdminView}
           className="font-bold underline hover:opacity-80"
         >
-          Mint some Kitty Items
+          Mint some Badges
         </button>
       </HeaderContainer>
     )

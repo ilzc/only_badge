@@ -49,7 +49,7 @@ const MainContent = ({queryState}) => {
         <h1 className="text-3xl text-gray-darkest">Marketplace</h1>
         {!!currentUser && (
           <Link href={paths.profile(currentUser.addr)}>
-            <a className="rounded uppercase font-bold text-sm rounded-full bg-green hover:opacity-80 py-2.5 px-5">
+            <a className="rounded uppercase font-bold text-sm text-white rounded-full bg-gold hover:opacity-80 py-2.5 px-5">
               List My Badges
             </a>
           </Link>
