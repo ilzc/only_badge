@@ -1,6 +1,6 @@
 import NonFungibleToken from 0xNonFungibleToken
 import MetadataViews from 0xMetadataViews
-import KittyItems from 0xKittyItems
+import OnlyBadges from 0xOnlyBadges
 
 pub struct KittyItem {
   pub let name: String
@@ -9,8 +9,8 @@ pub struct KittyItem {
 
   pub let itemID: UInt64
   pub let resourceID: UInt64
-  pub let kind: KittyItems.Kind
-  pub let rarity: KittyItems.Rarity
+  // pub let kind: OnlyBadges.Kind
+  // pub let rarity: OnlyBadges.Rarity
   pub let owner: Address
 
   init(
@@ -19,8 +19,8 @@ pub struct KittyItem {
     image: String,
     itemID: UInt64,
     resourceID: UInt64,
-    kind: KittyItems.Kind,
-    rarity: KittyItems.Rarity,
+    kind: OnlyBadges.Kind,
+    rarity: OnlyBadges.Rarity,
     owner: Address,
   ) {
     self.name = name
@@ -29,16 +29,16 @@ pub struct KittyItem {
 
     self.itemID = itemID
     self.resourceID = resourceID
-    self.kind = kind
-    self.rarity = rarity
+    // self.kind = kind
+    // self.rarity = rarity
     self.owner = owner
   }
 }
 
 pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
-  if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+  if let collection = getAccount(address).getCapability<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic}>(OnlyBadges.CollectionPublicPath).borrow() {
 
-    if let item = collection.borrowKittyItem(id: itemID) {
+    if let item = collection.borrowOnlyBadges(id: itemID) {
 
       if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
@@ -54,8 +54,8 @@ pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
           image: item.imageCID(),
           itemID: itemID,
           resourceID: item.uuid,
-          kind: item.kind,
-          rarity: item.rarity,
+          // kind: item.kind,
+          // rarity: item.rarity,
           owner: address,
         )
       }

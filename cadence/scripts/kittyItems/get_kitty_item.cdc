@@ -1,6 +1,6 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import MetadataViews from "../../contracts/MetadataViews.cdc"
-import KittyItems from "../../contracts/KittyItems.cdc"
+import OnlyBadges from "../../contracts/OnlyBadges.cdc"
 
 pub struct KittyItem {
     pub let name: String
@@ -9,8 +9,8 @@ pub struct KittyItem {
 
     pub let itemID: UInt64
     pub let resourceID: UInt64
-    pub let kind: KittyItems.Kind
-    pub let rarity: KittyItems.Rarity
+    // pub let kind: OnlyBadges.Kind
+    // pub let rarity: OnlyBadges.Rarity
     pub let owner: Address
 
     init(
@@ -19,8 +19,8 @@ pub struct KittyItem {
         thumbnail: String,
         itemID: UInt64,
         resourceID: UInt64,
-        kind: KittyItems.Kind,
-        rarity: KittyItems.Rarity,
+        // kind: KittyItems.Kind,
+        // rarity: KittyItems.Rarity,
         owner: Address,
     ) {
         self.name = name
@@ -29,8 +29,8 @@ pub struct KittyItem {
 
         self.itemID = itemID
         self.resourceID = resourceID
-        self.kind = kind
-        self.rarity = rarity
+        // self.kind = kind
+        // self.rarity = rarity
         self.owner = owner
     }
 }
@@ -48,9 +48,9 @@ pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
 }
 
 pub fun main(address: Address, itemID: UInt64): KittyItem? {
-    if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+    if let collection = getAccount(address).getCapability<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic}>(OnlyBadges.CollectionPublicPath).borrow() {
         
-        if let item = collection.borrowKittyItem(id: itemID) {
+        if let item = collection.borrowOnlyBadges(id: itemID) {
 
             if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
@@ -66,8 +66,8 @@ pub fun main(address: Address, itemID: UInt64): KittyItem? {
                     thumbnail: dwebURL(ipfsThumbnail),
                     itemID: itemID,
                     resourceID: item.uuid,
-                    kind: item.kind, 
-                    rarity: item.rarity, 
+                    // kind: item.kind, 
+                    // rarity: item.rarity, 
                     owner: address,
                 )
             }

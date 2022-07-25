@@ -26,13 +26,36 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     }
   )
 
+  router.get(
+    "/kitty-items/add-minter-sample-tx",
+    async (req: Request, res: Response) => {
+      const collection = await kittyItemsService.get_minter_sample_tx()
+      return res.send({
+        ...collection,
+      })
+    }
+  )
+
+  router.post(
+    "/kitty-items/add_minter",
+    [body("recipient").exists()],
+    validateRequest,
+    async (req: Request, res: Response) => {
+      const {recipient} = req.body
+      const tx = await kittyItemsService.mint(recipient)
+      return res.send({
+        transaction: tx,
+      })
+    }
+  )
+
   router.post(
     "/kitty-items/mint-and-list",
     [body("recipient").exists()],
     validateRequest,
     async (req: Request, res: Response) => {
       const {recipient} = req.body
-      const tx = await kittyItemsService.mintAndList(recipient)
+      const tx = await kittyItemsService.add_minter(recipient)
       return res.send({
         transaction: tx,
       })

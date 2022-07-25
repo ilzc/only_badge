@@ -7,10 +7,12 @@ import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
 import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
 import {useSWRConfig} from "swr"
+import useAppContext from "src/hooks/useAppContext"
 import analytics from "src/global/analytics"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
 export default function useMintAndList() {
+  const {currentUser} = useAppContext()
   const {addTransaction} = useTransactionsContext()
   const [_mintState, executeMintRequest] = useRequest()
   const txStateSubscribeRef = useRef()
@@ -50,34 +52,100 @@ export default function useMintAndList() {
     }, 1000)
   }
 
-  const mintAndList = () => {
-    setIsMintingLoading(true)
-    const recipient = publicConfig.flowAddress
+  // getAccount = async (addr) => {
+  //   const { account } = await fcl.send([fcl.getAccount(addr)]);
+  //   return account;
+  // };
+
+  const mintAndList = async () => {
+    // setIsMintingLoading(true)
+    // const recipient = publicConfig.flowAddress
+    // const recipient = currentUser.addr
+
+    // const transactionId = await fcl.mutate({
+    //   cadence: `
+    //     transaction {
+    //       execute {
+    //         log("Hello from execute")
+    //       }
+    //     }
+    //   `,
+    //   proposer: fcl.currentUser,
+    //   payer: fcl.currentUser,
+    //   limit: 50
+    // })
+
+    // console.log(transactionId)
+    
+    // const auth = await fcl.send([fcl.getAccount(fcl.currentUser.)])
+    // const acc = await fcl.account("0xc9634bcd9b086d58")
+
+    // const key = acc.keys[0];
+
+    // sequenceNum = key.sequenceNumber;
+    //   }
+
+    // console.log(key)
+    // console.log(sequenceNum)
 
     executeMintRequest({
-      url: publicConfig.apiKittyItemMintAndList,
-      method: "POST",
-      data: {
-        recipient,
-      },
-      onSuccess: data => {
+      url: publicConfig.addMinterSampleTx,
+      method: "GET",
+      onSuccess: async data  => {
         setIsMintingLoading(true)
+        console.log("data" + data)
+        const txPayload = data?.txPayload
+        
+        if (!txPayload) throw new Error("Missing txPayload")
+        console.log("txPayload" + txPayload)
+        const txPayloadHex = txPayload.toString("hex")
+        console.log("console.log(result)" + console.log(result))
+        const result = await fcl.currentUser.signUserMessage(txPayloadHex)
+        console.log(result)
+        // addTransaction({id: transactionId, title: "Minting new item"})
 
-        const transactionId = data?.transaction
-        if (!transactionId) throw new Error("Missing transactionId")
-        addTransaction({id: transactionId, title: "Minting new item"})
+        // txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+        //   setTransactionStatus(tx.status)
+        //   if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+        // })
 
-        txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
-          setTransactionStatus(tx.status)
-          if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
-        })
-
-        analytics.track("kitty-items-item-minted", {params: {mint: data}})
+        // analytics.track("kitty-items-item-minted", {params: {mint: data}})
       },
       onError: () => {
         resetLoading()
       },
     })
+
+    // executeMintRequest({
+    //   url: publicConfig.apiKittyItemMintAndList,
+    //   method: "POST",
+    //   data: {
+    //     recipient,
+    //   },
+    //   onSuccess: data => {
+    //     // setIsMintingLoading(true)
+
+    //     const txPayload = data?.txPayload
+    //     const payloadSignatures = data?.payloadSignatures
+
+    //     console.log(txPayload)
+    //     console.log(payloadSignatures)
+
+
+    //     // if (!transactionId) throw new Error("Missing transactionId")
+    //     // addTransaction({id: transactionId, title: "Minting new item"})
+
+    //     // txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+    //     //   setTransactionStatus(tx.status)
+    //     //   if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+    //     // })
+
+    //     // analytics.track("kitty-items-item-minted", {params: {mint: data}})
+    //   },
+    //   onError: () => {
+    //     resetLoading()
+    //   },
+    // })
   }
 
   useEffect(() => {
