@@ -24,10 +24,10 @@ const apiKittyItemMintAndList =
 if (!apiKittyItemMintAndList)
   throw new Error("Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT_AND_LIST")
 
-const addMinterSampleTx =
-  process.env.NEXT_PUBLIC_API_ADD_MINTER_SAMPLE_TX
-if (!addMinterSampleTx)
-  throw new Error("Missing NEXT_PUBLIC_API_ADD_MINTER_SAMPLE_TX")
+const signWithAdminMinter =
+  process.env.NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER
+if (!signWithAdminMinter)
+  throw new Error("Missing NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER")
 
 const apiMarketItemsList = process.env.NEXT_PUBLIC_API_MARKET_ITEMS_LIST
 if (!apiMarketItemsList)
@@ -81,7 +81,7 @@ const publicConfig = {
   apiKittyItemMint,
   apiMarketItemsList,
   apiKittyItemMintAndList,
-  addMinterSampleTx,
+  signWithAdminMinter,
   apiUrl,
   flowAddress,
   avatarUrl,

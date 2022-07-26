@@ -123,86 +123,87 @@ class KittyItemsService {
     })
   }
 
-  get_minter_sample_tx = async () => {
-    const authorization = this.flowService.authorizeMinter()
+  signWithAdminMinter = (tx: string) => {
+    console.log("tx:" + tx)
+    return this.flowService.generateMinterSignature(tx)
+  } 
 
-    const transaction = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          `../../../cadence/transactions/kittyItems/mint_nftminter.cdc`
-        ),
-        "utf8"
-      )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+  // get_minter_sample_tx = async () => {
+  //   const authorization = this.flowService.authorizeMinter()
 
-    let txPayload = {
-      cadence: transaction,
-      args: [
-        fcl.arg("test", t.String),
-        fcl.arg("test1", t.String),
-      ],
-      authorizers: [this.flowService.getAdminMinterAddress()],
-      payer: this.flowService.getAdminMinterAddress(),
-      proposalKey: {
-        ...await this.flowService.getProposalKey()
-      }
-      // skipSeal: true,
-    }
+  //   const transaction = fs
+  //     .readFileSync(
+  //       path.join(
+  //         __dirname,
+  //         `../../../cadence/transactions/kittyItems/mint_nftminter.cdc`
+  //       ),
+  //       "utf8"
+  //     )
+  //     .replace(
+  //       nonFungibleTokenPath,
+  //       fcl.withPrefix(this.nonFungibleTokenAddress)
+  //     )
+  //     .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
-    return { txPayload }
-  }
+  //   let txPayload = {
+  //     cadence: transaction,
+  //     args: [
+  //       fcl.arg("test", t.String),
+  //       fcl.arg("test1", t.String),
+  //     ],
+  //     authorizers: [this.flowService.getAdminMinterAddress()],
+  //     payer: this.flowService.getAdminMinterAddress(),
+  //     proposalKey: {
+  //       ...await this.flowService.getProposalKey()
+  //     }
+  //     // skipSeal: true,
+  //   }
 
-  add_minter = async (recipient: string) => {
-    const authorization = this.flowService.authorizeMinter()
-    console.log("add_minter:" + recipient)
-    // const recipientAccount = await this.flowService.getAccount(recipient)
-    const account = await fcl.getAccount(recipient)
-    console.log("account:" + account)
-    const user = await fcl.send([account])
+  //   return { txPayload }
+  // }
 
-    console.log("user:" + recipient)
+  add_minter = async (recipient: string, key: string) => {
+    // const authorization = this.flowService.authorizeMinter()
 
-    const key = user.keys[0];
-      let sequenceNum;
-      if (account.role.proposer) {
-        sequenceNum = key.sequenceNumber;
-      }
-    
-      console.log("recipient:" + recipient)
-      console.log("sequence number:" + sequenceNum)
+    // console.log("recipient:" + recipient)
+    // console.log("key:" + key)
 
-    const transaction = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          `../../../cadence/transactions/kittyItems/mint_nftminter.cdc`
-        ),
-        "utf8"
-      )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+    // const transaction = fs
+    //   .readFileSync(
+    //     path.join(
+    //       __dirname,
+    //       `../../../cadence/transactions/kittyItems/mint_nftminter.cdc`
+    //     ),
+    //     "utf8"
+    //   )
+    //   .replace(
+    //     nonFungibleTokenPath,
+    //     fcl.withPrefix(this.nonFungibleTokenAddress)
+    //   )
+    //   .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
-    let txPayload = JSON.stringify({
-      cadence: transaction,
-      args: [
-        fcl.arg("test", t.String),
-        fcl.arg("test1", t.String),
-      ],
-      authorizations: [authorization, recipient],
-      payer: recipient,
-      proposer: recipient
-      // skipSeal: true,
-    })
+    // let txPayload = {
+    //   cadence: transaction,
+    //   args: [
+    //     fcl.arg("test", t.String),
+    //     fcl.arg("test1", t.String),
+    //   ],
+    //   authorizations: [this.flowService.getAdminMinterAddress(), recipient],
+    //   payer: this.flowService.getAdminMinterAddress(),
+    //   proposalKey: {
+    //     ...await this.flowService.getProposalKey()
+    //   }
+    //   // skipSeal: true,
+    // }
 
-    return { txPayload, payloadSignatures: this.flowService.generateMinterSignature(txPayload)}
+    // const signature = this.flowService.generateMinterSignature(JSON.stringify(txPayload))
+
+    // txPayload.payloadSignatures = signature
+    // txPayload.envelopeSignatures = signature
+
+    // this.flowService.sendTx()
+
+    // return { txPayload, payloadSignatures: this.flowService.generateMinterSignature(txPayload)}
   }
 
   mintAndList = async (recipient: string) => {

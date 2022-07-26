@@ -1,5 +1,5 @@
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import OnlyBadges from "../../contracts/OnlyBadges.cdc"
+import NonFungibleToken from 0xNonFungibleToken
+import OnlyBadges from 0xOnlyBadges
 
 transaction(name: String, imageFile: String) {
 

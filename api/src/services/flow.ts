@@ -51,14 +51,9 @@ class FlowService {
     }
   }
 
-  generateMinterSignature(message: string) {
+  generateMinterSignature(message: string): string {
     const pk = this.minterPrivateKeyHex;
-    const sign = this.signWithKey;
-    return {
-      addr: this.minterFlowAddress,
-      keyId: this.minterAccountIndex,
-      signature: sign(pk, message),
-    };
+    return this.signWithKey(pk, message)
   }
 
   getAccount = async (addr: string) => {

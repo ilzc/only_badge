@@ -1,4 +1,5 @@
 import * as fcl from "@onflow/fcl"
+import * as t from "@onflow/types"
 import {useRouter} from "next/router"
 import {useEffect, useRef, useState} from "react"
 import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
@@ -9,6 +10,7 @@ import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
 import {useSWRConfig} from "swr"
 import useAppContext from "src/hooks/useAppContext"
 import analytics from "src/global/analytics"
+import MINT_NFTMINTER_SCRIPT from "cadence/scripts/mint_nftminter.cdc"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
 export default function useMintAndList() {
@@ -52,15 +54,71 @@ export default function useMintAndList() {
     }, 1000)
   }
 
-  // getAccount = async (addr) => {
-  //   const { account } = await fcl.send([fcl.getAccount(addr)]);
-  //   return account;
-  // };
+  const getSignature = async (signable) => {
+    const response = await fetch(publicConfig.signWithAdminMinter, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ signable })
+    });
+  
+    const signed = await response.json();
+    console.log("getSignature:" + signed)
+    return signed.signature;
+  }
+  
+  const serverAuthorization = async (account) => {
+  
+    const addr = publicConfig.flowAddress;//admin minter address
+    const keyId = 0;
+
+    const auth = {
+      ...account,
+      tempId: `${addr}-${keyId}`,
+      addr: fcl.sansPrefix(addr),
+      keyId: Number(keyId),
+      signingFunction: async (signable) => {
+  
+        const signature = await getSignature(signable);
+        console.log("signature2:" + signature)
+        const result = {
+          addr: fcl.withPrefix(addr),
+          keyId: Number(keyId),
+          signature
+        }
+        console.log("result:" + JSON.stringify(result))
+        return result
+      }
+    }
+
+    console.log("auth:" + JSON.stringify(auth))
+  
+    return auth
+  }
 
   const mintAndList = async () => {
     // setIsMintingLoading(true)
     // const recipient = publicConfig.flowAddress
-    // const recipient = currentUser.addr
+    const recipient = currentUser.addr
+
+    const transactionId = await fcl.send([
+      fcl.transaction(MINT_NFTMINTER_SCRIPT),
+      fcl.args([
+        fcl.arg("abc", t.String),
+        fcl.arg("cde", t.String)
+      ]),
+      fcl.payer(serverAuthorization),
+      fcl.proposer(fcl.authz),
+      fcl.authorizations([serverAuthorization, fcl.authz]),
+      fcl.limit(9999)
+    ]).then(fcl.decode);
+
+    console.log(transactionId);
+
+    txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+          console.log("tx.status:" + tx.status)
+          setTransactionStatus(tx.status)
+          if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+        })
 
     // const transactionId = await fcl.mutate({
     //   cadence: `
@@ -88,33 +146,67 @@ export default function useMintAndList() {
     // console.log(key)
     // console.log(sequenceNum)
 
-    executeMintRequest({
-      url: publicConfig.addMinterSampleTx,
-      method: "GET",
-      onSuccess: async data  => {
-        setIsMintingLoading(true)
-        console.log("data" + data)
-        const txPayload = data?.txPayload
+    // executeMintRequest({
+    //   url: publicConfig.addMinterSampleTx,
+    //   method: "GET",
+    //   onSuccess: async data  => {
+    //     // setIsMintingLoading(true)
+    //     console.log("data" + JSON.stringify(data))
+    //     data.txPayload.authorizers.push(recipient)
+    //     const txPayload = JSON.stringify(data.txPayload)
         
-        if (!txPayload) throw new Error("Missing txPayload")
-        console.log("txPayload" + txPayload)
-        const txPayloadHex = txPayload.toString("hex")
-        console.log("console.log(result)" + console.log(result))
-        const result = await fcl.currentUser.signUserMessage(txPayloadHex)
-        console.log(result)
-        // addTransaction({id: transactionId, title: "Minting new item"})
+    //     if (!txPayload) throw new Error("Missing txPayload")
+    //     console.log("txPayload:" + txPayload)
+    //     const txPayloadHex = Buffer.from(txPayload).toString("hex")
+    //     console.log("txPayloadHex:" + txPayloadHex)
+    //     const result = await fcl.currentUser.signUserMessage(txPayloadHex)
+    //     console.log("result:" + JSON.stringify(result))
 
-        // txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
-        //   setTransactionStatus(tx.status)
-        //   if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
-        // })
+    //     executeMintRequest({
+    //       url: publicConfig.apiKittyItemMintAndList,
+    //       method: "POST",
+    //       data: {
+    //         recipient,
+    //         key: result
+    //       },
+    //       onSuccess: data => {
+    //         // setIsMintingLoading(true)
 
-        // analytics.track("kitty-items-item-minted", {params: {mint: data}})
-      },
-      onError: () => {
-        resetLoading()
-      },
-    })
+    //         // const txPayload = data?.txPayload
+    //         // const payloadSignatures = data?.payloadSignatures
+
+    //         // console.log(txPayload)
+    //         // console.log(payloadSignatures)
+
+
+    //         // if (!transactionId) throw new Error("Missing transactionId")
+    //         // addTransaction({id: transactionId, title: "Minting new item"})
+
+    //         // txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+    //         //   setTransactionStatus(tx.status)
+    //         //   if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+    //         // })
+
+    //         // analytics.track("kitty-items-item-minted", {params: {mint: data}})
+    //       },
+    //       onError: () => {
+    //         resetLoading()
+    //       },
+    //     })
+
+    //     // addTransaction({id: transactionId, title: "Minting new item"})
+
+    //     // txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+    //     //   setTransactionStatus(tx.status)
+    //     //   if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+    //     // })
+
+    //     // analytics.track("kitty-items-item-minted", {params: {mint: data}})
+    //   },
+    //   onError: () => {
+    //     resetLoading()
+    //   },
+    // })
 
     // executeMintRequest({
     //   url: publicConfig.apiKittyItemMintAndList,

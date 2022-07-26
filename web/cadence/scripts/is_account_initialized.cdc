@@ -1,6 +1,6 @@
 import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
-import KittyItems from 0xKittyItems
+import KittyItems from 0xOnlyBadges
 import NFTStorefront from 0xNFTStorefront
 
 pub fun hasItems(_ address: Address): Bool {

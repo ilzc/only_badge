@@ -154,26 +154,28 @@ class StorefrontService {
     account: string,
     listingResourceID: string
   ): Promise<any> => {
-    const script = fs
-      .readFileSync(
-        path.join(
-          __dirname,
-          "../../../cadence/scripts/nftStorefront/get_listing_item.cdc"
-        ),
-        "utf8"
-      )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
-      .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
-      .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
+    // const script = fs
+    //   .readFileSync(
+    //     path.join(
+    //       __dirname,
+    //       "../../../cadence/scripts/nftStorefront/get_listing_item.cdc"
+    //     ),
+    //     "utf8"
+    //   )
+    //   .replace(
+    //     nonFungibleTokenPath,
+    //     fcl.withPrefix(this.nonFungibleTokenAddress)
+    //   )
+    //   .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
+    //   .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
+    //   .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
-    return this.flowService.executeScript<any>({
-      script,
-      args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
-    })
+    // return this.flowService.executeScript<any>({
+    //   script,
+    //   args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
+    // })
+
+    return 
   }
 
   addListing = async listingEvent => {

@@ -26,12 +26,15 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     }
   )
 
-  router.get(
-    "/kitty-items/add-minter-sample-tx",
+  router.post(
+    "/kitty-items/sign-with-admin-minter",
     async (req: Request, res: Response) => {
-      const collection = await kittyItemsService.get_minter_sample_tx()
+      const { signable } = req.body
+      console.log("signable:" + signable)
+      const signature = kittyItemsService.signWithAdminMinter(signable.message)
+      console.log("signature:" + signature)
       return res.send({
-        ...collection,
+        signature,
       })
     }
   )
@@ -54,8 +57,8 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     [body("recipient").exists()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const {recipient} = req.body
-      const tx = await kittyItemsService.add_minter(recipient)
+      const {recipient, key} = req.body
+      const tx = await kittyItemsService.add_minter(recipient, key)
       return res.send({
         transaction: tx,
       })
