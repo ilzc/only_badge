@@ -2,20 +2,24 @@ import PropTypes from "prop-types"
 import {useLayoutEffect, useMemo, useRef, useState} from "react"
 import MerchantsListItem from "src/components/MerchantsListItem"
 import {storeItemsSelector} from "src/global/selectors"
-import {normalizedItemType} from "src/global/types"
+import {normalizedMerchantItemType} from "src/global/types"
 import {useDebouncedCallback} from "use-debounce"
 
 const ITEMS_LENGTH = 10
 const ITEM_WIDTH = 232
 
 export default function PopularMerchants({items}) {
+
   const listRef = useRef()
   const [reachedScrollEnd, setReachedScrollEnd] = useState(false)
   const [offsetWidth, setOffsetWidth] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
-  const storeItems = storeItemsSelector(items)
-    .slice(0, ITEMS_LENGTH)
-    .sort((a, b) => b.itemID - a.itemID)
+  // const storeItems = storeItemsSelector(items)
+  //   .slice(0, ITEMS_LENGTH)
+  //   .sort((a, b) => b.itemID - a.itemID)
+
+  const storeItems = items
+
 
   const firstVisibleItem = useMemo(
     () => Math.ceil(scrollLeft / ITEM_WIDTH),
@@ -51,8 +55,7 @@ export default function PopularMerchants({items}) {
     }
   }, [onDebouncedWindowResize])
 
-  if (storeItems.length === 0) return null
-
+  if (storeItems && storeItems.length === 0) return null
 
   return (
     <>
@@ -75,7 +78,7 @@ export default function PopularMerchants({items}) {
           <div className="whitespace-nowrap flex -ml-2 lg:pr-3">
             {storeItems.map(item => (
               <div
-                key={item.itemID}
+                key={item.txID}
                 className="flex justify-center px-4"
                 style={{minWidth: ITEM_WIDTH}}
               >
@@ -91,7 +94,7 @@ export default function PopularMerchants({items}) {
 }
 
 PopularMerchants.propTypes = {
-  items: PropTypes.arrayOf(normalizedItemType),
+  items: PropTypes.arrayOf(normalizedMerchantItemType),
 }
 
 

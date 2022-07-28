@@ -5,6 +5,7 @@ import { NFTMinter } from "../models/nftminter"
 import * as path from "path"
 import { json } from "stream/consumers"
 import {FlowService} from "./flow"
+import { OnlyBadgesMinted } from "../models/onlybadge-minted"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
@@ -13,6 +14,8 @@ const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
+
+const PER_PAGE = 8
 class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
@@ -209,8 +212,6 @@ class KittyItemsService {
         address: listingEvent.data.address,
         transaction_id: listingEvent.transactionId,
       };
-      console.log("tx:" + tx)
-      console.log("json:" + JSON.stringify(jsonstr))
       return await NFTMinter.query(tx)
         .insert(jsonstr)
         .returning("transaction_id")
@@ -221,6 +222,50 @@ class KittyItemsService {
         })
     });
   }
+
+  onlybadgesMinted = async listingEvent => {
+    return OnlyBadgesMinted.transaction(async tx => {
+      const jsonstr = {
+        id: listingEvent.data.id,
+        name: listingEvent.data.name,
+        badge_image: listingEvent.data.badge_image,
+        number: listingEvent.data.number,
+        max: listingEvent.data.max,
+        transaction_id: listingEvent.transactionId,
+      };
+      console.log("tx:" + tx)
+      console.log("json:" + JSON.stringify(jsonstr))
+      return await OnlyBadgesMinted.query(tx)
+        .insert(jsonstr)
+        .returning("transaction_id")
+        .onConflict("id")
+        .ignore()
+        .catch(e => {
+          console.log(e)
+        })
+    });
+  }
+
+  findMostRecentMinter = params => {
+    return NFTMinter.transaction(async tx => {
+      const query = NFTMinter.query(tx).select("*").orderBy("updated_at", "desc")
+
+      if (params.name) {
+        query.where("name", params.name)
+      }
+
+      if (params.address) {
+        query.where("address", params.address)
+      }
+
+      if (params.page) {
+        query.page(Number(params.page) - 1, PER_PAGE)
+      }
+
+      return await query
+    })
+  }
+
 
 }
 

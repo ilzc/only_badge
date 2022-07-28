@@ -64,9 +64,10 @@ export default function BadgesMinter() {
   // }
 
   const handleUpload = async (option) => {
+    console.log(JSON.stringify(option))
     const file = option.file
     console.log("upload file")
-    console.log(file)
+    
     uploadNftStorage(file, file.name, "next", 
       (responseUrl) => {
         console.log("upload success:" + responseUrl)

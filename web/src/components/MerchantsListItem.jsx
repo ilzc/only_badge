@@ -1,7 +1,7 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
 import {paths} from "src/global/constants"
-import {normalizedItemType} from "src/global/types"
+import {normalizedMerchantItemType} from "src/global/types"
 import useAppContext from "src/hooks/useAppContext"
 import {rarityTextColors} from "src/util/classes"
 import ListItemImage from "./ListItemImage"
@@ -18,17 +18,17 @@ export default function MerchantsListItem({
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
   const hasListing = Number.isInteger(item.listingResourceID)
   const profileUrl = paths.profileItem(item.owner, item.itemID)
-  const rarityTextColor = rarityTextColors(item.rarity)
+  // const rarityTextColor = rarityTextColors(item.rarity)
   return (
     <div className="w-full">
       <Link href={profileUrl} passHref>
         <a className="w-full">
           <ListItemImage
             name={item.name}
-            rarity={item.rarity}
+            // rarity={item.rarity}
             cid={item.image}
-            address={item.owner}
-            id={item.itemID}
+            address={item.address}
+            // id={item.txID}
             size={size}
             isStoreItem={isStoreItem}
             classes="item-image-container-hover"
@@ -46,7 +46,7 @@ export default function MerchantsListItem({
         </a>
       </Link>
       <div>
-        {showOwnerInfo && <OwnerInfo address={item.owner} />}
+        {showOwnerInfo && <OwnerInfo address={item.address} />}
         <div className="flex justify-between items-center mt-5 gap-4">
           <div className="flex flex-col">
             <Link href={profileUrl}>
@@ -60,7 +60,7 @@ export default function MerchantsListItem({
 }
 
 MerchantsListItem.propTypes = {
-  item: normalizedItemType,
+  item: normalizedMerchantItemType,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
   isStoreItem: PropTypes.bool,

@@ -51,6 +51,8 @@ export const paths = {
   claimBadges: "/claim",
   mintBadges: "/mintBadges",
   mintNFTMinter: "/nftminter/mint",
+  apiListMerchants: params =>
+  `${publicConfig.apiOnlyBadgesListMerchants}${getParamsString(params)}`,
 }
 
 export const flashMessages = {

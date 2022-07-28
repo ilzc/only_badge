@@ -23,3 +23,11 @@ export const apiListingType = PropTypes.exact({
   image: PropTypes.string,
   txID: PropTypes.string,
 })
+
+
+export const normalizedMerchantItemType = PropTypes.exact({
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string,
+  address: PropTypes.string.isRequired,
+  txID: PropTypes.string.isRequired,
+})

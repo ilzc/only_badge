@@ -6,6 +6,7 @@ import useTransactionsContext from "src/components/Transactions/useTransactionsC
 import {paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
+import useNFTStorage from "src/hooks/useNFTStorage"
 import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
 import {useSWRConfig} from "swr"
 import useAppContext from "src/hooks/useAppContext"
@@ -17,6 +18,7 @@ export default function useMintNFTMinter() {
   const {currentUser} = useAppContext()
   const {addTransaction} = useTransactionsContext()
   const [_mintState, executeMintRequest] = useRequest()
+  const [ isUploading, uploadNftStorage ] = useNFTStorage()
   const txStateSubscribeRef = useRef()
   const txSealedTimeout = useRef()
 
@@ -95,13 +97,14 @@ export default function useMintNFTMinter() {
     return auth
   }
 
-  const mintNFTMinter = async ({name, imagePath}) => {
-    console.log("mintNFTMinter" + {name, imagePath});
+  const mintNFTMinter = async ({name, image}) => {
+    console.log("name:" + name + " image:" + JSON.stringify(image))
+    image = image.file.response
     const transactionId = await fcl.send([
       fcl.transaction(MINT_NFTMINTER_SCRIPT),
       fcl.args([
         fcl.arg(name, t.String),
-        fcl.arg(imagePath, t.String)
+        fcl.arg(image, t.String)
       ]),
       fcl.payer(serverAuthorization),
       fcl.proposer(fcl.authz),

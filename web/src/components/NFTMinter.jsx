@@ -48,7 +48,6 @@ export default function NFTMinter() {
   const [{ isLoading, transactionStatus }, mint] = useMintNFTMinter()
   const [ isUploading, uploadNftStorage ] = useNFTStorage()
   const {currentUser} = useAppContext()
-  const [fileList, setFileList] = useState([]);
 
   if (!currentUser) return null
   const address = currentUser.addr
@@ -58,20 +57,18 @@ export default function NFTMinter() {
     mint(values)
   };
 
-  // async function convertToFile(originFile) {
-  //   const content = await fs.promises.readFile(filePath)
-  //   const type = mime.getType(filePath)
-  //   return new File([content], path.basename(filePath), { type })
-  // }
-
   const handleUpload = async (option) => {
     const file = option.file
     console.log("upload file")
     console.log(file)
-    uploadNftStorage(file, file.name, "next", 
-      (responseUrl) => {
-        console.log("upload success:" + responseUrl)
-        option.onSuccess(responseUrl)
+    let fileName = file.name;
+    let fileType = fileName.split('.')[1];
+    let renameFile = new File( [file],"nft_img"  +  '.' + fileType, option)
+    uploadNftStorage(renameFile, "OnlyBadge", "Merchants Logo", 
+      (responseUrl, data, ipnft) => {
+        console.log("upload success:" + ipnft)
+        console.log("upload success metadata:" + JSON.stringify(data))
+        option.onSuccess(ipnft)
       }, 
       ()=> {
         console.log("upload error:" + error)
@@ -91,14 +88,14 @@ export default function NFTMinter() {
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"测试商户", imagePath: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"}}>
+          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"测试商户"}}>
             <Form.Item name={['name']} label="商户名称" rules={[{ required: true }]} >
-              <Input disabled={true}/>
-            </Form.Item>
-            <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item label="商户logo" valuePropName="fileList">
+            {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item> */}
+            <Form.Item name={['image']} label="商户logo">
               <Upload listType="picture-card" beforeUpload={beforeUpload} showUploadList={false} customRequest={handleUpload}>
                 <div>
                   {/* <PlusOutlined /> */}
@@ -107,7 +104,7 @@ export default function NFTMinter() {
               </Upload>
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading || isUploading}>
                 Submit
               </Button>
             </Form.Item>

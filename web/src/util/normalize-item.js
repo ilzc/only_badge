@@ -26,6 +26,16 @@ export function normalizeListing(listing) {
   }
 }
 
+export function normalizeMerchants(item) {
+  console.log("item:" + JSON.stringify(item))
+  return {
+    name: item.name,
+    image: item.image_path,
+    address: item.address,
+    txID: item.transaction_id,
+  }
+}
+
 export function normalizeItem(accountItem, apiListing) {
   return {
     itemID: accountItem.itemID,

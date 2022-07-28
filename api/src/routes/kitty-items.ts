@@ -117,6 +117,13 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     })
   })
 
+  router.get("/onlybadges/list-merchants", async (req: Request, res: Response) => {
+    const latestListings = await kittyItemsService.findMostRecentMinter(
+      req.query
+    )
+    return res.send(latestListings)
+  })
+
   return router
 }
 

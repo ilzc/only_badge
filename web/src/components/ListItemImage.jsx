@@ -10,7 +10,8 @@ const getContainerStyle = isStoreItem => ({
 })
 
 const getImageSrc = (cid, size, is2X) => {
-  return `https://${cid}.ipfs.dweb.link/${size}${is2X ? "@2x" : ""}.png`
+  // return `https://${cid}.ipfs.dweb.link/${size}${is2X ? "@2x" : ""}.png`
+  return `https://${cid}.ipfs.dweb.link/nft_img.png`
 }
 
 export default function ListItemImage({
@@ -23,16 +24,14 @@ export default function ListItemImage({
   isStoreItem,
   children,
 }) {
-  if (typeof rarity === "undefined") return <div className="w-full" />
+  // if (typeof rarity === "undefined") return <div className="w-full" />
   const imageSrc1X = getImageSrc(cid, size, false)
   const imageSrc2X = getImageSrc(cid, size, true)
   const imageSrcSet = `${imageSrc1X}, ${imageSrc2X} 2x`
 
   return (
     <div
-      className={`group relative ${itemGradientClass(
-        grayscale ? "gray" : rarity
-      )} item-image-container rounded-3xl relative flex w-full items-center justify-center ${classes}`}
+      className={`group relative item-image-container rounded-3xl relative flex w-full items-center justify-center ${classes}`}
       style={getContainerStyle(isStoreItem)}
     >
       <div className="absolute top-0 h-full flex items-center justify-center">

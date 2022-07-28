@@ -16,6 +16,7 @@ class ListingHandler extends BaseEventHandler {
   private eventListingAvailable;
   private eventListingCompleted;
   private eventMinterAdded;
+  private eventOnlyBadgesMinted;
 
   constructor(
     private readonly storefrontService: StorefrontService,
@@ -37,12 +38,17 @@ class ListingHandler extends BaseEventHandler {
       onlybadgesService.kittyItemsAddress
     )}.OnlyBadges.MinterAdded`;
 
+    this.eventOnlyBadgesMinted = `A.${fcl.sansPrefix(
+      onlybadgesService.kittyItemsAddress
+    )}.OnlyBadges.Minted`;
+
     console.log("eventMinterAdded:" + this.eventMinterAdded);
 
     this.eventNames = [
       this.eventListingAvailable,
       this.eventListingCompleted,
-      this.eventMinterAdded
+      this.eventMinterAdded,
+      this.eventOnlyBadgesMinted
     ];
   }
 
@@ -57,6 +63,10 @@ class ListingHandler extends BaseEventHandler {
       case this.eventMinterAdded:
         console.log("event:" + JSON.stringify(event))
         await this.onlybadgesService.addMinter(event);
+        break;
+      case this.eventOnlyBadgesMinted:
+        console.log("event:" + JSON.stringify(event))
+        await this.onlybadgesService.onlybadgesMinted(event);
         break;
       default:
         return;

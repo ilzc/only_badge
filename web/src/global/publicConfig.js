@@ -24,6 +24,11 @@ const apiKittyItemMintAndList =
 if (!apiKittyItemMintAndList)
   throw new Error("Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT_AND_LIST")
 
+const apiOnlyBadgesListMerchants =
+  process.env.NEXT_PUBLIC_API_ONLY_BADGES_LIST_MERCHANTS
+if (!apiOnlyBadgesListMerchants)
+  throw new Error("Missing NEXT_PUBLIC_API_ONLY_BADGES_LIST_MERCHANTS")
+
 const signWithAdminMinter =
   process.env.NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER
 if (!signWithAdminMinter)
@@ -81,6 +86,7 @@ const publicConfig = {
   apiKittyItemMint,
   apiMarketItemsList,
   apiKittyItemMintAndList,
+  apiOnlyBadgesListMerchants,
   signWithAdminMinter,
   apiUrl,
   flowAddress,
