@@ -1,4 +1,4 @@
-// import Button from "src/components/Button"
+import useAppContext from "src/hooks/useAppContext"
 import useMintAndList from "src/hooks/useMintAndList"
 import MinterLoader from "./MinterLoader"
 import RarityScale from "./RarityScale"
@@ -6,11 +6,7 @@ import TransactionLoading from "./TransactionLoading"
 import { Button, Form, Input, InputNumber, Upload } from 'antd';
 import useNFTStorage from "src/hooks/useNFTStorage"
 import { useState } from "react"
-
-
-const onFinish = (values) => {
-  console.log(values);
-};
+import useLogin from "src/hooks/useLogin";
 
 const layout = {
   labelCol: { span: 8 },
@@ -47,11 +43,19 @@ const beforeUpload = (file) => {
 
 
 
-export default function Minter() {
+export default function BadgesMinter() {
   const [{ isLoading, transactionStatus }, mint] = useMintAndList()
   const [ isUploading, uploadNftStorage ] = useNFTStorage()
-
+  const {currentUser} = useAppContext()
   const [fileList, setFileList] = useState([]);
+
+  if (!currentUser) return null
+  const address = currentUser.addr
+
+  const onFinish = (values) => {
+    console.log(values);
+    mint(values)
+  };
 
   // async function convertToFile(originFile) {
   //   const content = await fs.promises.readFile(filePath)
@@ -86,17 +90,17 @@ export default function Minter() {
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
-            <Form.Item name={['user', 'merchant_name']} label="商户名称" rules={[{ required: true }]}>
+          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"测试", max:1, description: "描述", badge_image: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"}}>
+            <Form.Item name={['recipient']} label="商户地址" rules={[{ required: true }]} >
+              <Input disabled={true}/>
+            </Form.Item>
+            <Form.Item name={['name']} label="徽章名称" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item name={['user', 'badge_name']} label="徽章名称" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item name={['user', 'total']} label="总量" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
+            <Form.Item name={['max']} label="总量" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
               <InputNumber />
             </Form.Item>
-            <Form.Item name={['user', 'website']} label="网址">
+            <Form.Item name={['externalURL']} label="网址">
               <Input />
             </Form.Item>
             <Form.Item label="徽章图片" valuePropName="fileList">
@@ -107,11 +111,23 @@ export default function Minter() {
                 </div>
               </Upload>
             </Form.Item>
-            <Form.Item name={['user', 'description']} label="描述">
+            <Form.Item name={['badge_image']} label="徽章地址">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['description']} label="描述">
               <Input.TextArea />
             </Form.Item>
+            <Form.Item name={['royalty_cut']} label="版税">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['royalty_description']} label="版税描述">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['royalty_receiver']} label="版税接收地址">
+              <Input />
+            </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button onClick={mint} type="primary" htmlType="submit" disabled={isLoading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading}>
                 Submit
               </Button>
             </Form.Item>

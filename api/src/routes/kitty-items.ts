@@ -57,11 +57,11 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     [body("recipient").exists()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const {recipient, key} = req.body
-      const tx = await kittyItemsService.add_minter(recipient, key)
-      return res.send({
-        transaction: tx,
-      })
+      // const {recipient, key} = req.body
+      // const tx = await kittyItemsService.add_minter(recipient, key)
+      // return res.send({
+      //   transaction: tx,
+      // })
     }
   )
 

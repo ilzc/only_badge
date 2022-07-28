@@ -1,12 +1,12 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import KittyItems from "../../contracts/KittyItems.cdc"
+import OnlyBadges from "../../contracts/OnlyBadges.cdc"
 
-// This script returns the size of an account's KittyItems collection.
+// This script returns the size of an account's OnlyBadges collection.
 
 pub fun main(address: Address): Int {
     let account = getAccount(address)
 
-    let collectionRef = account.getCapability(KittyItems.CollectionPublicPath)!
+    let collectionRef = account.getCapability(OnlyBadges.CollectionPublicPath)!
         .borrow<&{NonFungibleToken.CollectionPublic}>()
         ?? panic("Could not borrow capability from public collection")
     

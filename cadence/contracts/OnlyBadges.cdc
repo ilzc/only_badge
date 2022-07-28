@@ -6,11 +6,11 @@ pub contract OnlyBadges: NonFungibleToken {
 
     // Events
     //
-    pub event MinterAdded(address: Address)
+    pub event MinterAdded(address: Address, minterName: String, minterImageFile: String)
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
-    pub event Minted(id: UInt64, name: String)
+    pub event Minted(id: UInt64, name: String, badge_image: MetadataViews.IPFSFile, number: UInt64, max: UInt64?)
     pub event ImagesAddedForNewKind(kind: UInt8)
 
     // Named Paths
@@ -244,7 +244,7 @@ pub contract OnlyBadges: NonFungibleToken {
                 panic("Unable to add minter, already present as a minter for another token type.")
             }
             let minter <- create NFTMinter(minterName: minterName, minterImageFile: minterImageFile)
-            emit MinterAdded(address: minterAccount.address)
+            emit MinterAdded(address: minterAccount.address, minterName: minterName, minterImageFile: minterImageFile)
             minterAccount.save(<-minter, to: OnlyBadges.MinterStoragePath)
             self.minters[minterAccount.address] = 1;
         }
@@ -269,7 +269,7 @@ pub contract OnlyBadges: NonFungibleToken {
         // and deposit it in the recipients collection using their collection reference
         //
         pub fun mintNFT(
-            recipient: &{NonFungibleToken.CollectionPublic}, 
+            recipient: &{OnlyBadgesCollectionPublic}, 
             name: String, 
             description: String, 
             badge_image: MetadataViews.IPFSFile,
@@ -277,10 +277,14 @@ pub contract OnlyBadges: NonFungibleToken {
             max: UInt64?,
             royalty_cut: UFix64?,
             royalty_description: String?,
-            royalty_receiver: Capability<&AnyResource{FungibleToken.Receiver}>?,
+            royalty_receiver: Address?,
             externalURL: String?
         ) {
             // deposit it in the recipient's account using their reference
+            var royalty_receiver_capability:Capability<&AnyResource{FungibleToken.Receiver}>? = nil
+            if royalty_receiver != nil {
+                royalty_receiver_capability = getAccount(royalty_receiver!).getCapability<&AnyResource{FungibleToken.Receiver}>(/public/flowTokenReceiver)
+            }
             recipient.deposit(token: <-create OnlyBadges.NFT(
                                                 id: OnlyBadges.totalSupply, 
                                                 name: name, 
@@ -290,29 +294,19 @@ pub contract OnlyBadges: NonFungibleToken {
                                                 max: max,
                                                 royalty_cut: royalty_cut,
                                                 royalty_description: royalty_description,
-                                                royalty_receiver: royalty_receiver,
+                                                royalty_receiver: royalty_receiver_capability,
                                                 externalURL: externalURL))
 
             emit Minted(
                 id: OnlyBadges.totalSupply,
                 name: name,
+                badge_image: badge_image,
+                number: number,
+                max: max
             )
 
             OnlyBadges.totalSupply = OnlyBadges.totalSupply + (1 as UInt64)
         }
-
-        // Update NFT images for new type
-        // pub fun addNewImagesForKind(from: AuthAccount, newImages: {Kind: {Rarity: String}}) {
-        //     let kindValue = OnlyBadges.images.containsKey(newImages.keys[0]) 
-        //     if(!kindValue) {
-        //         OnlyBadges.images.insert(key: newImages.keys[0], newImages.values[0])
-        //         emit ImagesAddedForNewKind(
-        //             kind: newImages.keys[0].rawValue,
-        //         )
-        //     } else {
-        //         panic("No Rugs... Can't update existing NFT images.")
-        //     }
-        // }
     }
 
     // fetch

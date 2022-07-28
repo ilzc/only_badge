@@ -53,6 +53,7 @@ class FlowService {
 
   generateMinterSignature(message: string): string {
     const pk = this.minterPrivateKeyHex;
+    console.log("pk:" + pk)
     return this.signWithKey(pk, message)
   }
 

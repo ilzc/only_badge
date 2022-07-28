@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import * as fs from "fs"
+import { NFTMinter } from "../models/nftminter"
 import * as path from "path"
 import { json } from "stream/consumers"
 import {FlowService} from "./flow"
@@ -12,55 +13,12 @@ const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
-enum Kind {
-  Fishbowl = 0,
-  Fishhat,
-  Milkshake,
-  TukTuk,
-  Skateboard,
-}
-
-enum Rarity {
-  Blue = 0,
-  Green,
-  Purple,
-  Gold,
-}
-
-const randomKind = () => {
-  const values = Object.keys(Kind)
-    .map(n => Number.parseInt(n))
-    .filter(n => !Number.isNaN(n))
-
-  const index = Math.floor(Math.random() * values.length)
-
-  return values[index]
-}
-
-const ITEM_RARITY_PROBABILITIES = {
-  [Rarity.Gold]: 10,
-  [Rarity.Purple]: 20,
-  [Rarity.Green]: 30,
-  [Rarity.Blue]: 40,
-}
-
-const randomRarity = () => {
-  const rarities = Object.keys(ITEM_RARITY_PROBABILITIES)
-  const rarityProbabilities = rarities.flatMap(rarity =>
-    Array(ITEM_RARITY_PROBABILITIES[rarity]).fill(rarity)
-  )
-
-  const index = Math.floor(Math.random() * rarityProbabilities.length)
-
-  return rarityProbabilities[index]
-}
-
 class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
     private readonly nonFungibleTokenAddress: string,
     private readonly metadataViewsAddress: string,
-    private readonly kittyItemsAddress: string,
+    public readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
     private readonly storefrontAddress: string
@@ -128,89 +86,8 @@ class KittyItemsService {
     return this.flowService.generateMinterSignature(tx)
   } 
 
-  // get_minter_sample_tx = async () => {
-  //   const authorization = this.flowService.authorizeMinter()
-
-  //   const transaction = fs
-  //     .readFileSync(
-  //       path.join(
-  //         __dirname,
-  //         `../../../cadence/transactions/kittyItems/mint_nftminter.cdc`
-  //       ),
-  //       "utf8"
-  //     )
-  //     .replace(
-  //       nonFungibleTokenPath,
-  //       fcl.withPrefix(this.nonFungibleTokenAddress)
-  //     )
-  //     .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
-
-  //   let txPayload = {
-  //     cadence: transaction,
-  //     args: [
-  //       fcl.arg("test", t.String),
-  //       fcl.arg("test1", t.String),
-  //     ],
-  //     authorizers: [this.flowService.getAdminMinterAddress()],
-  //     payer: this.flowService.getAdminMinterAddress(),
-  //     proposalKey: {
-  //       ...await this.flowService.getProposalKey()
-  //     }
-  //     // skipSeal: true,
-  //   }
-
-  //   return { txPayload }
-  // }
-
-  add_minter = async (recipient: string, key: string) => {
-    // const authorization = this.flowService.authorizeMinter()
-
-    // console.log("recipient:" + recipient)
-    // console.log("key:" + key)
-
-    // const transaction = fs
-    //   .readFileSync(
-    //     path.join(
-    //       __dirname,
-    //       `../../../cadence/transactions/kittyItems/mint_nftminter.cdc`
-    //     ),
-    //     "utf8"
-    //   )
-    //   .replace(
-    //     nonFungibleTokenPath,
-    //     fcl.withPrefix(this.nonFungibleTokenAddress)
-    //   )
-    //   .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
-
-    // let txPayload = {
-    //   cadence: transaction,
-    //   args: [
-    //     fcl.arg("test", t.String),
-    //     fcl.arg("test1", t.String),
-    //   ],
-    //   authorizations: [this.flowService.getAdminMinterAddress(), recipient],
-    //   payer: this.flowService.getAdminMinterAddress(),
-    //   proposalKey: {
-    //     ...await this.flowService.getProposalKey()
-    //   }
-    //   // skipSeal: true,
-    // }
-
-    // const signature = this.flowService.generateMinterSignature(JSON.stringify(txPayload))
-
-    // txPayload.payloadSignatures = signature
-    // txPayload.envelopeSignatures = signature
-
-    // this.flowService.sendTx()
-
-    // return { txPayload, payloadSignatures: this.flowService.generateMinterSignature(txPayload)}
-  }
-
   mintAndList = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
-
-    const kind = randomKind()
-    const rarity = randomRarity()
 
     const transaction = fs
       .readFileSync(
@@ -232,9 +109,7 @@ class KittyItemsService {
     return this.flowService.sendTx({
       transaction,
       args: [
-        fcl.arg(recipient, t.Address),
-        fcl.arg(Number(kind), t.UInt8),
-        fcl.arg(Number(rarity), t.UInt8),
+        fcl.arg(recipient, t.Address)
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -325,6 +200,28 @@ class KittyItemsService {
 
     return this.flowService.executeScript<number>({script, args: []})
   }
+
+  addMinter = async listingEvent => {
+    return NFTMinter.transaction(async tx => {
+      const jsonstr = {
+        name: listingEvent.data.minterName,
+        image_path: listingEvent.data.minterImageFile,
+        address: listingEvent.data.address,
+        transaction_id: listingEvent.transactionId,
+      };
+      console.log("tx:" + tx)
+      console.log("json:" + JSON.stringify(jsonstr))
+      return await NFTMinter.query(tx)
+        .insert(jsonstr)
+        .returning("transaction_id")
+        .onConflict("transaction_id")
+        .ignore()
+        .catch(e => {
+          console.log(e)
+        })
+    });
+  }
+
 }
 
 export {KittyItemsService}

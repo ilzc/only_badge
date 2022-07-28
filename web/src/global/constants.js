@@ -49,7 +49,8 @@ export const paths = {
   },
   githubRepo: "https://github.com/ilzc/only_badge",
   claimBadges: "/claim",
-  mintBadges: "/mint",
+  mintBadges: "/mintBadges",
+  mintNFTMinter: "/nftminter/mint",
 }
 
 export const flashMessages = {

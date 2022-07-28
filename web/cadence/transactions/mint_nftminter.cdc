@@ -1,5 +1,6 @@
 import NonFungibleToken from 0xNonFungibleToken
 import OnlyBadges from 0xOnlyBadges
+import MetadataViews from 0xMetadataViews
 
 transaction(name: String, imageFile: String) {
 
@@ -14,6 +15,18 @@ transaction(name: String, imageFile: String) {
         self.minter = adminMinter.borrow<&OnlyBadges.AdminMinter>(from: OnlyBadges.AdminMinterStoragePath)
             ?? panic("Could not borrow a reference to the NFT minter")
         self.newMinter = newMinter;
+
+        if newMinter.borrow<&OnlyBadges.Collection>(from: OnlyBadges.CollectionStoragePath) == nil {
+
+            // create a new empty collection
+            let collection <- OnlyBadges.createEmptyCollection()
+            
+            // save it to the account
+            newMinter.save(<-collection, to: OnlyBadges.CollectionStoragePath)
+
+            // create a public capability for the collection
+            newMinter.link<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic, MetadataViews.ResolverCollection}>(OnlyBadges.CollectionPublicPath, target: OnlyBadges.CollectionStoragePath)
+        }
     }
 
     execute {

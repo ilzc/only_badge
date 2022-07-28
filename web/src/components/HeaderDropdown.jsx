@@ -63,6 +63,13 @@ export default function HeaderDropdown() {
               </Menu.Item>
               <Menu.Item>
               {({active}) => (
+                  <Link href={paths.mintNFTMinter}>
+                    <a className={menuItemClasses(active)}>Create Merchants Profile</a>
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+              {({active}) => (
                   <Link href={paths.mintBadges}>
                     <a className={menuItemClasses(active)}>Mint Badge</a>
                   </Link>
