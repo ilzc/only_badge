@@ -29,6 +29,11 @@ const apiOnlyBadgesListMerchants =
 if (!apiOnlyBadgesListMerchants)
   throw new Error("Missing NEXT_PUBLIC_API_ONLY_BADGES_LIST_MERCHANTS")
 
+const apiOnlyBadgesListLatestNft =
+  process.env.NEXT_PUBLIC_API_ONLY_BADGES_LIST_LATEST_NFTS
+if (!apiOnlyBadgesListLatestNft)
+  throw new Error("Missing NEXT_PUBLIC_API_ONLY_BADGES_LIST_LATEST_NFTS")
+
 const signWithAdminMinter =
   process.env.NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER
 if (!signWithAdminMinter)
@@ -87,6 +92,7 @@ const publicConfig = {
   apiMarketItemsList,
   apiKittyItemMintAndList,
   apiOnlyBadgesListMerchants,
+  apiOnlyBadgesListLatestNft,
   signWithAdminMinter,
   apiUrl,
   flowAddress,

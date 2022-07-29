@@ -36,6 +36,19 @@ export function normalizeMerchants(item) {
   }
 }
 
+export function normalizeBadges(item) {
+  console.log("item:" + JSON.stringify(item))
+  return {
+    owner: item.owner,
+    id: item.id,
+    name: item.name,
+    badge_image: item.badge_image,
+    number: item.number,
+    max: item.number,
+    txID: item.transaction_id,
+  }
+}
+
 export function normalizeItem(accountItem, apiListing) {
   return {
     itemID: accountItem.itemID,

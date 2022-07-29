@@ -42,8 +42,6 @@ const beforeUpload = (file) => {
   return isJpgOrPng && isLt2M;
 };
 
-
-
 export default function NFTMinter() {
   const [{ isLoading, transactionStatus }, mint] = useMintNFTMinter()
   const [ isUploading, uploadNftStorage ] = useNFTStorage()

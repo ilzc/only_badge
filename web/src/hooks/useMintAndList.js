@@ -42,7 +42,7 @@ export default function useMintAndList() {
   const mintAndList = async (reqValues) => {
 
     //recipient, name, description, badge_image, max, royalty_cut, royalty_cut, royalty_description, royalty_receiver, externalURL
-    const recipient = currentUser.addr
+    let image = reqValues.badge_image.file.response
 
     console.log("reqValues:" + reqValues.recipient)
 
@@ -52,8 +52,8 @@ export default function useMintAndList() {
         arg(reqValues.recipient, t.Address),
         arg(reqValues.name, t.String),
         arg(reqValues.description, t.String),
-        arg(reqValues.badge_image, t.String),
-        arg("sm.jpg", t.String),
+        arg(image, t.String),
+        arg("image/nft_img.png", t.String),
         arg(reqValues.max, t.UInt64),
         arg(reqValues.royalty_cut, t.Optional(t.UFix64)),
         arg(reqValues.royalty_description, t.Optional(t.String)),

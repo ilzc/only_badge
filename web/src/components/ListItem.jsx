@@ -1,9 +1,8 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
 import {paths} from "src/global/constants"
-import {normalizedItemType} from "src/global/types"
+import {normalizedBadges} from "src/global/types"
 import useAppContext from "src/hooks/useAppContext"
-import {rarityTextColors} from "src/util/classes"
 import ListItemImage from "./ListItemImage"
 import ListItemPrice from "./ListItemPrice"
 import OwnerInfo from "./OwnerInfo"
@@ -19,17 +18,15 @@ export default function ListItem({
   const hasListing = Number.isInteger(item.listingResourceID)
   const isBuyable = !currentUserIsOwner && hasListing
   const profileUrl = paths.profileItem(item.owner, item.itemID)
-  const rarityTextColor = rarityTextColors(item.rarity)
   return (
     <div className="w-full">
       <Link href={profileUrl} passHref>
         <a className="w-full">
           <ListItemImage
             name={item.name}
-            rarity={item.rarity}
-            cid={item.image}
-            address={item.owner}
-            id={item.itemID}
+            cid={item.badge_image}
+            owner={item.owner}
+            id={item.id}
             size={size}
             isStoreItem={isStoreItem}
             classes="item-image-container-hover"
@@ -37,7 +34,7 @@ export default function ListItem({
             {isStoreItem && (
               <div className="absolute top-3 left-3">
                 <div
-                  className={`bg-white py-1 px-4 font-bold text-sm rounded-full uppercase ${rarityTextColor}`}
+                  className={`bg-white py-1 px-4 font-bold text-sm rounded-full uppercase`}
                 >
                   New
                 </div>
@@ -65,7 +62,7 @@ export default function ListItem({
               <a className="text-lg font-semibold">{item.name}</a>
             </Link>
             <Link href={profileUrl}>
-              <a className="text-sm font text-gray-light">#{item.itemID}</a>
+              <a className="text-sm font text-gray-light">#{item.id}</a>
             </Link>
           </div>
           <div className="flex items-center">
@@ -78,7 +75,7 @@ export default function ListItem({
 }
 
 ListItem.propTypes = {
-  item: normalizedItemType,
+  item: normalizedBadges,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
   isStoreItem: PropTypes.bool,

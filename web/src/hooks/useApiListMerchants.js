@@ -13,7 +13,7 @@ export default function useApiListMerchants(params) {
 
   const listings = useMemo(() => {
     // Paginated queries return an object
-    console.log("data:" + JSON.stringify(data))
+    // console.log("data:" + JSON.stringify(data))
     const listingsArray = Array.isArray(data) ? data : data?.results
     const result =  listingsArray?.map(item => normalizeMerchants(item))
     console.log("result:" + JSON.stringify(result))
@@ -21,7 +21,7 @@ export default function useApiListMerchants(params) {
   }, [data])
 
   // return {listings, data, error, isLoading: !data && !error}
-  return {listings, isLoading:false}
+  return {listings, isBadgesLoading:false}
 }
 
 useApiListMerchants.propTypes = {

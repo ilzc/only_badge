@@ -53,6 +53,8 @@ export const paths = {
   mintNFTMinter: "/nftminter/mint",
   apiListMerchants: params =>
   `${publicConfig.apiOnlyBadgesListMerchants}${getParamsString(params)}`,
+  apiListBadgesNFT: params =>
+  `${publicConfig.apiOnlyBadgesListLatestNft}${getParamsString(params)}`,
 }
 
 export const flashMessages = {

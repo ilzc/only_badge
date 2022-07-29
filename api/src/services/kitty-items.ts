@@ -226,9 +226,10 @@ class KittyItemsService {
   onlybadgesMinted = async listingEvent => {
     return OnlyBadgesMinted.transaction(async tx => {
       const jsonstr = {
+        owner: listingEvent.data.owner,
         id: listingEvent.data.id,
         name: listingEvent.data.name,
-        badge_image: listingEvent.data.badge_image,
+        badge_image: listingEvent.data.badge_image.cid,
         number: listingEvent.data.number,
         max: listingEvent.data.max,
         transaction_id: listingEvent.transactionId,
@@ -249,6 +250,26 @@ class KittyItemsService {
   findMostRecentMinter = params => {
     return NFTMinter.transaction(async tx => {
       const query = NFTMinter.query(tx).select("*").orderBy("updated_at", "desc")
+
+      if (params.name) {
+        query.where("name", params.name)
+      }
+
+      if (params.address) {
+        query.where("address", params.address)
+      }
+
+      if (params.page) {
+        query.page(Number(params.page) - 1, PER_PAGE)
+      }
+
+      return await query
+    })
+  }
+
+  findMostLatestNft = params => {
+    return OnlyBadgesMinted.transaction(async tx => {
+      const query = OnlyBadgesMinted.query(tx).select("*").orderBy("updated_at", "desc")
 
       if (params.name) {
         query.where("name", params.name)

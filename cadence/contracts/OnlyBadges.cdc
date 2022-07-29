@@ -10,7 +10,7 @@ pub contract OnlyBadges: NonFungibleToken {
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
-    pub event Minted(id: UInt64, name: String, badge_image: MetadataViews.IPFSFile, number: UInt64, max: UInt64?)
+    pub event Minted(owner: Address, id: UInt64, name: String, badge_image: MetadataViews.IPFSFile, number: UInt64, max: UInt64?)
     pub event ImagesAddedForNewKind(kind: UInt8)
 
     // Named Paths
@@ -268,8 +268,11 @@ pub contract OnlyBadges: NonFungibleToken {
         // Mints a new NFT with a new ID
         // and deposit it in the recipients collection using their collection reference
         //
+
+
+
         pub fun mintNFT(
-            recipient: &{OnlyBadgesCollectionPublic}, 
+            recipient: Address, 
             name: String, 
             description: String, 
             badge_image: MetadataViews.IPFSFile,
@@ -285,7 +288,19 @@ pub contract OnlyBadges: NonFungibleToken {
             if royalty_receiver != nil {
                 royalty_receiver_capability = getAccount(royalty_receiver!).getCapability<&AnyResource{FungibleToken.Receiver}>(/public/flowTokenReceiver)
             }
-            recipient.deposit(token: <-create OnlyBadges.NFT(
+
+            // get the public account object for the recipient
+            let recipientAccount = getAccount(recipient)
+
+            let capability = recipientAccount
+                .getCapability(OnlyBadges.CollectionPublicPath)
+
+            // borrow the recipient's public NFT collection reference
+            let receiver = capability
+                .borrow<&{OnlyBadges.OnlyBadgesCollectionPublic}>()
+                ?? panic("Could not get receiver reference to the NFT Collection")
+
+            receiver.deposit(token: <-create OnlyBadges.NFT(
                                                 id: OnlyBadges.totalSupply, 
                                                 name: name, 
                                                 description: description, 
@@ -298,6 +313,7 @@ pub contract OnlyBadges: NonFungibleToken {
                                                 externalURL: externalURL))
 
             emit Minted(
+                owner: recipient,
                 id: OnlyBadges.totalSupply,
                 name: name,
                 badge_image: badge_image,

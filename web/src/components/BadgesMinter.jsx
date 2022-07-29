@@ -64,14 +64,17 @@ export default function BadgesMinter() {
   // }
 
   const handleUpload = async (option) => {
-    console.log(JSON.stringify(option))
     const file = option.file
     console.log("upload file")
-    
-    uploadNftStorage(file, file.name, "next", 
-      (responseUrl) => {
-        console.log("upload success:" + responseUrl)
-        option.onSuccess(responseUrl)
+    console.log(file)
+    let fileName = file.name;
+    let fileType = fileName.split('.')[1];
+    let renameFile = new File( [file],"nft_img"  +  '.' + fileType, option)
+    uploadNftStorage(renameFile, "OnlyBadge", "Merchants Logo", 
+      (responseUrl, data, ipnft) => {
+        console.log("upload success:" + ipnft)
+        console.log("upload success metadata:" + JSON.stringify(data))
+        option.onSuccess(ipnft)
       }, 
       ()=> {
         console.log("upload error:" + error)
@@ -104,16 +107,13 @@ export default function BadgesMinter() {
             <Form.Item name={['externalURL']} label="网址">
               <Input />
             </Form.Item>
-            <Form.Item label="徽章图片" valuePropName="fileList">
+            <Form.Item name={['badge_image']}  label="徽章图片">
               <Upload listType="picture-card" beforeUpload={beforeUpload} showUploadList={false} customRequest={handleUpload}>
                 <div>
                   {/* <PlusOutlined /> */}
                   <div style={{ marginTop: 8 }}>Upload</div>
                 </div>
               </Upload>
-            </Form.Item>
-            <Form.Item name={['badge_image']} label="徽章地址">
-              <Input />
             </Form.Item>
             <Form.Item name={['description']} label="描述">
               <Input.TextArea />
@@ -128,7 +128,7 @@ export default function BadgesMinter() {
               <Input />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading && isUploading}>
                 Submit
               </Button>
             </Form.Item>

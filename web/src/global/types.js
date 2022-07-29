@@ -31,3 +31,13 @@ export const normalizedMerchantItemType = PropTypes.exact({
   address: PropTypes.string.isRequired,
   txID: PropTypes.string.isRequired,
 })
+
+export const normalizedBadges = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  owner: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  badge_image: PropTypes.string,
+  number: PropTypes.number,
+  max: PropTypes.number,
+  txID: PropTypes.string,
+})
