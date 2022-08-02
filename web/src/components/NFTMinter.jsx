@@ -93,7 +93,7 @@ export default function NFTMinter() {
             {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
               <Input />
             </Form.Item> */}
-            <Form.Item name={['image']} label="商户logo">
+            <Form.Item name={['image']} label="商户logo" rules={[{ required: true }]}>
               <Upload listType="picture-card" beforeUpload={beforeUpload} showUploadList={false} customRequest={handleUpload}>
                 <div>
                   {/* <PlusOutlined /> */}

@@ -16,7 +16,7 @@ const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
-const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
+const openBadgesPath = '"../../contracts/OnlyBadges.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
 const PER_PAGE = 12
@@ -105,7 +105,7 @@ class StorefrontService {
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -134,7 +134,7 @@ class StorefrontService {
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -154,26 +154,26 @@ class StorefrontService {
     account: string,
     listingResourceID: string
   ): Promise<any> => {
-    // const script = fs
-    //   .readFileSync(
-    //     path.join(
-    //       __dirname,
-    //       "../../../cadence/scripts/nftStorefront/get_listing_item.cdc"
-    //     ),
-    //     "utf8"
-    //   )
-    //   .replace(
-    //     nonFungibleTokenPath,
-    //     fcl.withPrefix(this.nonFungibleTokenAddress)
-    //   )
-    //   .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
-    //   .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
-    //   .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
+    const script = fs
+      .readFileSync(
+        path.join(
+          __dirname,
+          "../../../cadence/scripts/nftStorefront/get_listing_item.cdc"
+        ),
+        "utf8"
+      )
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
+      .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.minterAddress))
+      .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
-    // return this.flowService.executeScript<any>({
-    //   script,
-    //   args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
-    // })
+    return this.flowService.executeScript<any>({
+      script,
+      args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
+    })
 
     return 
   }
@@ -186,11 +186,9 @@ class StorefrontService {
       return await Listing.query(tx)
         .insert({
           listing_resource_id: listingResourceID,
-          item_id: item.itemID,
-          item_kind: item.kind.rawValue,
-          item_rarity: item.rarity.rawValue,
+          id: item.id,
           name: item.name,
-          image: item.image,
+          badge_image: item.badge_image,
           owner: owner,
           price: item.price,
           transaction_id: listingEvent.transactionId,
@@ -220,7 +218,7 @@ class StorefrontService {
     return Listing.transaction(async tx => {
       return await Listing.query(tx)
         .select("*")
-        .where("item_id", itemID)
+        .where("id", itemID)
         .limit(1)
     })
   }
@@ -231,14 +229,6 @@ class StorefrontService {
 
       if (params.owner) {
         query.where("owner", params.owner)
-      }
-
-      if (params.kind) {
-        query.where("item_kind", params.kind)
-      }
-
-      if (params.rarity) {
-        query.where("item_rarity", Number(params.rarity))
       }
 
       if (params.minPrice) {

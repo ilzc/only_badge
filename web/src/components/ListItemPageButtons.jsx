@@ -1,7 +1,7 @@
 import {useRouter} from "next/dist/client/router"
 import Button from "src/components/Button"
 import publicConfig from "src/global/publicConfig"
-import {normalizedItemType} from "src/global/types"
+import {apiListingType} from "src/global/types"
 import useAppContext from "src/hooks/useAppContext"
 import useFLOWBalance from "src/hooks/useFLOWBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
@@ -29,6 +29,11 @@ export default function ListItemPageButtons({item}) {
   // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
   const userHasEnoughFunds =
     hasListing && parseFloat(item.price) <= parseFloat(flowBalance)
+
+  console.log("isBuyable:" + isBuyable)
+
+  console.log("hasListing:" + hasListing)
+  console.log("currentUserIsOwner:" + currentUserIsOwner)
 
   if (isBuyable) {
     return (
@@ -73,5 +78,5 @@ export default function ListItemPageButtons({item}) {
 }
 
 ListItemPageButtons.propTypes = {
-  item: normalizedItemType,
+  item: apiListingType,
 }

@@ -107,7 +107,7 @@ export default function BadgesMinter() {
             <Form.Item name={['externalURL']} label="网址">
               <Input />
             </Form.Item>
-            <Form.Item name={['badge_image']}  label="徽章图片">
+            <Form.Item name={['badge_image']}  label="徽章图片" rules={[{ required: true }]}>
               <Upload listType="picture-card" beforeUpload={beforeUpload} showUploadList={false} customRequest={handleUpload}>
                 <div>
                   {/* <PlusOutlined /> */}

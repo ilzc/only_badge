@@ -1,7 +1,7 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
 import {paths} from "src/global/constants"
-import {normalizedBadges} from "src/global/types"
+import {normalizedItemType} from "src/global/types"
 import useAppContext from "src/hooks/useAppContext"
 import ListItemImage from "./ListItemImage"
 import ListItemPrice from "./ListItemPrice"
@@ -17,7 +17,8 @@ export default function ListItem({
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
   const hasListing = Number.isInteger(item.listingResourceID)
   const isBuyable = !currentUserIsOwner && hasListing
-  const profileUrl = paths.profileItem(item.owner, item.itemID)
+  const profileUrl = paths.profileItem(item.owner, item.id)
+  console.log("item123:" + JSON.stringify(item))
   return (
     <div className="w-full">
       <Link href={profileUrl} passHref>
@@ -45,7 +46,7 @@ export default function ListItem({
                 <div
                   className={`bg-white ${
                     isStoreItem ? "py-3 px-9 text-lg" : "py-2 px-6 text-md"
-                  } font-bold rounded-full shadow-md uppercase ${rarityTextColor}`}
+                  } font-bold rounded-full shadow-md uppercase`}
                 >
                   Purchase
                 </div>
@@ -75,7 +76,7 @@ export default function ListItem({
 }
 
 ListItem.propTypes = {
-  item: normalizedBadges,
+  item: normalizedItemType,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
   isStoreItem: PropTypes.bool,

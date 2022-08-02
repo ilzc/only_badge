@@ -5,38 +5,31 @@ import OnlyBadges from "../../contracts/OnlyBadges.cdc"
 
 pub struct ListingItem {
     pub let name: String
-    pub let image: String
+    pub let badge_image: String
     pub let thumbnail: String
     pub let description: String
-
-    pub let itemID: UInt64
+    pub let id: UInt64
     pub let resourceID: UInt64
-    // pub let kind: OnlyBadges.Kind
-    // pub let rarity: OnlyBadges.Rarity
     pub let owner: Address
     pub let price: UFix64
 
     init(
         name: String,
-        image: String,
+        badge_image: String,
         thumbnail: String,
         description: String,
-        itemID: UInt64,
+        id: UInt64,
         resourceID: UInt64,
-        // kind: OnlyBadges.Kind,
-        // rarity: OnlyBadges.Rarity,
         owner: Address,
         price: UFix64
     ) {
         self.name = name
-        self.image = image
+        self.badge_image = badge_image
         self.thumbnail = thumbnail
         self.description = description
 
-        self.itemID = itemID
+        self.id = id
         self.resourceID = resourceID
-        // self.kind = kind
-        // self.rarity = rarity
         self.owner = owner
         self.price = price
     }
@@ -63,12 +56,12 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
 
             let details = listing.getDetails()
 
-            let itemID = details.nftID
+            let id = details.nftID
             let itemPrice = details.salePrice
 
             if let collection = getAccount(address).getCapability<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic}>(OnlyBadges.CollectionPublicPath).borrow() {
 
-                if let item = collection.borrowOnlyBadges(id: itemID) {
+                if let item = collection.borrowOnlyBadges(id: id) {
 
                     if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
@@ -80,13 +73,11 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
 
                         return ListingItem(
                             name: display.name,
-                            image: item.imageCID(),
+                            badge_image: item.badge_image.cid,
                             thumbnail: dwebURL(ipfsThumbnail),
                             description: display.description,
-                            itemID: itemID,
+                            id: id,
                             resourceID: item.uuid,
-                            // kind: item.kind,
-                            // rarity: item.rarity,
                             owner: address,
                             price: itemPrice
                         )

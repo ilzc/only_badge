@@ -1,11 +1,10 @@
 export function normalizeApiListing(item) {
+  console.log("normalizeApiListing item:" + JSON.stringify(item))
   return {
-    itemID: item.item_id,
-    kind: Number(item.item_kind),
-    rarity: Number(item.item_rarity),
+    id: item.id,
     owner: item.owner,
     name: item.name,
-    image: item.image,
+    badge_image: item.badge_image,
     listingResourceID: item.listing_resource_id,
     price: item.price.toString(),
     txID: item.transaction_id,
@@ -13,13 +12,12 @@ export function normalizeApiListing(item) {
 }
 
 export function normalizeListing(listing) {
+  console.log("normalizeListing item:" + JSON.stringify(listing))
   return {
-    itemID: listing.itemID,
-    kind: Number(listing.kind.rawValue),
-    rarity: Number(listing.rarity.rawValue),
+    id: listing.id,
     owner: listing.owner,
     name: listing.name,
-    image: listing.image,
+    badge_image: listing.badge_image,
     listingResourceID: listing.listingResourceID,
     price: listing.price,
     txID: "",
@@ -27,7 +25,7 @@ export function normalizeListing(listing) {
 }
 
 export function normalizeMerchants(item) {
-  console.log("item:" + JSON.stringify(item))
+  console.log("normalizeMerchants item:" + JSON.stringify(item))
   return {
     name: item.name,
     image: item.image_path,
@@ -37,7 +35,7 @@ export function normalizeMerchants(item) {
 }
 
 export function normalizeBadges(item) {
-  console.log("item:" + JSON.stringify(item))
+  console.log("normalizeBadges item:" + JSON.stringify(item))
   return {
     owner: item.owner,
     id: item.id,

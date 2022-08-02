@@ -50,13 +50,16 @@ export default function useItemSale(itemID) {
   )
 
   const sell = async (item, price) => {
+
     if (!item) throw new Error("Missing item")
     if (!price) throw new Error("Missing price")
+
+    console.log("sell item:" + JSON.stringify(item))
 
     const newTxId = await fcl.mutate({
       cadence: CREATE_LISTING_TRANSACTION,
       args: (arg, t) => [
-        arg(Number(item.itemID), t.UInt64),
+        arg(Number(item.id), t.UInt64),
         arg(uFix64String(price), t.UFix64),
       ],
       limit: 1000,
@@ -64,8 +67,8 @@ export default function useItemSale(itemID) {
 
     addTransaction({
       id: newTxId,
-      url: paths.profileItem(item.owner, item.itemID),
-      title: `List ${item.name} #${item.itemID}`,
+      url: paths.profileItem(item.owner, item.id),
+      title: `List ${item.name} #${item.id}`,
     })
     setTxId(newTxId)
   }

@@ -124,8 +124,8 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     return res.send(latestListings)
   })
 
-  router.get("/onlybadges/list-latest-nft", async (req: Request, res: Response) => {
-    const latestListings = await kittyItemsService.findMostLatestNft(
+  router.get("/onlybadges/list-badges", async (req: Request, res: Response) => {
+    const latestListings = await kittyItemsService.getOnlyBadges(
       req.query
     )
     return res.send(latestListings)

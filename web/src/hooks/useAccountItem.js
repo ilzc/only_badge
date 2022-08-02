@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import {fetchAccountItem} from "src/flow/script.get-account-item"
 import {apiListingType} from "src/global/types"
-import {normalizeItem} from "src/util/normalize-item"
+import {normalizeBadges} from "src/util/normalize-item"
 import useSWR from "swr"
 
 export function compAccountItemKey(address, id) {
@@ -19,7 +19,8 @@ export default function useAccountItem(address, id, listing) {
     compAccountItemKey(address, id),
     fetchAccountItem
   )
-  const item = data ? normalizeItem(data, listing) : undefined
+  const item = data ? normalizeBadges(data, listing) : undefined
+  console.log("item333:" + JSON.stringify(item))
   return {item, error, isLoading: !data && !error}
 }
 

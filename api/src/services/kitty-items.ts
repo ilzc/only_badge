@@ -9,7 +9,7 @@ import { OnlyBadgesMinted } from "../models/onlybadge-minted"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
-const kittyItemsPath = '"../../contracts/OnlyBadges.cdc"'
+const openBadgesPath = '"../../contracts/OnlyBadges.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
@@ -42,7 +42,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -68,7 +68,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -104,7 +104,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
@@ -136,7 +136,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -160,7 +160,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number[]>({
       script,
@@ -182,7 +182,7 @@ class KittyItemsService {
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
       .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({
       script,
@@ -199,7 +199,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({script, args: []})
   }
@@ -267,7 +267,7 @@ class KittyItemsService {
     })
   }
 
-  findMostLatestNft = params => {
+  getOnlyBadges = params => {
     return OnlyBadgesMinted.transaction(async tx => {
       const query = OnlyBadgesMinted.query(tx).select("*").orderBy("updated_at", "desc")
 
@@ -275,8 +275,8 @@ class KittyItemsService {
         query.where("name", params.name)
       }
 
-      if (params.address) {
-        query.where("address", params.address)
+      if (params.owner) {
+        query.where("owner", params.owner)
       }
 
       if (params.page) {

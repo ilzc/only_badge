@@ -5,11 +5,11 @@ import PopularMerchants from "src/components/PopularMerchants"
 import PageTitle from "src/components/PageTitle"
 // import useApiListings from "src/hooks/useApiListings"
 import useApiListMerchants from "src/hooks/useApiListMerchants"
-import useApiListLatestBadges from "src/hooks/useApiListLatestBadges"
+import useApiListBadges from "src/hooks/useApiListBadges"
 
 export default function Home() {
   const {listings, isLoading} = useApiListMerchants()
-  const { badges, badgesLoading} = useApiListLatestBadges()
+  const { badges, badgesLoading} = useApiListBadges()
 
   return (
     <div>

@@ -6,14 +6,13 @@ import laggy from "src/util/laggy"
 import {normalizeBadges} from "src/util/normalize-item"
 import useSWR from "swr"
 
-export default function useApiListLatestBadges(params) {
-  const {data, error} = useSWR(paths.apiListBadgesNFT(params), fetcher, {
+export default function useApiListBadges(params) {
+  const {data, error} = useSWR(paths.apiMarketItemsList(params), fetcher, {
     use: [laggy],
   })
 
   const badges = useMemo(() => {
     // Paginated queries return an object
-    console.log("data:" + JSON.stringify(data))
     const listingsArray = Array.isArray(data) ? data : data?.results
     const result =  listingsArray?.map(item => normalizeBadges(item))
     console.log("result1:" + JSON.stringify(result))
@@ -24,6 +23,6 @@ export default function useApiListLatestBadges(params) {
   return {badges, isLoading:false}
 }
 
-useApiListLatestBadges.propTypes = {
+useApiListBadges.propTypes = {
   params: PropTypes.object,
 }
