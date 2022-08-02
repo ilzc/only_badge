@@ -16,7 +16,7 @@ export const ERROR = "ERROR"
 export const IDLE_DELAY = 1000
 
 export const BASE_HTML_TITLE =
-  "A web3 bridge connecting merchants and customers"
+  "OnlyBadge"
 
 export const getParamsString = params => {
   if (typeof params !== "object") return ""

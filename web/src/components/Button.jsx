@@ -19,7 +19,7 @@ const getButtonClasses = (color, roundedFull, className) => {
 
 export function ButtonLink({
   href,
-  color = "green",
+  color = "purple",
   roundedFull,
   className,
   target,

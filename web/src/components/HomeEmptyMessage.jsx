@@ -1,45 +1,74 @@
 import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
+import useLogin from "src/hooks/useLogin"
 import Button, {ButtonLink} from "./Button"
+import { useFileUpload } from 'src/hooks/useUpload'
+import {useRouter} from "next/router"
+import Upload from "./Minter"
+
+
 
 export default function HomeEmptyMessage() {
+  const logIn = useLogin()
   const {switchToAdminView} = useAppContext()
+  const {currentUser} = useAppContext()
+  const [file, selectFile] = useFileUpload()
+  const router = useRouter()
+
+  const logInOrMint = () => {
+    if(!currentUser) {
+      logIn();
+    }
+    else {
+      window.location.href = '/mint'
+    }
+  }
+
   return (
-    <div className="flex justify-center my-12 text-center">
-      <div className="bg-white border border-gray-200 p-6 w-[32rem] rounded-md inline-flex flex-col justify-center">
-        <img
-          src="/images/badge-logo.svg"
-          alt="Kitty Items"
-          width="200"
-          className="mx-auto mt-6 mb-4"
-        />
-        <h1 className="text-3xl font-semibold">Welcome to Only Badge!</h1>
-        <h3 className="text-xl font-semibold mb-6">
-          A Only Badge Sample App
-        </h3>
+      
 
-        <div className="bg-white border border-gray-200 p-6 rounded-md inline-flex flex-col justify-center">
-          <b>Your marketplace is currently empty.</b>
-          <p className="text-gray-light mb-5 mt-1">
-            Get started by minting your first Badges!
-          </p>
-
-          <Button onClick={switchToAdminView}>
-            MINT YOUR FIRST Badges
-          </Button>
-
-          <hr className="mt-8 mb-6" />
-
-          <b>Learn more about Only Badge</b>
-          <p className="text-gray-light mb-5 mt-1 max-w-xs mx-auto">
-            Learn more about the key components and services that make Badge possible.
-          </p>
-
-          <ButtonLink href={paths.githubRepo} target="_blank" color="outline">
-            VIEW DOCUMENTATION & RESOURCES
-          </ButtonLink>
-        </div>
+    <div className="justify-items-center mt-10">
+      <div className="flex bg-white text-center pb-1 md:pb-1 ">
+        <h1 className="flex-auto text-6xl md:text-8xl font-extrabold leading-normal tracking-tighter mb-4">Make your idea to be 
+        <p className="break-words" >
+        <span className="bg-clip-text text-transparent bg-gradient-to-tl from-blue-500  via-orange-500  via-indigo-600 via-red-300 to-teal-400">OnlyBadge</span>
+        </p>
+        </h1>
       </div>
-    </div>
+
+      <div className="bg-white text-center -mt-12 ">
+        <div className="bg-white rounded-md inline-flex flex-col justify-center stroke-2">
+            <img
+              src="/images/badge-logo.svg"
+              alt="Only Badge"
+              width="280"
+              className="mx-auto"
+            />
+            <p className="text-gray-light mb-5 mt-1">
+              Get started by minting your first Badges!
+            </p>
+            
+            <Button onClick={logInOrMint} className="bg-gradient-to-tl from-blue-500 via-red-300 to-violet-500 ring-4 ring-indigo-300 ring-opacity-50">
+              MINT Badges
+            </Button>
+            
+            
+
+            {/* <hr className="mt-8 mb-6" /> */}
+
+            {/* <b>Learn more about Only Badge</b>
+            <p className="text-gray-light mb-5 mt-1 max-w-xs mx-auto">
+              Learn more about the key components and services that make Badge possible.
+            </p> */}
+
+            {/* <ButtonLink href={paths.githubRepo} target="_blank" color="outline">
+              VIEW DOCUMENTATION & RESOURCES
+            </ButtonLink>  */}
+          </div>
+
+
+      </div>
+        
+      </div>
   )
 }

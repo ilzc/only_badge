@@ -10,7 +10,7 @@ import useLogin from "src/hooks/useLogin"
 
 const HeaderContainer = ({children}) => {
   return (
-    <div className="bg-purple text-white text-md font-bold text-center py-3 px-2">
+    <div className= "bg-gradient-to-tl from-blue-500  via-orange-500  via-indigo-600 via-red-300 to-teal-400 text-white text-md font-bold text-center py-4 px-4">
       {children}
     </div>
   )
@@ -75,32 +75,33 @@ export default function HeaderMessage() {
     )
   }
 
-  if (publicConfig.isDev && (!listings || listings.length === 0)) {
-    return (
-      <HeaderContainer>
-        <button
-          onClick={switchToAdminView}
-          className="font-bold underline hover:opacity-80"
-        >
-          Mint some Badges
-        </button>
-      </HeaderContainer>
-    )
-  }
+  // if (publicConfig.isDev && (!listings || listings.length === 0)) {
+  //   return (
+  //     <HeaderContainer>
+  //       <button
+  //         onClick={switchToAdminView}
+  //         className="font-bold underline hover:opacity-80"
+  //       >
+  //         Mint some Badges
+  //       </button>
+  //     </HeaderContainer>
+  //   )
+  // }
 
   return (
     <HeaderContainer>
-      <span className="mr-3 text-sm">💻</span>Only Badge is a demo application
+      <span className="mr-3 text-sm">💻</span>OnlyBadge is a demo application
       running on the Flow test network.{" "}
-      <a
-        className="border-b border-white"
+      {/* <a
+        className="border-b border-white text-white"
         href={paths.githubRepo}
         target="_blank"
         rel="noreferrer"
+        
       >
         Learn more
       </a>
-      .
+      . */}
     </HeaderContainer>
   )
 }
