@@ -118,6 +118,9 @@ export default function BadgesMinter() {
             <Form.Item name={['description']} label="描述">
               <Input.TextArea />
             </Form.Item>
+            <Form.Item name={['claim_code']} label="ClaimCode">
+              <Input />
+            </Form.Item>
             <Form.Item name={['royalty_cut']} label="版税">
               <Input />
             </Form.Item>

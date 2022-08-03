@@ -10,10 +10,10 @@ import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
 import {useSWRConfig} from "swr"
 import useAppContext from "src/hooks/useAppContext"
 import analytics from "src/global/analytics"
-import MINT_BADGES_SCRIPT from "cadence/transactions/mint_badges.cdc"
+import CLAIM_BADGES_SCRIPT from "cadence/transactions/claim_badges.cdc"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
-export default function useMintAndList() {
+export default function useClaim() {
   const {currentUser} = useAppContext()
   const {addTransaction} = useTransactionsContext()
   const [_mintState, executeMintRequest] = useRequest()
@@ -41,26 +41,15 @@ export default function useMintAndList() {
 
   const mintAndList = async (reqValues) => {
 
-    //recipient, name, description, badge_image, max, royalty_cut, royalty_cut, royalty_description, royalty_receiver, externalURL
-    let image = reqValues.badge_image.file.response
 
     console.log("reqValues:" + reqValues.recipient)
 
     const newTxId = await fcl.mutate({
-      cadence: MINT_BADGES_SCRIPT,
+      cadence: CLAIM_BADGES_SCRIPT,
       args: (arg, t) => [
         arg(publicConfig.contractKittyItems, t.Address),
         arg(reqValues.recipient, t.Address),
-        arg(reqValues.name, t.String),
-        arg(reqValues.description, t.String),
-        arg(image, t.String),
-        arg("image/nft_img.png", t.String),
-        arg(reqValues.max, t.UInt64),
-        arg(reqValues.claim_code, t.Optional(t.String)),
-        arg(reqValues.royalty_cut, t.Optional(t.UFix64)),
-        arg(reqValues.royalty_description, t.Optional(t.String)),
-        arg(reqValues.royalty_receiver, t.Optional(t.Address)),
-        arg(reqValues.externalURL, t.Optional(t.String)),
+        arg(reqValues.claimCode, t.String),
       ],
       limit: 9999,
     })
