@@ -1,6 +1,6 @@
 <p align="center">
     <a >
-        <img width="400" src="/Users/unc/code/onlybadge/OnlyBadge-README.png" />
+        <img width="400" src="OnlyBadge-README.png" />
     </a>
 </p>
 
