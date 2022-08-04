@@ -49,7 +49,12 @@ export const paths = {
   },
   githubRepo: "https://github.com/ilzc/only_badge",
   claimBadges: "/claim",
-  mintBadges: "/mint",
+  mintBadges: "/mintBadges",
+  mintNFTMinter: "/nftminter/mint",
+  apiListMerchants: params =>
+  `${publicConfig.apiOnlyBadgesListMerchants}${getParamsString(params)}`,
+  // apiListBadgesNFT: params =>
+  // `${publicConfig.apiOnlyBadgesListBadges}${getParamsString(params)}`,
 }
 
 export const flashMessages = {

@@ -1,44 +1,38 @@
 import NonFungibleToken from 0xNonFungibleToken
 import MetadataViews from 0xMetadataViews
-import KittyItems from 0xKittyItems
+import OnlyBadges from 0xOnlyBadges
 
 pub struct KittyItem {
   pub let name: String
   pub let description: String
-  pub let image: String
+  pub let badge_image: String
 
-  pub let itemID: UInt64
+  pub let id: UInt64
   pub let resourceID: UInt64
-  pub let kind: KittyItems.Kind
-  pub let rarity: KittyItems.Rarity
   pub let owner: Address
 
   init(
     name: String,
     description: String,
-    image: String,
-    itemID: UInt64,
+    badge_image: String,
+    id: UInt64,
     resourceID: UInt64,
-    kind: KittyItems.Kind,
-    rarity: KittyItems.Rarity,
     owner: Address,
   ) {
     self.name = name
     self.description = description
-    self.image = image
+    self.badge_image = badge_image
 
-    self.itemID = itemID
+    self.id = id
     self.resourceID = resourceID
-    self.kind = kind
-    self.rarity = rarity
     self.owner = owner
   }
 }
 
-pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
-  if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+pub fun fetch(address: Address, id: UInt64): KittyItem? {
+  if let collection = getAccount(address).getCapability<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic}>(OnlyBadges.CollectionPublicPath).borrow() {
 
-    if let item = collection.borrowKittyItem(id: itemID) {
+    if let item = collection.borrowOnlyBadges(id: id) {
 
       if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
@@ -51,11 +45,9 @@ pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
         return KittyItem(
           name: display.name,
           description: display.description,
-          image: item.imageCID(),
-          itemID: itemID,
+          badge_image: item.badge_image.cid,
+          id: id,
           resourceID: item.uuid,
-          kind: item.kind,
-          rarity: item.rarity,
           owner: address,
         )
       }
@@ -72,7 +64,7 @@ pub fun main(keys: [String], addresses: [Address], ids: [UInt64]): {String: Kitt
     let key = keys[i]
     let address = addresses[i]
     let id = ids[i]
-    r[key] = fetch(address: address, itemID: id)
+    r[key] = fetch(address: address, id: id)
     i = i + 1
   }
   return r

@@ -1,5 +1,5 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import KittyItems from "../../contracts/KittyItems.cdc"
+import OnlyBadges from "../../contracts/OnlyBadges.cdc"
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import FlowToken from "../../contracts/FlowToken.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
@@ -9,31 +9,31 @@ import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
     // local variable for storing the minter reference
-    let minter: &KittyItems.NFTMinter
+    let minter: &OnlyBadges.NFTMinter
     let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
-    let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
+    let OnlyBadgesProvider: Capability<&OnlyBadges.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
     prepare(signer: AuthAccount) {
 
         // borrow a reference to the NFTMinter resource in storage
-        self.minter = signer.borrow<&KittyItems.NFTMinter>(from: KittyItems.MinterStoragePath)
+        self.minter = signer.borrow<&OnlyBadges.NFTMinter>(from: OnlyBadges.MinterStoragePath)
             ?? panic("Could not borrow a reference to the NFT minter")
 
          // We need a provider capability, but one is not provided by default so we create one if needed.
-        let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProviderV14
+        let OnlyBadgesCollectionProviderPrivatePath = /private/OnlyBadgesCollectionProviderV14
 
         self.flowReceiver = signer.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 
         assert(self.flowReceiver.borrow() != nil, message: "Missing or mis-typed FLOW receiver")
 
-        if !signer.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
-            signer.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
+        if !signer.getCapability<&OnlyBadges.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(OnlyBadgesCollectionProviderPrivatePath)!.check() {
+            signer.link<&OnlyBadges.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(OnlyBadgesCollectionProviderPrivatePath, target: OnlyBadges.CollectionStoragePath)
         }
 
-        self.kittyItemsProvider = signer.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
+        self.OnlyBadgesProvider = signer.getCapability<&OnlyBadges.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(OnlyBadgesCollectionProviderPrivatePath)!
 
-        assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
+        assert(self.OnlyBadgesProvider.borrow() != nil, message: "Missing or mis-typed OnlyBadges.Collection provider")
 
         self.storefront = signer.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
             ?? panic("Missing or mis-typed NFTStorefront Storefront")
@@ -45,13 +45,13 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
         // borrow the recipient's public NFT collection reference
         let receiver = recipient
-            .getCapability(KittyItems.CollectionPublicPath)!
+            .getCapability(OnlyBadges.CollectionPublicPath)!
             .borrow<&{NonFungibleToken.CollectionPublic}>()
             ?? panic("Could not get receiver reference to the NFT Collection")
 
         // mint the NFT and deposit it to the recipient's collection
-        let kindValue = KittyItems.Kind(rawValue: kind) ?? panic("invalid kind")
-        let rarityValue = KittyItems.Rarity(rawValue: rarity) ?? panic("invalid rarity")
+        let kindValue = OnlyBadges.Kind(rawValue: kind) ?? panic("invalid kind")
+        let rarityValue = OnlyBadges.Rarity(rawValue: rarity) ?? panic("invalid rarity")
 
         // mint the NFT and deposit it to the recipient's collection
         self.minter.mintNFT(
@@ -62,13 +62,13 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
         let saleCut = NFTStorefront.SaleCut(
             receiver: self.flowReceiver,
-            amount: KittyItems.getItemPrice(rarity: rarityValue)
+            amount: OnlyBadges.getItemPrice(rarity: rarityValue)
         )
         
         self.storefront.createListing(
-            nftProviderCapability: self.kittyItemsProvider,
-            nftType: Type<@KittyItems.NFT>(),
-            nftID: KittyItems.totalSupply - 1,
+            nftProviderCapability: self.OnlyBadgesProvider,
+            nftType: Type<@OnlyBadges.NFT>(),
+            nftID: OnlyBadges.totalSupply - 1,
             salePaymentVaultType: Type<@FlowToken.Vault>(),
             saleCuts: [saleCut]
         )

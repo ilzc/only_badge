@@ -1,24 +1,24 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import FlowToken from "../../contracts/FlowToken.cdc"
-import KittyItems from "../../contracts/KittyItems.cdc"
+import OnlyBadges from "../../contracts/OnlyBadges.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
-pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonFungibleToken.Receiver} {
-    if let collectionRef = account.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) {
+pub fun getOrCreateCollection(account: AuthAccount): &OnlyBadges.Collection{NonFungibleToken.Receiver} {
+    if let collectionRef = account.borrow<&OnlyBadges.Collection>(from: OnlyBadges.CollectionStoragePath) {
         return collectionRef
     }
 
     // create a new empty collection
-    let collection <- KittyItems.createEmptyCollection() as! @KittyItems.Collection
+    let collection <- OnlyBadges.createEmptyCollection() as! @OnlyBadges.Collection
 
-    let collectionRef = &collection as &KittyItems.Collection
+    let collectionRef = &collection as &OnlyBadges.Collection
     
     // save it to the account
-    account.save(<-collection, to: KittyItems.CollectionStoragePath)
+    account.save(<-collection, to: OnlyBadges.CollectionStoragePath)
 
     // create a public capability for the collection
-    account.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
+    account.link<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic}>(OnlyBadges.CollectionPublicPath, target: OnlyBadges.CollectionStoragePath)
 
     return collectionRef
 }
@@ -26,7 +26,7 @@ pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonF
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 
     let paymentVault: @FungibleToken.Vault
-    let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
+    let OnlyBadgesCollection: &OnlyBadges.Collection{NonFungibleToken.Receiver}
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
     let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}
 
@@ -48,7 +48,7 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
         
         self.paymentVault <- mainFLOWVault.withdraw(amount: price)
 
-        self.kittyItemsCollection = getOrCreateCollection(account: account)
+        self.OnlyBadgesCollection = getOrCreateCollection(account: account)
     }
 
     execute {
@@ -56,7 +56,7 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
             payment: <-self.paymentVault
         )
 
-        self.kittyItemsCollection.deposit(token: <-item)
+        self.OnlyBadgesCollection.deposit(token: <-item)
 
         self.storefront.cleanup(listingResourceID: listingResourceID)
     }

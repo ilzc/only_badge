@@ -18,7 +18,7 @@ const collate = px => {
 
 const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
   const {keys, addresses, ids} = collate(px)
-
+  console.log("fcll......")
   return fcl
     .send([
       fcl.script(GET_ACCOUNT_ITEM_SCRIPT),

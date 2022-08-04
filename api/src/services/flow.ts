@@ -37,6 +37,26 @@ class FlowService {
     };
   };
 
+  getAdminMinterAddress() {
+    return this.minterFlowAddress
+  }
+
+  getProposalKey =  async() => {
+    const user = await this.getAccount(this.minterFlowAddress);
+    const key = user.keys[this.minterAccountIndex];
+    return {
+      address: this.minterFlowAddress,
+      keyId: this.minterAccountIndex,
+      sequenceNum: key.sequenceNumber,
+    }
+  }
+
+  generateMinterSignature(message: string): string {
+    const pk = this.minterPrivateKeyHex;
+    console.log("pk:" + pk)
+    return this.signWithKey(pk, message)
+  }
+
   getAccount = async (addr: string) => {
     const { account } = await fcl.send([fcl.getAccount(addr)]);
     return account;

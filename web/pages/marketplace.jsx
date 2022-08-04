@@ -58,7 +58,7 @@ const MainContent = ({queryState}) => {
 
       <hr className="pt-1 mb-8" />
 
-      {typeof queryState !== "undefined" && (
+      {/* {typeof queryState !== "undefined" && (
         <MarketplaceFilters queryState={queryState} updateQuery={updateQuery}>
           {showPagination && (
             <Pagination
@@ -69,7 +69,7 @@ const MainContent = ({queryState}) => {
             />
           )}
         </MarketplaceFilters>
-      )}
+      )} */}
 
       {!!listings && <ListItems items={listings} />}
 

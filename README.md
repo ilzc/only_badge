@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="https://kitty-items.onflow.org/">
-        <img width="400" src="kitty-items-banner.png" />
+    <a >
+        <img width="400" src="/Users/unc/code/onlybadge/OnlyBadge-README.png" />
     </a>
 </p>
 

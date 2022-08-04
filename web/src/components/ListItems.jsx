@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import {normalizedItemType} from "src/global/types"
+import {normalizedBadges} from "src/global/types"
 import AccountItem from "./AccountItem"
 import EmptyKittyItems from "./EmptyKittyItems"
 import ListItem from "./ListItem"
@@ -14,6 +14,9 @@ export default function ListItems({items = [], accountItemIds = []}) {
   if (items.length === 0 && accountItemIds.length === 0)
     return <EmptyKittyItems />
 
+  console.log("items:" + JSON.stringify(items))
+  console.log("accountItemIds:" + JSON.stringify(accountItemIds))
+
   return (
     <div className={listItemsRootClasses} style={listItemsStyle}>
       {items.map(item => (
@@ -25,8 +28,8 @@ export default function ListItems({items = [], accountItemIds = []}) {
       ))}
       {accountItemIds.map(item => (
         <AccountItem
-          key={item.itemID}
-          itemID={item.itemID}
+          key={item.id}
+          id={item.id}
           address={item.owner}
           showOwnerInfo={true}
         />
@@ -36,6 +39,6 @@ export default function ListItems({items = [], accountItemIds = []}) {
 }
 
 ListItems.propTypes = {
-  items: PropTypes.arrayOf(normalizedItemType),
+  items: PropTypes.arrayOf(normalizedBadges),
   accountItemIds: PropTypes.array,
 }

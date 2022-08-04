@@ -11,14 +11,24 @@ import useApiListing from "src/hooks/useApiListing"
 import useAppContext from "src/hooks/useAppContext"
 
 export default function KittyItem() {
+
+
+
   const router = useRouter()
   const {currentUser} = useAppContext()
   const {address, id} = router.query
+
+  console.log("id:" + JSON.stringify(id))
+
   const {listing} = useApiListing(id)
   const {item} = useAccountItem(address, id, listing)
   const currentUserIsOwner =
     currentUser && item?.owner && item.owner === currentUser?.addr
   const isSellable = currentUserIsOwner && !listing
+
+  console.log("listing:" + JSON.stringify(listing))
+  console.log("item:" + JSON.stringify(item))
+  
 
   return (
     <div className="main-container pt-12 pb-24 w-full">
@@ -28,9 +38,9 @@ export default function KittyItem() {
           <ListItemImage
             name={item?.name}
             rarity={item?.rarity}
-            cid={item?.image}
+            cid={item?.badge_image}
             address={item?.owner}
-            id={item?.itemID}
+            id={item?.id}
             size="lg"
           />
 
@@ -56,7 +66,7 @@ export default function KittyItem() {
                   <div className="mt-8">
                     <RarityScale highlightedRarity={item.rarity} />
                   </div>
-                  <ListItemPageButtons item={item} />
+                  <ListItemPageButtons item={listing} />
                 </>
               )}
             </div>

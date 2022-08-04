@@ -58,6 +58,16 @@ async function run() {
     config.minterAddress
   )
 
+  const onlybadgesService = new KittyItemsService(
+    flowService,
+    config.nonFungibleTokenAddress,
+    config.metadataViewsAddress,
+    config.minterAddress,
+    config.fungibleTokenAddress,
+    config.flowTokenAddress,
+    config.storefrontAddress
+  )
+
   // Make sure we're pointing to the correct Flow Access API.
   fcl
     .config()
@@ -72,6 +82,7 @@ async function run() {
 
     const listingWorker = new ListingHandler(
       storefrontService,
+      onlybadgesService,
       blockCursorService,
       flowService
     )

@@ -1,5 +1,5 @@
 import ClaimBadges from "src/components/ClaimBadges"
-import Minter from "src/components/Minter"
+// import Minter from "src/components/BadgesMinter"
 import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
 

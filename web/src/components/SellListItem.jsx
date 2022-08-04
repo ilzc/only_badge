@@ -1,6 +1,6 @@
 import {useState} from "react"
 import Button from "src/components/Button"
-import {ITEM_RARITY_PRICE_MAP} from "src/global/constants"
+// import {ITEM_RARITY_PRICE_MAP} from "src/global/constants"
 import {normalizedItemType} from "src/global/types"
 import useItemSale from "src/hooks/useItemSale"
 import {formattedCurrency} from "src/util/currency"
@@ -21,7 +21,7 @@ export default function SellListItem({item}) {
       <div className="text-gray mb-5">
         <div className="font-bold">
           Items of this rarity usually sell for{" "}
-          {formattedCurrency(ITEM_RARITY_PRICE_MAP[item.rarity].toString())}{" "}
+          {/* {formattedCurrency(ITEM_RARITY_PRICE_MAP[item.rarity].toString())}{" "} */}
           FLOW.
         </div>
         Please specify the price you want to sell your Kitty Item for.

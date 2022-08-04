@@ -1,65 +1,27 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import * as fs from "fs"
+import { NFTMinter } from "../models/nftminter"
 import * as path from "path"
+import { json } from "stream/consumers"
 import {FlowService} from "./flow"
+import { OnlyBadgesMinted } from "../models/onlybadge-minted"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
-const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
+const openBadgesPath = '"../../contracts/OnlyBadges.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
-enum Kind {
-  Fishbowl = 0,
-  Fishhat,
-  Milkshake,
-  TukTuk,
-  Skateboard,
-}
 
-enum Rarity {
-  Blue = 0,
-  Green,
-  Purple,
-  Gold,
-}
-
-const randomKind = () => {
-  const values = Object.keys(Kind)
-    .map(n => Number.parseInt(n))
-    .filter(n => !Number.isNaN(n))
-
-  const index = Math.floor(Math.random() * values.length)
-
-  return values[index]
-}
-
-const ITEM_RARITY_PROBABILITIES = {
-  [Rarity.Gold]: 10,
-  [Rarity.Purple]: 20,
-  [Rarity.Green]: 30,
-  [Rarity.Blue]: 40,
-}
-
-const randomRarity = () => {
-  const rarities = Object.keys(ITEM_RARITY_PROBABILITIES)
-  const rarityProbabilities = rarities.flatMap(rarity =>
-    Array(ITEM_RARITY_PROBABILITIES[rarity]).fill(rarity)
-  )
-
-  const index = Math.floor(Math.random() * rarityProbabilities.length)
-
-  return rarityProbabilities[index]
-}
-
+const PER_PAGE = 8
 class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
     private readonly nonFungibleTokenAddress: string,
     private readonly metadataViewsAddress: string,
-    private readonly kittyItemsAddress: string,
+    public readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
     private readonly storefrontAddress: string
@@ -80,7 +42,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -94,14 +56,11 @@ class KittyItemsService {
   mint = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    const kind = randomKind()
-    const rarity = randomRarity()
-
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_kitty_item.cdc`
+          `../../../cadence/transactions/kittyItems/min_nftminter.cdc`
         ),
         "utf8"
       )
@@ -109,14 +68,14 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(Number(kind), t.UInt8),
-        fcl.arg(Number(rarity), t.UInt8),
+        fcl.arg("test", t.String),
+        fcl.arg("test1", t.String),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -125,11 +84,13 @@ class KittyItemsService {
     })
   }
 
+  signWithAdminMinter = (tx: string) => {
+    console.log("tx:" + tx)
+    return this.flowService.generateMinterSignature(tx)
+  } 
+
   mintAndList = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
-
-    const kind = randomKind()
-    const rarity = randomRarity()
 
     const transaction = fs
       .readFileSync(
@@ -143,7 +104,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
@@ -151,9 +112,7 @@ class KittyItemsService {
     return this.flowService.sendTx({
       transaction,
       args: [
-        fcl.arg(recipient, t.Address),
-        fcl.arg(Number(kind), t.UInt8),
-        fcl.arg(Number(rarity), t.UInt8),
+        fcl.arg(recipient, t.Address)
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -177,7 +136,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -201,7 +160,7 @@ class KittyItemsService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number[]>({
       script,
@@ -223,7 +182,7 @@ class KittyItemsService {
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
       .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({
       script,
@@ -240,10 +199,95 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(openBadgesPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({script, args: []})
   }
+
+  addMinter = async listingEvent => {
+    return NFTMinter.transaction(async tx => {
+      const jsonstr = {
+        name: listingEvent.data.minterName,
+        image_path: listingEvent.data.minterImageFile,
+        address: listingEvent.data.address,
+        transaction_id: listingEvent.transactionId,
+      };
+      return await NFTMinter.query(tx)
+        .insert(jsonstr)
+        .returning("transaction_id")
+        .onConflict("transaction_id")
+        .ignore()
+        .catch(e => {
+          console.log(e)
+        })
+    });
+  }
+
+  onlybadgesMinted = async listingEvent => {
+    return OnlyBadgesMinted.transaction(async tx => {
+      const jsonstr = {
+        owner: listingEvent.data.owner,
+        id: listingEvent.data.id,
+        name: listingEvent.data.name,
+        badge_image: listingEvent.data.badge_image.cid,
+        number: listingEvent.data.number,
+        max: listingEvent.data.max,
+        transaction_id: listingEvent.transactionId,
+      };
+      console.log("tx:" + tx)
+      console.log("json:" + JSON.stringify(jsonstr))
+      return await OnlyBadgesMinted.query(tx)
+        .insert(jsonstr)
+        .returning("transaction_id")
+        .onConflict("id")
+        .ignore()
+        .catch(e => {
+          console.log(e)
+        })
+    });
+  }
+
+  findMostRecentMinter = params => {
+    return NFTMinter.transaction(async tx => {
+      const query = NFTMinter.query(tx).select("*").orderBy("updated_at", "desc")
+
+      if (params.name) {
+        query.where("name", params.name)
+      }
+
+      if (params.address) {
+        query.where("address", params.address)
+      }
+
+      if (params.page) {
+        query.page(Number(params.page) - 1, PER_PAGE)
+      }
+
+      return await query
+    })
+  }
+
+  getOnlyBadges = params => {
+    return OnlyBadgesMinted.transaction(async tx => {
+      const query = OnlyBadgesMinted.query(tx).select("*").orderBy("updated_at", "desc")
+
+      if (params.name) {
+        query.where("name", params.name)
+      }
+
+      if (params.owner) {
+        query.where("owner", params.owner)
+      }
+
+      if (params.page) {
+        query.page(Number(params.page) - 1, PER_PAGE)
+      }
+
+      return await query
+    })
+  }
+
+
 }
 
 export {KittyItemsService}

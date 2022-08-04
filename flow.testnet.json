@@ -1,14 +1,14 @@
 {
   "accounts": {
     "testnet-account": {
-      "address": "0xc083f5f224a9d7dd",
-      "keys": "242cddcb8db4800455600d50477aa6c5b5735a42c69c5025faf8af49bdd0d05f "
+      "address": "0xd690a7c342e6d090",
+      "keys": "46727eb055711c592a690666e645e7a76153ff737ed186311bde90907ff658fd"
     }
   },
   "deployments": {
     "testnet": {
       "testnet-account": [
-        "KittyItems"
+        "OnlyBadges"
       ]
     }
   }

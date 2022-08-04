@@ -1,39 +1,33 @@
 import NonFungibleToken from 0xNonFungibleToken
 import MetadataViews from 0xMetadataViews
 import NFTStorefront from 0xNFTStorefront
-import KittyItems from 0xKittyItems
+import OnlyBadges from 0xOnlyBadges
 
 pub struct ListingItem {
     pub let name: String
     pub let description: String
-    pub let image: String
+    pub let badge_image: String
 
-    pub let itemID: UInt64
+    pub let id: UInt64
     pub let resourceID: UInt64
-    pub let kind: KittyItems.Kind
-    pub let rarity: KittyItems.Rarity
     pub let owner: Address
     pub let price: UFix64
 
     init(
         name: String,
         description: String,
-        image: String,
-        itemID: UInt64,
+        badge_image: String,
+        id: UInt64,
         resourceID: UInt64,
-        kind: KittyItems.Kind,
-        rarity: KittyItems.Rarity,
         owner: Address,
         price: UFix64
     ) {
         self.name = name
         self.description = description
-        self.image = image
+        self.badge_image = badge_image
 
-        self.itemID = itemID
+        self.id = id
         self.resourceID = resourceID
-        self.kind = kind
-        self.rarity = rarity
         self.owner = owner
         self.price = price
     }
@@ -46,12 +40,12 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
 
             let details = listing.getDetails()
 
-            let itemID = details.nftID
+            let id = details.nftID
             let itemPrice = details.salePrice
 
-            if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+            if let collection = getAccount(address).getCapability<&OnlyBadges.Collection{NonFungibleToken.CollectionPublic, OnlyBadges.OnlyBadgesCollectionPublic}>(OnlyBadges.CollectionPublicPath).borrow() {
 
-                if let item = collection.borrowKittyItem(id: itemID) {
+                if let item = collection.borrowOnlyBadges(id: id) {
 
                     if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
@@ -64,11 +58,11 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
                         return ListingItem(
                             name: display.name,
                             description: display.description,
-                            image: item.imageCID(),
-                            itemID: itemID,
+                            badge_image: item.badge_image.cid,
+                            id: item.id,
                             resourceID: item.uuid,
-                            kind: item.kind,
-                            rarity: item.rarity,
+                            // kind: item.kind,
+                            // rarity: item.rarity,
                             owner: address,
                             price: itemPrice
                         )

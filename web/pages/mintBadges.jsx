@@ -1,5 +1,5 @@
 import ClaimBadges from "src/components/ClaimBadges"
-import Minter from "src/components/Minter"
+import BadgesMinter from "src/components/BadgesMinter"
 import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
 
@@ -23,7 +23,7 @@ export default function Mint() {
       <PageTitle>Mint badges</PageTitle>
       <main>
         <div className="main-container py-14">
-          <Minter />
+          <BadgesMinter />
         </div>
       </main>
     </div>

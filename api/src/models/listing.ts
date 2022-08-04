@@ -2,11 +2,9 @@ import { BaseModel } from "./base"
 
 class Listing extends BaseModel {
   listing_resource_id!: number;
-  item_id!: number;
-  item_kind!: number;
-  item_rarity!: number;
+  id!: number;
   name!: string;
-  image!: string;
+  badge_image!: string;
   owner!: string;
   price!: number;
   transaction_id!: string;

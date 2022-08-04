@@ -12,7 +12,7 @@
     "port": 8701
   },
   "contracts": {
-    "KittyItems": "./cadence/contracts/KittyItems.cdc",
+    "OnlyBadges": "./cadence/contracts/OnlyBadges.cdc",
     "NFTStorefront": {
       "source": "./cadence/contracts/NFTStorefront.cdc",
       "aliases": {
@@ -60,7 +60,7 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
-        "KittyItems",
+        "OnlyBadges",
         "NFTStorefront",
         "NonFungibleToken",
         "MetadataViews"

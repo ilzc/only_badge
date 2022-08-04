@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import {useLayoutEffect, useMemo, useRef, useState} from "react"
 import ListItem from "src/components/ListItem"
 import {storeItemsSelector} from "src/global/selectors"
-import {normalizedItemType} from "src/global/types"
+import {normalizedBadges} from "src/global/types"
 import {useDebouncedCallback} from "use-debounce"
 
 const ITEMS_LENGTH = 10
@@ -14,7 +14,7 @@ const PageButton = ({onClick, disabled, children}) => (
     disabled={disabled}
     className="rounded-full border border-gray-200 h-14 w-14 flex items-center justify-center bg-white hover:opacity-80 disabled:opacity-50 disabled:cursor-default"
   >
-    {children}
+    {children}``
   </button>
 )
 
@@ -23,9 +23,13 @@ export default function LatestStoreItems({items}) {
   const [reachedScrollEnd, setReachedScrollEnd] = useState(false)
   const [offsetWidth, setOffsetWidth] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
-  const storeItems = storeItemsSelector(items)
-    .slice(0, ITEMS_LENGTH)
-    .sort((a, b) => b.itemID - a.itemID)
+  // const storeItems = storeItemsSelector(items)
+  //   .slice(0, ITEMS_LENGTH)
+  //   .sort((a, b) => b.itemID - a.itemID)
+
+  const storeItems = items
+
+  console.log("storeItems:" + JSON.stringify(items))
 
   const firstVisibleItem = useMemo(
     () => Math.ceil(scrollLeft / ITEM_WIDTH),
@@ -61,7 +65,7 @@ export default function LatestStoreItems({items}) {
     }
   }, [onDebouncedWindowResize])
 
-  if (storeItems.length === 0) return null
+  if (storeItems && storeItems.length === 0) return null
 
   const scrollToItem = index =>
     listRef.current?.scrollTo({
@@ -84,7 +88,7 @@ export default function LatestStoreItems({items}) {
             Check out the latest freshly-minted Badges.
           </div>
         </div>
-        {storeItems.length > 2 && (
+        {storeItems && storeItems.length > 2 && (
           <div className="flex mt-6 sm:mt-0 sm:ml-auto">
             <div className="mr-5">
               <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
@@ -114,9 +118,9 @@ export default function LatestStoreItems({items}) {
           ref={listRef}
         >
           <div className="whitespace-nowrap flex -ml-2 lg:pr-3">
-            {storeItems.map(item => (
+            {storeItems && storeItems.map(item => (
               <div
-                key={item.itemID}
+                key={item.id}
                 className="flex justify-center px-4"
                 style={{minWidth: ITEM_WIDTH}}
               >
@@ -132,7 +136,7 @@ export default function LatestStoreItems({items}) {
 }
 
 LatestStoreItems.propTypes = {
-  items: PropTypes.arrayOf(normalizedItemType),
+  // items: PropTypes.arrayOf(normalizedBadges),
 }
 
 PageButton.propTypes = {

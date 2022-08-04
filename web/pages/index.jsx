@@ -1,30 +1,46 @@
 import HomeEmptyMessage from "src/components/HomeEmptyMessage"
-import LatestMarketplaceItems from "src/components/LatestMarketplaceItems"
+// import LatestMarketplaceItems from "src/components/LatestMarketplaceItems"
 import LatestStoreItems from "src/components/LatestStoreItems"
 import PopularMerchants from "src/components/PopularMerchants"
 import PageTitle from "src/components/PageTitle"
-import useApiListings from "src/hooks/useApiListings"
 import Footer from "src/components/Footer"
+import useApiListMerchants from "src/hooks/useApiListMerchants"
+import useApiListBadges from "src/hooks/useApiListBadges"
 
 export default function Home() {
-  const {listings, isLoading} = useApiListings()
+  const {listings, isLoading} = useApiListMerchants()
+  const { badges, badgesLoading} = useApiListBadges()
 
   return (
     <div>
       <PageTitle>Home</PageTitle>
       <main>
-        {!isLoading &&
-          (listings && listings.length > 0 ? (
-            <>
-              <PopularMerchants items={listings} />
-              <LatestStoreItems items={listings} />
-              <LatestMarketplaceItems items={listings} />
-            </>
-          ) : (
-            <HomeEmptyMessage />
-          ))}
+        {
+      (listings && listings.length > 0 ? (
+        <>
+          <PopularMerchants items={listings} />
+          <LatestStoreItems items={badges} />
+        </>
+      )
+          : (
+        <HomeEmptyMessage />
+      ))
+          }
       </main>
       <Footer/>
     </div>
   )
 }
+
+
+// {
+//   !isLoading &&
+//   (listings.length > 0 ? (
+//     <>
+//       <PopularMerchants items={listings} />
+//       {/* <LatestStoreItems items={listings} />
+//       <LatestMarketplaceItems items={listings} /> */}
+//     </>
+//   ) : (
+//     <HomeEmptyMessage />
+//   ))}
