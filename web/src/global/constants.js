@@ -53,6 +53,7 @@ export const paths = {
   mintNFTMinter: "/nftminter/mint",
   apiListMerchants: params =>
   `${publicConfig.apiOnlyBadgesListMerchants}${getParamsString(params)}`,
+  result: "/result",
   // apiListBadgesNFT: params =>
   // `${publicConfig.apiOnlyBadgesListBadges}${getParamsString(params)}`,
 }
@@ -99,6 +100,13 @@ export const TRANSACTION_STATUS_MAP = {
   3: "Awaiting Sealing",
   4: "Transaction Sealed",
   5: "Transaction Expired",
+}
+
+export const STATUS_SUCCESS = 'success'
+export const STATUS_FAILED = 'error'
+export const TYPE = {
+  NORMAL: 'normal',
+  CLAIMED: 'claimed',
 }
 
 export const DECLINE_RESPONSE = "Declined: Externally Halted"

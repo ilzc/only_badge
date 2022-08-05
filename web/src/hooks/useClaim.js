@@ -29,14 +29,11 @@ export default function useClaim() {
 
   const resetLoading = () => {
     setIsMintingLoading(false)
-    setTransactionStatus(null)
   }
 
   const onTransactionSealed = tx => {
-    if (!!tx.errorMessage?.length) {
-      resetLoading()
-      return
-    }
+    resetLoading()
+    setTransactionStatus(tx)
   }
 
   const mintAndList = async (reqValues) => {
@@ -56,8 +53,8 @@ export default function useClaim() {
 
     console.log(newTxId);
     txStateSubscribeRef.current = fcl.tx(newTxId).subscribe(tx => {
+          console.log("tx" + JSON.stringify(tx))
           console.log("tx.status:" + tx.status)
-          setTransactionStatus(tx.status)
           if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
         })
   }
@@ -71,4 +68,5 @@ export default function useClaim() {
 
   const isLoading = isMintingLoading
   return [{isLoading, transactionAction, transactionStatus}, mintAndList]
+  
 }

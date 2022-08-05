@@ -4,15 +4,48 @@ import MinterLoader from "./MinterLoader"
 import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
 import { Button, Form, Input, InputNumber, Upload } from 'antd';
+import {useRouter} from "next/router"
+import {paths, STATUS_SUCCESS, STATUS_FAILED, TYPE} from "src/global/constants"
+import {useEffect} from "react"
+
 
 export default function ClaimBadges() {
   const [{isLoading, transactionStatus}, mint] = useClaim()
   const {currentUser} = useAppContext()
+  const router = useRouter()
+  const address = currentUser?.addr
 
   const onFinish = (values) => {
     console.log(values);
     mint(values)
   };
+
+  useEffect(() => {
+    if(transactionStatus == null) return
+    let status = STATUS_FAILED
+    let title, msg, btn1Text, btn1Path, btn2Text, btn2Path = ""
+
+    if(!transactionStatus.errorMessage) {
+      status = STATUS_SUCCESS
+      title = "Claimed Successfully"
+      msg = "Congras! Just claimed a Badge!"
+      btn1Text = "Go profile"
+      btn1Path = paths.profile(currentUser?.addr)
+      btn2Text = "Claim again"
+      btn2Path = paths.claimBadges
+    }
+    else {
+      title = "Claimed Failed"
+      msg = transactionStatus.errorMessag
+      btn1Text = "Home"
+      btn1Path = "/"
+      btn2Text = "Claim again"
+      btn2Path = paths.claimBadges
+    }
+    const content = {title: title, msg: msg}
+    console.log(JSON.stringify(content))
+    router.push({pathname: paths.result, query: {status: status, type: TYPE.CLAIMED, title: title, msg: msg, btn1Text, btn1Path, btn2Text, btn2Path}})
+  }, [transactionStatus])
 
   const validateMessages = {
     required: '${label} is required!',

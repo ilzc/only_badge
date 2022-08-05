@@ -11,6 +11,7 @@ pub contract OnlyBadges: NonFungibleToken {
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
     pub event Minted(owner: Address, id: UInt64, name: String, badge_image: MetadataViews.IPFSFile, number: UInt64, max: UInt64?)
+    pub event Claimed(owner: Address, id: UInt64)
     pub event ImagesAddedForNewKind(kind: UInt8)
 
     // Named Paths
@@ -277,13 +278,13 @@ pub contract OnlyBadges: NonFungibleToken {
                 let receiver = capability
                     .borrow<&{OnlyBadges.OnlyBadgesCollectionPublic}>()
                     ?? panic("Could not get receiver reference to the NFT Collection")
-
                 receiver.deposit(token: <- nft)
-                
+
                 //clean dict when no nft can be
                 if nftIDs.length == 0 {
                     self.claimableIDs.remove(key: claimCode)
                 }
+                emit Claimed(owner: recipient, id: nftID)
             }
             else {
                 panic("nft list empty")
@@ -363,18 +364,6 @@ pub contract OnlyBadges: NonFungibleToken {
             let receiver = capability
                 .borrow<&{OnlyBadges.OnlyBadgesCollectionPublic}>()
                 ?? panic("Could not get receiver reference to the NFT Collection")
-
-            // receiver.deposit(token: <-create OnlyBadges.NFT(
-            //                                     id: OnlyBadges.totalSupply, 
-            //                                     name: name, 
-            //                                     description: description, 
-            //                                     badge_image: badge_image,
-            //                                     number: number,
-            //                                     max: max,
-            //                                     royalty_cut: royalty_cut,
-            //                                     royalty_description: royalty_description,
-            //                                     royalty_receiver: royalty_receiver_capability,
-            //                                     externalURL: externalURL))
 
             var createdNFT  <- create OnlyBadges.NFT(
                                                 id: OnlyBadges.totalSupply, 
