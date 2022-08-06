@@ -6,13 +6,13 @@
 
 ### 1. Project introduction
 
-OnlyBadge wants to help more real-world enterprises better enter the blockchain world through the features of nft, as a bridge between the two, so that real-world enterprises can have more development in the blockchain world Chance. The inspiration for creating this project mainly comes from the current web3 products: Project Galaxy, POAP and some current traditional social media platforms.
+OnlyBadge wants to help more real-world enterprises better enter the blockchain world through the features of NFT, as a bridge between the two, so that real-world enterprises can have more chances in the blockchain world. The inspiration for creating this project mainly comes from the current web3 products: Project Galaxy, POAP and some current traditional social media platforms.
 
 ### 2. The landing application scenario of the project (improving the problem of centralization of traffic exposure)
 For example, traditional companies need to pay high fees in order to gain exposure to the platform, and ultimately they may not be able to achieve the expected goals of the company. At the same time, when companies want to promote their products or services through activities, they also need to spend a certain amount of money to find influential Internet celebrities to promote them. OnlyBadge wants to change the traffic exposure mode of the current centralized platform through the form of NFT.
 
 ### 3. The process of the project to solve the problem of centralization of traffic exposure
-NFTs in the blockchain can improve the current situation where the platform traffic distribution is too centralized. Users can obtain badges released by the enterprise after completing the tasks released by the enterprise.
+NFTs in the blockchain can improve the current situation where the platform traffic distribution is too centralized. Customers can obtain badges released by the enterprise after completing the tasks released by the enterprise.Enterprise can also airdrop badges to their targeted customers through analyzing on-chain activities in order to gain more attractions and promote their services or products.
 
 ---
 The basic process is as follows:
