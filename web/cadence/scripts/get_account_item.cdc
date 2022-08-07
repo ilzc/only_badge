@@ -10,6 +10,19 @@ pub struct KittyItem {
   pub let id: UInt64
   pub let resourceID: UInt64
   pub let owner: Address
+  pub let number: UInt64
+
+  pub let max: UInt64?
+
+  //Royalty View
+  pub let royalty_cut: UFix64? //0.0 -> 1.0
+
+  pub let royalty_description: String?
+
+  pub let royalty_receiver: Address?
+
+  //NFTCollectionDisplay View
+  pub let externalURL: String?
 
   init(
     name: String,
@@ -18,6 +31,12 @@ pub struct KittyItem {
     id: UInt64,
     resourceID: UInt64,
     owner: Address,
+    number: UInt64,
+    max: UInt64?,
+    royalty_cut: UFix64?,
+    royalty_description: String?,
+    royalty_receiver: Address?,
+    externalURL: String?
   ) {
     self.name = name
     self.description = description
@@ -26,6 +45,15 @@ pub struct KittyItem {
     self.id = id
     self.resourceID = resourceID
     self.owner = owner
+
+    self.number = number
+    self.max = max
+
+    self.royalty_cut = royalty_cut
+    self.royalty_description = royalty_description
+    self.royalty_receiver = royalty_receiver
+
+    self.externalURL = externalURL
   }
 }
 
@@ -42,6 +70,36 @@ pub fun fetch(address: Address, id: UInt64): KittyItem? {
 
         let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile
 
+        var editionName: String? = nil
+        var editionNumber: UInt64 = 0
+        var editionMax: UInt64? = nil
+
+        var externalURL: String? = nil
+
+        var royalty_cut: UFix64?  = nil//0.0 -> 1.0
+        var royalty_description: String? = nil
+        var royalty_receiver: Address? = nil
+
+
+        if let view = item.resolveView(Type<MetadataViews.Edition>()) {
+          let editionView = view as! MetadataViews.Edition
+          editionName = editionView.name
+          editionNumber = editionView.number
+          editionMax = editionView.max
+        }
+
+        if let view = item.resolveView(Type<MetadataViews.ExternalURL>()) {
+          let externalURLView = view as! MetadataViews.ExternalURL
+          externalURL = externalURLView.url
+        }
+
+        if let view = item.resolveView(Type<MetadataViews.Royalty>()) {
+          let royaltyView = view as! MetadataViews.Royalty
+          royalty_cut = royaltyView.cut
+          royalty_description = royaltyView.description
+          royalty_receiver = royaltyView.receiver.address
+        }
+
         return KittyItem(
           name: display.name,
           description: display.description,
@@ -49,8 +107,15 @@ pub fun fetch(address: Address, id: UInt64): KittyItem? {
           id: id,
           resourceID: item.uuid,
           owner: address,
+          number: editionNumber,
+          max: editionMax,
+          royalty_cut: royalty_cut,
+          royalty_description: royalty_description,
+          royalty_receiver: royalty_receiver,
+          externalURL: externalURL,
         )
       }
+      
     }
   }
 

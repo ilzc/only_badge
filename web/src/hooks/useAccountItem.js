@@ -20,7 +20,7 @@ export default function useAccountItem(address, id, listing) {
     fetchAccountItem
   )
   const item = data ? normalizeBadges(data, listing) : undefined
-  console.log("item333:" + JSON.stringify(item))
+  console.log("normalizeBadges:" + JSON.stringify(item))
   return {item, error, isLoading: !data && !error}
 }
 

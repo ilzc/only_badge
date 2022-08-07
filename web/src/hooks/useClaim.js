@@ -38,7 +38,6 @@ export default function useClaim() {
 
   const mintAndList = async (reqValues) => {
 
-
     console.log("reqValues:" + reqValues.recipient)
 
     const newTxId = await fcl.mutate({
