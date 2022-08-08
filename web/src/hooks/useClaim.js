@@ -40,6 +40,8 @@ export default function useClaim() {
 
     console.log("reqValues:" + reqValues.recipient)
 
+    setIsMintingLoading(true)
+
     const newTxId = await fcl.mutate({
       cadence: CLAIM_BADGES_SCRIPT,
       args: (arg, t) => [
@@ -48,14 +50,15 @@ export default function useClaim() {
         arg(reqValues.claimCode, t.String),
       ],
       limit: 9999,
-    })
+    }).catch(()=>{setIsMintingLoading(false)});
 
     console.log(newTxId);
-    txStateSubscribeRef.current = fcl.tx(newTxId).subscribe(tx => {
-          console.log("tx" + JSON.stringify(tx))
-          console.log("tx.status:" + tx.status)
-          if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
-        })
+    if(newTxId) {
+      txStateSubscribeRef.current = fcl.tx(newTxId).subscribe(tx => {
+            console.log("tx" + JSON.stringify(tx))
+            if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+          })
+    }
   }
 
   useEffect(() => {

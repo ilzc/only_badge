@@ -36,7 +36,7 @@ export default function ClaimBadges() {
     }
     else {
       title = "Claimed Failed"
-      msg = transactionStatus.errorMessag
+      msg = transactionStatus.errorMessage
       btn1Text = "Home"
       btn1Path = "/"
       btn2Text = "Claim again"
@@ -63,11 +63,9 @@ export default function ClaimBadges() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
-      <MinterLoader isLoading={isLoading} />
 
       <div className="flex flex-col pr-4 mt-14 lg:mt-24 lg:pt-20 lg:pl-14">
-        <h1 className="mb-10 text-5xl text-gray-darkest">Claim a new badge</h1>
-        <RarityScale />
+        <h1 className="mb-10 text-5xl text-gray-darkest">Claim a badge</h1>
 
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
@@ -77,11 +75,11 @@ export default function ClaimBadges() {
               <Form.Item name={['claimCode']} label="Code" rules={[{ required: true }]} >
                 <Input />
               </Form.Item>
-              <Form.Item name={['recipient']} label="recipient" rules={[{ required: true }]} >
+              <Form.Item name={['recipient']} label="Recipient" rules={[{ required: true }]}>
                 <Input />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit" disabled={isLoading}>
+                <Button type="primary" htmlType="submit" disabled={isLoading} loading={isLoading}>
                   Claim
                 </Button>
               </Form.Item>

@@ -29,20 +29,19 @@ export default function useMintAndList() {
 
   const resetLoading = () => {
     setIsMintingLoading(false)
-    setTransactionStatus(null)
   }
 
   const onTransactionSealed = tx => {
-    if (!!tx.errorMessage?.length) {
-      resetLoading()
-      return
-    }
+    resetLoading()
+    setTransactionStatus(tx)
   }
 
   const mintAndList = async (reqValues) => {
 
     //recipient, name, description, badge_image, max, royalty_cut, royalty_cut, royalty_description, royalty_receiver, externalURL
     let image = reqValues.badge_image.file.response
+
+    setIsMintingLoading(true)
 
     console.log("reqValues:" + reqValues.recipient)
 
@@ -57,20 +56,21 @@ export default function useMintAndList() {
         arg("image/nft_img.png", t.String),
         arg(reqValues.max, t.UInt64),
         arg(reqValues.claim_code, t.Optional(t.String)),
-        arg(reqValues.royalty_cut, t.Optional(t.UFix64)),
+        arg((reqValues.royalty_cut/100).toFixed(4), t.Optional(t.UFix64)),
         arg(reqValues.royalty_description, t.Optional(t.String)),
         arg(reqValues.royalty_receiver, t.Optional(t.Address)),
         arg(reqValues.externalURL, t.Optional(t.String)),
       ],
       limit: 9999,
-    })
+    }).catch(()=>{setIsMintingLoading(false)});
 
     console.log(newTxId);
-    txStateSubscribeRef.current = fcl.tx(newTxId).subscribe(tx => {
-          console.log("tx.status:" + tx.status)
-          setTransactionStatus(tx.status)
-          if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
-        })
+    if(newTxId) {
+      txStateSubscribeRef.current = fcl.tx(newTxId).subscribe(tx => {
+            console.log("tx.status:" + tx.status)
+            if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+          })
+    }
   }
 
   useEffect(() => {

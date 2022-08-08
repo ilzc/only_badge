@@ -1,12 +1,11 @@
 import useAppContext from "src/hooks/useAppContext"
 import useMintAndList from "src/hooks/useMintAndList"
-import MinterLoader from "./MinterLoader"
-import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
 import { Button, Form, Input, InputNumber, Upload } from 'antd';
 import useNFTStorage from "src/hooks/useNFTStorage"
-import { useState } from "react"
-import useLogin from "src/hooks/useLogin";
+import { useState, useEffect } from "react"
+import {useRouter} from "next/router"
+import {paths, STATUS_SUCCESS, STATUS_FAILED, TYPE} from "src/global/constants"
 
 const layout = {
   labelCol: { span: 8 },
@@ -41,13 +40,39 @@ const beforeUpload = (file) => {
   return isJpgOrPng && isLt2M;
 };
 
-
-
 export default function BadgesMinter() {
   const [{ isLoading, transactionStatus }, mint] = useMintAndList()
   const [ isUploading, uploadNftStorage ] = useNFTStorage()
   const {currentUser} = useAppContext()
+  const router = useRouter()
   const [fileList, setFileList] = useState([]);
+
+  useEffect(() => {
+    if(transactionStatus == null) return
+    let status = STATUS_FAILED
+    let title, msg, btn1Text, btn1Path, btn2Text, btn2Path = ""
+
+    if(!transactionStatus.errorMessage) {
+      status = STATUS_SUCCESS
+      title = "Create badges Successfully"
+      msg = "Congras! Just created a Badge!"
+      btn1Text = "Home"
+      btn1Path = "/"
+      btn2Text = "Create Badge"
+      btn2Path = paths.mintBadges
+    }
+    else {
+      title = "Claimed Failed"
+      msg = transactionStatus.errorMessage
+      btn1Text = "Home"
+      btn1Path = "/"
+      btn2Text = "Create again"
+      btn2Path = paths.mintBadges
+    }
+    const content = {title: title, msg: msg}
+    console.log(JSON.stringify(content))
+    router.push({pathname: paths.result, query: {status: status, type: TYPE.CLAIMED, title: title, msg: msg, btn1Text, btn1Path, btn2Text, btn2Path}})
+  }, [transactionStatus])
 
   if (!currentUser) return null
   const address = currentUser.addr
@@ -56,12 +81,6 @@ export default function BadgesMinter() {
     console.log(values);
     mint(values)
   };
-
-  // async function convertToFile(originFile) {
-  //   const content = await fs.promises.readFile(filePath)
-  //   const type = mime.getType(filePath)
-  //   return new File([content], path.basename(filePath), { type })
-  // }
 
   const handleUpload = async (option) => {
     const file = option.file
@@ -94,20 +113,23 @@ export default function BadgesMinter() {
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"测试", max:1, description: "描述", badge_image: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"}}>
-            <Form.Item name={['recipient']} label="商户地址" rules={[{ required: true }]} >
+          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"Test Badge", max:1, description: "描述", royalty_cut: 0, royalty_receiver: address}}>
+            <Form.Item name={['recipient']} label="Address" rules={[{ required: true }]} >
               <Input disabled={true}/>
             </Form.Item>
-            <Form.Item name={['name']} label="徽章名称" rules={[{ required: true }]}>
+            <Form.Item name={['name']} label="Badge name" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item name={['max']} label="总量" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
+            <Form.Item name={['max']} label="Total supply" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
               <InputNumber />
             </Form.Item>
-            <Form.Item name={['externalURL']} label="网址">
+            <Form.Item name={['claim_code']} label="Claim Code" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item name={['badge_image']}  label="徽章图片" rules={[{ required: true }]}>
+            <Form.Item name={['externalURL']} label="Website">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['badge_image']}  label="Badge image" rules={[{ required: true }]}>
               <Upload listType="picture-card" beforeUpload={beforeUpload} showUploadList={false} customRequest={handleUpload}>
                 <div>
                   {/* <PlusOutlined /> */}
@@ -115,14 +137,11 @@ export default function BadgesMinter() {
                 </div>
               </Upload>
             </Form.Item>
-            <Form.Item name={['description']} label="描述">
+            <Form.Item name={['description']} label="Description">
               <Input.TextArea />
             </Form.Item>
-            <Form.Item name={['claim_code']} label="ClaimCode">
-              <Input />
-            </Form.Item>
-            <Form.Item name={['royalty_cut']} label="版税">
-              <Input />
+            <Form.Item name={['royalty_cut']} label="版税(%)" rules={[{ type: 'number', min: 0, max: 50, default: 0, required: true }]}>
+              <InputNumber />
             </Form.Item>
             <Form.Item name={['royalty_description']} label="版税描述">
               <Input />
@@ -131,7 +150,7 @@ export default function BadgesMinter() {
               <Input />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading && isUploading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading && isUploading} loading={isLoading || isUploading}>
                 Submit
               </Button>
             </Form.Item>
