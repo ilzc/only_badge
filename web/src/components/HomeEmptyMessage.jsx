@@ -4,7 +4,7 @@ import useLogin from "src/hooks/useLogin"
 import Button, {ButtonLink} from "./Button"
 import { useFileUpload } from 'src/hooks/useUpload'
 import {useRouter} from "next/router"
-import Upload from "./Minter"
+
 
 
 
@@ -39,7 +39,7 @@ export default function HomeEmptyMessage() {
       <div className="bg-white text-center -mt-12 ">
         <div className="bg-white rounded-md inline-flex flex-col justify-center stroke-2">
             <img
-              src="/images/badge-logo.svg"
+              src="/images/newonlybadgelogo.svg"
               alt="Only Badge"
               width="280"
               className="mx-auto"

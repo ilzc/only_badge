@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="400" src="OnlyBadge-README.png" />
+    <img width="400" src="newonlybadgelogo.png" />
 </p>
 
 ## Introduction
