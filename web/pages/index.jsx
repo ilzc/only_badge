@@ -15,9 +15,10 @@ export default function Home() {
     <div>
       <PageTitle>Home</PageTitle>
       <main>
-        {
+        {/* {
       (listings && listings.length > 0 ? (
         <>
+
           <PopularMerchants items={listings} />
           <LatestStoreItems items={badges} />
         </>
@@ -25,7 +26,8 @@ export default function Home() {
           : (
         <HomeEmptyMessage />
       ))
-          }
+          } */}
+          <HomeEmptyMessage />
       </main>
       <Footer/>
     </div>

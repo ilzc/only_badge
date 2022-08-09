@@ -3,16 +3,29 @@ import useMintAndList from "src/hooks/useMintAndList"
 import MinterLoader from "./MinterLoader"
 import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
-import { Button, Form, Input, InputNumber, Upload } from 'antd';
+import { Button, Form, Input, InputNumber, Upload, Modal } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import 'antd/dist/antd.css';
 import useNFTStorage from "src/hooks/useNFTStorage"
-import { useState } from "react"
 import useLogin from "src/hooks/useLogin";
 import useMintNFTMinter from "src/hooks/useMintNFTMinter"
 
+
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 8 },
 };
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => resolve(reader.result);
+
+    reader.onerror = (error) => reject(error);
+  });
 
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
@@ -44,8 +57,31 @@ const beforeUpload = (file) => {
 
 export default function NFTMinter() {
   const [{ isLoading, transactionStatus }, mint] = useMintNFTMinter()
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewTitle, setPreviewTitle] = useState("");
   const [ isUploading, uploadNftStorage ] = useNFTStorage()
   const {currentUser} = useAppContext()
+  const [fileList, setFileList] = useState([])
+  const handleCancel = () => setPreviewVisible(false);
+  const [previewImage, setPreviewImage] = useState("");
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+  };
+
+  const handleChange = ({ fileList: newFileList }) => {
+    console.log(JSON.stringify(fileList));
+    setFileList(newFileList);
+  };
+
+
+
 
   if (!currentUser) return null
   const address = currentUser.addr
@@ -73,42 +109,76 @@ export default function NFTMinter() {
         option.onError(error)
       })
   }
+  const uploadButton = (
+    <div>
+      <PlusCircleOutlined />
+      <div
+        style={{
+          marginTop: 8
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
+
+  
+
+  
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2">
+    <div className="">
       {/* <MinterLoader isLoading={isLoading} /> */}
 
-      <div className="flex flex-col pr-4 mt-14 lg:mt-24 lg:pt-20 lg:pl-14">
-        <h1 className="mb-10 text-5xl text-gray-darkest">创建商户</h1>
+      <div className="">
+        <h1 className="mb-8 text-6xl text-pink-600 font-extrabold text-center">Create Project</h1>
         {/* <RarityScale /> */}
 
+        
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"测试商户"}}>
-            <Form.Item name={['name']} label="商户名称" rules={[{ required: true }]} >
+          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"Input Your Project Name"}}>
+            <Form.Item name={['name']} label="Project Name" rules={[{ required: true }]} >
               <Input />
             </Form.Item>
             {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
               <Input />
             </Form.Item> */}
-            <Form.Item name={['image']} label="商户logo" rules={[{ required: true }]}>
-              <Upload listType="picture-card" beforeUpload={beforeUpload} showUploadList={false} customRequest={handleUpload}>
-                <div>
-                  {/* <PlusOutlined /> */}
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
+            <Form.Item name={['image']} label="Project logo" rules={[{ required: true }]} >
+              <Upload listType="picture-card" beforeUpload={beforeUpload}  customRequest={handleUpload} onPreview={handlePreview} onChange={handleChange}>
+                {fileList.length >= 1 ? null : uploadButton}
               </Upload>
             </Form.Item>
+            <Modal
+                visible={previewVisible}
+                title={previewTitle}
+                footer={null}
+                onCancel={handleCancel}
+              >
+                <img
+                  alt="example"
+                  style={{
+                    width: "100%"
+                  }}
+                  src={previewImage}
+                />
+              </Modal>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading || isUploading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading || isUploading} shape="round" >
                 Submit
               </Button>
             </Form.Item>
           </Form>
         )}
       </div>
+      
+
     </div>
+
+     
   )
 }
+
+

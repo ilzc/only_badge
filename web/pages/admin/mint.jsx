@@ -1,5 +1,4 @@
 import AdminNav from "src/components/AdminNav"
-import Minter from "src/components/Minter"
 import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
 
@@ -24,7 +23,6 @@ export default function Mint() {
       <main>
         <div className="main-container py-14">
           <AdminNav />
-          <Minter />
         </div>
       </main>
     </div>
