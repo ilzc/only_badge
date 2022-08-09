@@ -131,7 +131,9 @@ function stopProcess(name, port) {
   return new Promise((resolve, reject) => {
     pm2.stop(name, function (err, result) {
       pm2.delete(name, async function () {
-        await killPortProcess(port);
+        await killPortProcess(port).catch(function () {
+          console.log("Promise Rejected");
+     });
         resolve();
       });
     });
@@ -333,7 +335,7 @@ pm2.connect(false, async function (err) {
     await runProcess({
       name: "emulator",
       script: "flow",
-      args: "emulator",
+      args: "emulator --block-time 1s", //update every 1s
       wait_ready: true
     });
 
