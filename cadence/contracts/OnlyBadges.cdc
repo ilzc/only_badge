@@ -34,6 +34,8 @@ pub contract OnlyBadges: NonFungibleToken {
 
         pub let id: UInt64
 
+        pub let creator: Address
+
         pub let name: String
 
         pub let description: String
@@ -59,6 +61,7 @@ pub contract OnlyBadges: NonFungibleToken {
         pub let externalURL: String?
 
         init(id: UInt64, 
+            creator: Address,
             name: String, 
             description: String, 
             badge_image: MetadataViews.IPFSFile,
@@ -69,6 +72,7 @@ pub contract OnlyBadges: NonFungibleToken {
             royalty_receiver: Capability<&AnyResource{FungibleToken.Receiver}>?,
             externalURL: String?) {
             self.id = id
+            self.creator = creator
             self.name = name
             self.description = description
             self.badge_image = badge_image
@@ -367,6 +371,7 @@ pub contract OnlyBadges: NonFungibleToken {
 
             var createdNFT  <- create OnlyBadges.NFT(
                                                 id: OnlyBadges.totalSupply, 
+                                                creator: recipient,
                                                 name: name, 
                                                 description: description, 
                                                 badge_image: badge_image,

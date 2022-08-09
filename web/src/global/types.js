@@ -12,6 +12,7 @@ export const normalizedItemType = PropTypes.exact({
 
 export const apiListingType = PropTypes.exact({
   id: PropTypes.number.isRequired,
+  creator: PropTypes.string.isRequired,
   listingResourceID: PropTypes.number.isRequired,
   owner: PropTypes.string.isRequired,
   price: PropTypes.string,

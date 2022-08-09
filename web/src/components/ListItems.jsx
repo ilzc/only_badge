@@ -18,23 +18,23 @@ export default function ListItems({items = [], accountItemIds = []}) {
   console.log("accountItemIds:" + JSON.stringify(accountItemIds))
 
   return (
-    <div className={listItemsRootClasses} style={listItemsStyle}>
-      {items.map(item => (
-        <ListItem
-          key={`${item.itemID}-${item.listingResourceID}`}
-          item={item}
-          showOwnerInfo={true}
-        />
-      ))}
-      {accountItemIds.map(item => (
-        <AccountItem
-          key={item.id}
-          id={item.id}
-          address={item.owner}
-          showOwnerInfo={true}
-        />
-      ))}
-    </div>
+      <div className={listItemsRootClasses} style={listItemsStyle}>
+        {items.map(item => (
+          <ListItem
+            key={`${item.itemID}-${item.listingResourceID}`}
+            item={item}
+            showOwnerInfo={true}
+          />
+        ))}
+        {accountItemIds.map(item => (
+          <AccountItem
+            key={item.id}
+            id={item.id}
+            address={item.owner}
+            showOwnerInfo={true}
+          />
+        ))}
+      </div>
   )
 }
 

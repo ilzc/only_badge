@@ -11,7 +11,7 @@ export default function useApiListMerchants(params) {
     use: [laggy],
   })
 
-  const listings = useMemo(() => {
+  const merchantsListings = useMemo(() => {
     // Paginated queries return an object
     // console.log("data:" + JSON.stringify(data))
     const listingsArray = Array.isArray(data) ? data : data?.results
@@ -21,7 +21,7 @@ export default function useApiListMerchants(params) {
   }, [data])
 
   // return {listings, data, error, isLoading: !data && !error}
-  return {listings, isBadgesLoading:false}
+  return {merchantsListings, isBadgesLoading:false}
 }
 
 useApiListMerchants.propTypes = {

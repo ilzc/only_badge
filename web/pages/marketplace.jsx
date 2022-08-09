@@ -10,6 +10,8 @@ import {paths} from "src/global/constants"
 import useApiListings from "src/hooks/useApiListings"
 import useAppContext from "src/hooks/useAppContext"
 import {cleanObject} from "src/util/object"
+import PopularMerchants from "src/components/PopularMerchants"
+import useApiListMerchants from "src/hooks/useApiListMerchants"
 
 const PER_PAGE = 12
 
@@ -17,15 +19,18 @@ const MainContent = ({queryState}) => {
   const router = useRouter()
 
   const {currentUser} = useAppContext()
+  const {merchantsListings, isLoading} = useApiListMerchants()
   const {listings, data} = useApiListings({
     ...queryState,
-    // marketplace: true,
+    // owner: undefined,
   })
   const showPagination = data?.total !== undefined
 
   const updateQuery = (payload, scroll = true) => {
     const newQueryObject = {...queryState, ...payload}
-
+    console.log("execute query:" + JSON.stringify(newQueryObject))
+    console.log("execute query payload:" + JSON.stringify(payload))
+    console.log("execute query queryState:" + JSON.stringify(queryState))
     router.push(
       {
         pathname: router.pathname,
@@ -58,7 +63,7 @@ const MainContent = ({queryState}) => {
 
       <hr className="pt-1 mb-8" />
 
-      {typeof queryState !== "undefined" && (
+      {/* {typeof queryState !== "undefined" && (
         <MarketplaceFilters queryState={queryState} updateQuery={updateQuery}>
           {showPagination && (
             <Pagination
@@ -69,8 +74,22 @@ const MainContent = ({queryState}) => {
             />
           )}
         </MarketplaceFilters>
-      )}
+      )} */}
 
+      {typeof queryState !== "undefined" && (
+        <PopularMerchants items={merchantsListings} updateQuery={updateQuery}/>
+       )}
+
+      <div className="main-container flex pt-10 flex-col sm:flex-row">
+        <div>
+          <h1 className="text-4xl text-gray-darkest mb-1">
+            Popular Badges
+          </h1>
+          <div className="text-xl text-gray-light">
+            Check out the latest badges.
+          </div>
+        </div>
+      </div>
       {!!listings && <ListItems items={listings} />}
 
       {showPagination && (

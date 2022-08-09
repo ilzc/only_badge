@@ -187,6 +187,7 @@ class StorefrontService {
         .insert({
           listing_resource_id: listingResourceID,
           id: item.id,
+          creator: item.creator,
           name: item.name,
           badge_image: item.badge_image,
           owner: owner,
@@ -229,6 +230,10 @@ class StorefrontService {
 
       if (params.owner) {
         query.where("owner", params.owner)
+      }
+
+      if (params.creator) {
+        query.where("creator", params.creator)
       }
 
       if (params.minPrice) {

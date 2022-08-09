@@ -2,6 +2,7 @@ export function normalizeApiListing(item) {
   console.log("normalizeApiListing item:" + JSON.stringify(item))
   return {
     id: item.id,
+    creator: item.creator,
     owner: item.owner,
     name: item.name,
     badge_image: item.badge_image,
