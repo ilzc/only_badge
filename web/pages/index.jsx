@@ -18,7 +18,7 @@ export default function Home() {
         {
       (listings && listings.length > 0 ? (
         <>
-          <PopularMerchants items={listings} />
+          {/* <PopularMerchants items={listings} /> */}
           <LatestStoreItems items={badges} />
         </>
       )

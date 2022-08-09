@@ -1,12 +1,10 @@
 import useAppContext from "src/hooks/useAppContext"
-import useMintAndList from "src/hooks/useMintAndList"
-import MinterLoader from "./MinterLoader"
-import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
 import { Button, Form, Input, InputNumber, Upload } from 'antd';
 import useNFTStorage from "src/hooks/useNFTStorage"
-import { useState } from "react"
-import useLogin from "src/hooks/useLogin";
+import { useState, useEffect } from "react"
+import {paths, STATUS_SUCCESS, STATUS_FAILED, TYPE} from "src/global/constants"
+import {useRouter} from "next/router"
 import useMintNFTMinter from "src/hooks/useMintNFTMinter"
 
 const layout = {
@@ -46,6 +44,34 @@ export default function NFTMinter() {
   const [{ isLoading, transactionStatus }, mint] = useMintNFTMinter()
   const [ isUploading, uploadNftStorage ] = useNFTStorage()
   const {currentUser} = useAppContext()
+  const router = useRouter()
+
+  useEffect(() => {
+    if(transactionStatus == null) return
+    let status = STATUS_FAILED
+    let title, msg, btn1Text, btn1Path, btn2Text, btn2Path = ""
+
+    if(!transactionStatus.errorMessage) {
+      status = STATUS_SUCCESS
+      title = "Create Profile Successfully"
+      msg = "Congras! Just created a Profile!"
+      btn1Text = "Home"
+      btn1Path = "/"
+      btn2Text = "Create Badge"
+      btn2Path = paths.mintBadges
+    }
+    else {
+      title = "Claimed Failed"
+      msg = transactionStatus.errorMessage
+      btn1Text = "Home"
+      btn1Path = "/"
+      btn2Text = "Create again"
+      btn2Path = paths.mintNFTMinter
+    }
+    const content = {title: title, msg: msg}
+    console.log(JSON.stringify(content))
+    router.push({pathname: paths.result, query: {status: status, type: TYPE.CLAIMED, title: title, msg: msg, btn1Text, btn1Path, btn2Text, btn2Path}})
+  }, [transactionStatus])
 
   if (!currentUser) return null
   const address = currentUser.addr
@@ -102,7 +128,7 @@ export default function NFTMinter() {
               </Upload>
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading || isUploading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading || isUploading} loading={isLoading || isUploading}>
                 Submit
               </Button>
             </Form.Item>

@@ -9,6 +9,7 @@ import SellListItem from "src/components/SellListItem"
 import useAccountItem from "src/hooks/useAccountItem"
 import useApiListing from "src/hooks/useApiListing"
 import useAppContext from "src/hooks/useAppContext"
+import { Badge, Descriptions } from 'antd';
 
 export default function KittyItem() {
 
@@ -37,7 +38,6 @@ export default function KittyItem() {
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-x-14">
           <ListItemImage
             name={item?.name}
-            rarity={item?.rarity}
             cid={item?.badge_image}
             address={item?.owner}
             id={item?.id}
@@ -50,6 +50,19 @@ export default function KittyItem() {
               <h1 className="text-5xl text-gray-darkest mt-10 mb-6">
                 {item.name}
               </h1>
+              <Descriptions bordered>
+                <Descriptions.Item label="ID" span={3}>{item.id}</Descriptions.Item>
+                <Descriptions.Item label="Number">{item.number}</Descriptions.Item>
+                <Descriptions.Item label="Max">{item.max}</Descriptions.Item>
+                <Descriptions.Item label="On Sell" span={3}>
+                  <Badge status="processing" text="Running" />
+                </Descriptions.Item>
+                <Descriptions.Item label="Website" span={3}><a href={item.externalURL} target="_blank">{item.externalURL}</a></Descriptions.Item>
+                <Descriptions.Item label="Description" span={3}>{item.description}</Descriptions.Item>
+                {!!item.royalty_cut && (<Descriptions.Item label="Cut">{item.royalty_cut}</Descriptions.Item>)}
+                {!!item.royalty_receiver && (<Descriptions.Item label="Receiver">{item.royalty_receiver}</Descriptions.Item>)}
+                {!!item.royalty_description && (<Descriptions.Item label="Receiver" span={3}>{item.royalty_description}</Descriptions.Item>)}
+              </Descriptions>
               {isSellable ? (
                 <SellListItem item={item} />
               ) : (

@@ -18,13 +18,13 @@ export default function SellListItem({item}) {
 
   return (
     <div>
-      <div className="text-gray mb-5">
+      <div className="text-gray mb-5 mt-10">
         <div className="font-bold">
           Items of this rarity usually sell for{" "}
           {/* {formattedCurrency(ITEM_RARITY_PRICE_MAP[item.rarity].toString())}{" "} */}
           FLOW.
         </div>
-        Please specify the price you want to sell your Kitty Item for.
+        Please specify the price you want to sell your Badges for.
       </div>
 
       {!!tx ? (
@@ -49,7 +49,7 @@ export default function SellListItem({item}) {
               roundedFull={true}
               className="mt-5"
             >
-              List My Kitty Kitem
+              List My Badges
             </Button>
           </form>
         </div>

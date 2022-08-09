@@ -4,6 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("listings", async table => {
     table.integer("listing_resource_id").primary()
     table.integer("id")
+    table.text("creator")
     table.text("owner")
     table.text("name")
     table.text("badge_image")

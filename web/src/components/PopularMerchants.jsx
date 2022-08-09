@@ -8,7 +8,7 @@ import {useDebouncedCallback} from "use-debounce"
 const ITEMS_LENGTH = 10
 const ITEM_WIDTH = 232
 
-export default function PopularMerchants({items}) {
+export default function PopularMerchants({items, queryState, updateQuery}) {
 
   const listRef = useRef()
   const [reachedScrollEnd, setReachedScrollEnd] = useState(false)
@@ -21,40 +21,41 @@ export default function PopularMerchants({items}) {
   const storeItems = items
 
 
-  const firstVisibleItem = useMemo(
-    () => Math.ceil(scrollLeft / ITEM_WIDTH),
-    [scrollLeft]
-  )
+  // const firstVisibleItem = useMemo(
+  //   () => Math.ceil(scrollLeft / ITEM_WIDTH),
+  //   [scrollLeft]
+  // )
 
-  const onDebouncedScroll = useDebouncedCallback(
-    e => setScrollLeft(e.target.scrollLeft),
-    200
-  )
+  // const onDebouncedScroll = useDebouncedCallback(
+  //   e => setScrollLeft(e.target.scrollLeft),
+  //   200
+  // )
 
-  const onDebouncedWindowResize = useDebouncedCallback(
-    () => setOffsetWidth(listRef.current?.offsetWidth || 0),
-    200
-  )
+  // const onDebouncedWindowResize = useDebouncedCallback(
+  //   () => setOffsetWidth(listRef.current?.offsetWidth || 0),
+  //   200
+  // )
 
-  useLayoutEffect(() => {
-    onDebouncedWindowResize()
-  }, [onDebouncedWindowResize])
+  // useLayoutEffect(() => {
+  //   onDebouncedWindowResize()
+  // }, [onDebouncedWindowResize])
 
-  useLayoutEffect(() => {
-    setReachedScrollEnd(
-      listRef.current
-        ? scrollLeft + offsetWidth >= listRef.current.scrollWidth
-        : false
-    )
-  }, [offsetWidth, scrollLeft])
+  // useLayoutEffect(() => {
+  //   setReachedScrollEnd(
+  //     listRef.current
+  //       ? scrollLeft + offsetWidth >= listRef.current.scrollWidth
+  //       : false
+  //   )
+  // }, [offsetWidth, scrollLeft])
 
-  useLayoutEffect(() => {
-    window.addEventListener("resize", onDebouncedWindowResize)
-    return () => {
-      window.removeEventListener("resize", onDebouncedWindowResize)
-    }
-  }, [onDebouncedWindowResize])
+  // useLayoutEffect(() => {
+  //   window.addEventListener("resize", onDebouncedWindowResize)
+  //   return () => {
+  //     window.removeEventListener("resize", onDebouncedWindowResize)
+  //   }
+  // }, [onDebouncedWindowResize])
 
+  console.log("storeItems:" + JSON.stringify(storeItems))
   if (storeItems && storeItems.length === 0) return null
 
   return (
@@ -65,24 +66,24 @@ export default function PopularMerchants({items}) {
             Popular Merchants
           </h1>
           <div className="text-xl text-gray-light">
-            Check out the latest freshly-minted Badges.
+            Check out the latest merchants.
           </div>
         </div>
       </div>
       <div className="mt-8 mb-10 2xl:latest-store-list-items">
         <div
           className="overflow-x-auto pb-5"
-          onScroll={onDebouncedScroll}
+          // onScroll={onDebouncedScroll}
           ref={listRef}
         >
           <div className="whitespace-nowrap flex -ml-2 lg:pr-3">
-            {storeItems.map(item => (
+            {storeItems && storeItems.map(item => (
               <div
                 key={item.txID}
                 className="flex justify-center px-4"
                 style={{minWidth: ITEM_WIDTH}}
               >
-                <MerchantsListItem item={item} size="sm" isStoreItem={true} />
+                <MerchantsListItem item={item} size="sm" isStoreItem={true} queryState={queryState} updateQuery={updateQuery}/>
               </div>
             ))}
           </div>
