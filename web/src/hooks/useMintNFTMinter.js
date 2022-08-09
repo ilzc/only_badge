@@ -31,29 +31,11 @@ export default function useMintNFTMinter() {
 
   const resetLoading = () => {
     setIsMintingLoading(false)
-    setTransactionStatus(null)
   }
 
   const onTransactionSealed = tx => {
-    if (!!tx.errorMessage?.length) {
-      resetLoading()
-      return
-    }
-
-    const event = getKittyItemsEventByType(tx.events, EVENT_ITEM_MINTED)
-
-    if (!Number.isInteger(event?.data?.id))
-      throw new Error("Minting error, missing itemID")
-    if (!Number.isInteger(event?.data?.kind))
-      throw new Error("Minting error, missing kind")
-
-    // TODO: Poll api for listing presence before mutating the apiMarketItemsList
-    txSealedTimeout.current = setTimeout(() => {
-      mutate(paths.apiMarketItemsList())
-      router.push({
-        pathname: paths.profileItem(publicConfig.flowAddress, event.data.id),
-      })
-    }, 1000)
+    resetLoading()
+    setTransactionStatus(tx)
   }
 
   const getSignature = async (signable) => {
@@ -100,6 +82,7 @@ export default function useMintNFTMinter() {
   const mintNFTMinter = async ({name, image}) => {
     console.log("name:" + name + " image:" + JSON.stringify(image))
     image = image.file.response
+    setIsMintingLoading(true)
     const transactionId = await fcl.send([
       fcl.transaction(MINT_NFTMINTER_SCRIPT),
       fcl.args([
@@ -110,15 +93,15 @@ export default function useMintNFTMinter() {
       fcl.proposer(fcl.authz),
       fcl.authorizations([serverAuthorization, fcl.authz]),
       fcl.limit(9999)
-    ]).then(fcl.decode);
+    ]).then(fcl.decode).catch(()=>{setIsMintingLoading(false)});
 
     console.log(transactionId);
-
-    txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
-          console.log("tx.status:" + tx.status)
-          setTransactionStatus(tx.status)
-          if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
-        })
+    if(transactionId) {
+      txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+            console.log("tx.status:" + tx.status)
+            if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+          })
+    }
   }
 
   useEffect(() => {

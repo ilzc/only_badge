@@ -15,34 +15,19 @@ export default function Home() {
     <div>
       <PageTitle>Home</PageTitle>
       <main>
-        {/* {
+        {
       (listings && listings.length > 0 ? (
         <>
-
-          <PopularMerchants items={listings} />
+          {/* <PopularMerchants items={listings} /> */}
           <LatestStoreItems items={badges} />
         </>
       )
           : (
         <HomeEmptyMessage />
       ))
-          } */}
-          <HomeEmptyMessage />
+          }
       </main>
       <Footer/>
     </div>
   )
 }
-
-
-// {
-//   !isLoading &&
-//   (listings.length > 0 ? (
-//     <>
-//       <PopularMerchants items={listings} />
-//       {/* <LatestStoreItems items={listings} />
-//       <LatestMarketplaceItems items={listings} /> */}
-//     </>
-//   ) : (
-//     <HomeEmptyMessage />
-//   ))}

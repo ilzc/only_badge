@@ -3,6 +3,7 @@ import { BaseModel } from "./base"
 class Listing extends BaseModel {
   listing_resource_id!: number;
   id!: number;
+  creator!: string;
   name!: string;
   badge_image!: string;
   owner!: string;

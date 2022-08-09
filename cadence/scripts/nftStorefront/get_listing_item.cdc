@@ -4,6 +4,7 @@ import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 import OnlyBadges from "../../contracts/OnlyBadges.cdc"
 
 pub struct ListingItem {
+    pub let creator: Address
     pub let name: String
     pub let badge_image: String
     pub let thumbnail: String
@@ -14,6 +15,7 @@ pub struct ListingItem {
     pub let price: UFix64
 
     init(
+        creator: Address,
         name: String,
         badge_image: String,
         thumbnail: String,
@@ -23,6 +25,7 @@ pub struct ListingItem {
         owner: Address,
         price: UFix64
     ) {
+        self.creator = creator
         self.name = name
         self.badge_image = badge_image
         self.thumbnail = thumbnail
@@ -63,6 +66,8 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
 
                 if let item = collection.borrowOnlyBadges(id: id) {
 
+                    let creator: Address = item.creator
+                    
                     if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
                         let display = view as! MetadataViews.Display
@@ -72,6 +77,7 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
                         let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile
 
                         return ListingItem(
+                            creator: creator,
                             name: display.name,
                             badge_image: item.badge_image.cid,
                             thumbnail: dwebURL(ipfsThumbnail),
