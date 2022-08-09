@@ -166,9 +166,9 @@ export default function NFTMinter() {
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"Input Your Project Name"}}>
+          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
             <Form.Item name={['name']} label="Project Name" rules={[{ required: true }]} >
-              <Input />
+              <Input placeholder="Input Your Project Name"/>
             </Form.Item>
             {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
               <Input />
