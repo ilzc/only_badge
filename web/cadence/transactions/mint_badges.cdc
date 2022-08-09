@@ -15,10 +15,6 @@ transaction(adminMinter: Address, recipient: Address, name: String, description:
 
     execute {
         // mint the NFT and deposit it to the recipient's collection
-        var i:UInt64 = 0
-        while i < max {
-            self.minter.mintNFT(adminMinter: adminMinter, recipient: recipient, name: name, description: name, badge_image: MetadataViews.IPFSFile(cid: badge_image_cid, path: badge_image_path), number: i, max: max, claim_code: claim_code, royalty_cut: royalty_cut, royalty_description: royalty_description, royalty_receiver: royalty_receiver, externalURL:externalURL)
-            i = i + 1
-        }
+        self.minter.mintNFT(adminMinter: adminMinter, recipient: recipient, name: name, description: name, badge_image: MetadataViews.IPFSFile(cid: badge_image_cid, path: badge_image_path), max: max, claim_code: claim_code, royalty_cut: royalty_cut, royalty_description: royalty_description, royalty_receiver: royalty_receiver, externalURL:externalURL)
     }
 }
