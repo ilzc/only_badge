@@ -114,7 +114,7 @@ export default function Footer() {
   
     <div class="text-center text-gray-700 p-2">
       © 2022 Copyright:
-      <a class="text-gray-800" href="https://tailwind-elements.com/">OnlyBadge</a>
+      <a class="text-gray-800" href="#">OnlyBadge</a>
     </div>
   </footer>
   )

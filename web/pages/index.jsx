@@ -31,16 +31,3 @@ export default function Home() {
     </div>
   )
 }
-
-
-// {
-//   !isLoading &&
-//   (listings.length > 0 ? (
-//     <>
-//       <PopularMerchants items={listings} />
-//       {/* <LatestStoreItems items={listings} />
-//       <LatestMarketplaceItems items={listings} /> */}
-//     </>
-//   ) : (
-//     <HomeEmptyMessage />
-//   ))}

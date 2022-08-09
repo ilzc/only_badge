@@ -20,7 +20,7 @@ export default function HomeEmptyMessage() {
       logIn();
     }
     else {
-      window.location.href = '/mint'
+      router.push(paths.claimBadges)
     }
   }
 
@@ -38,18 +38,18 @@ export default function HomeEmptyMessage() {
 
       <div className="bg-white text-center -mt-12 ">
         <div className="bg-white rounded-md inline-flex flex-col justify-center stroke-2">
-            <img
+            {/* <img
               src="/images/newonlybadgelogo.svg"
               alt="Only Badge"
               width="280"
               className="mx-auto"
-            />
+            /> */}
             <p className="text-gray-light mb-5 mt-1">
               Get started by minting your first Badges!
             </p>
             
             <Button onClick={logInOrMint} className="bg-gradient-to-tl from-blue-500 via-red-300 to-violet-500 ring-4 ring-indigo-300 ring-opacity-50">
-              MINT Badges
+              Claim Now
             </Button>
             
             

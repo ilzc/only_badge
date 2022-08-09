@@ -60,7 +60,7 @@ export default function PopularMerchants({items, queryState, updateQuery}) {
 
   return (
     <>
-      <div className="main-container flex pt-10 flex-col sm:flex-row">
+      {/* <div className="main-container flex pt-10 flex-col sm:flex-row">
         <div>
           <h1 className="text-4xl text-gray-darkest mb-1">
             Popular Merchants
@@ -69,7 +69,7 @@ export default function PopularMerchants({items, queryState, updateQuery}) {
             Check out the latest merchants.
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="mt-8 mb-10 2xl:latest-store-list-items">
         <div
           className="overflow-x-auto pb-5"

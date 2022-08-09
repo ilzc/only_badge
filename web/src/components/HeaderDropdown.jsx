@@ -30,7 +30,7 @@ export default function HeaderDropdown() {
         <Menu.Button className="w-10 h-10 hover:opacity-80">
           <Avatar address={address} />
         </Menu.Button>
-        <button
+        {/* <button
           onClick={switchToAdminView}
           className="flex items-center justify-center h-10 px-5 ml-2 text-sm text-white bg-black rounded-full hover:opacity-80"
         >
@@ -40,7 +40,7 @@ export default function HeaderDropdown() {
             alt="Switch to Admin View"
             className="ml-2"
           />
-        </button>
+        </button> */}
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"
@@ -55,13 +55,13 @@ export default function HeaderDropdown() {
               {address}
             </div>
             <div className="px-1 py-2">
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({active}) => (
                   <Link href={paths.profile(currentUser.addr)}>
                     <a className={menuItemClasses(active)}>Profile</a>
                   </Link>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item>
               {({active}) => (
                   <Link href={paths.mintNFTMinter}>
@@ -72,7 +72,7 @@ export default function HeaderDropdown() {
               <Menu.Item>
               {({active}) => (
                   <Link href={paths.mintBadges}>
-                    <a className={menuItemClasses(active)}>Mint Badge</a>
+                    <a className={menuItemClasses(active)}>Create Badge</a>
                   </Link>
                 )}
               </Menu.Item>

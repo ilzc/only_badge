@@ -48,26 +48,12 @@ export default function HeaderMessage() {
 
     return (
       <HeaderContainer>
-        {isServiceAccountLoggedIn ? (
+        {!currentUser && (
           <>
-            <button
-              onClick={initializeAccount}
-              className={`${HEADER_MESSAGE_BUTTON_CLASSES} mr-1`}
-              disabled={isInitLoading}
-            >
-              {isInitLoading ? "Initializing..." : "Initialize"}
-            </button>
-            the Service Account to mint Badges.
-          </>
-        ) : (
-          <>
-            {currentUser ? (
-              "Log in"
-            ) : (
               <button onClick={logIn} className={HEADER_MESSAGE_BUTTON_CLASSES}>
                 Log in
               </button>
-            )}{" "}
+            {" "}
             to the Service Account and initialize it to get started.
           </>
         )}

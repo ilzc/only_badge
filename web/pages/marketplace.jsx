@@ -83,10 +83,10 @@ const MainContent = ({queryState}) => {
       <div className="main-container flex pt-10 flex-col sm:flex-row">
         <div>
           <h1 className="text-4xl text-gray-darkest mb-1">
-            Popular Badges
+            Badges Listing
           </h1>
           <div className="text-xl text-gray-light">
-            Check out the latest badges.
+            Check out the latest listing badges.
           </div>
         </div>
       </div>
