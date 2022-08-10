@@ -14,6 +14,7 @@ import PopularMerchants from "src/components/PopularMerchants"
 import useApiListMerchants from "src/hooks/useApiListMerchants"
 import Footer from "src/components/Footer"
 
+
 const PER_PAGE = 12
 
 const MainContent = ({queryState}) => {

@@ -16,3 +16,21 @@
     border:2px solid #f3f3f3 !important;
 }
 
+
+.menu a:hover {
+    color: #cd6091;
+}
+
+.dropdown-item {
+    background: #cd6091 !important;
+    color: #f0f0f0 !important;
+}
+
+.dropdown-menu a:hover {
+    background: #cd6091 !important;
+    color: #f0f0f0 !important;
+}
+
+.dropdown-menu a {
+    color: #000000 !important;
+}
