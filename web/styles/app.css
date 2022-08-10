@@ -16,6 +16,20 @@
     border:2px solid #f3f3f3 !important;
 }
 
+.marketplace-list-my-badges-button { 
+    color:#f0f0f0 !important;
+    padding: 10px !important;
+    background:#cd6091 !important;
+    border:2px solid #f3f3f3 !important;
+}
+
+.marketplace-list-my-badges-button:hover {
+    background: #f0f0f0 !important;
+    border-color: #cd6091 !important;
+    color: #cd6091!important;
+}
+
+
 .text-green-dark {
     color: #cd6091;
 }
