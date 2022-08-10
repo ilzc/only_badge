@@ -14,3 +14,7 @@
     background:#cd6091 !important;
     border:2px solid #f3f3f3 !important;
 }
+
+a:hover {
+    color: #cd6091;
+}
