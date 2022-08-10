@@ -82,7 +82,7 @@ export default function ClaimBadges() {
                     <Input style={{borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"  />
                   </Form.Item>
                   <Form.Item  name={['recipient']} label="Recipient" rules={[{ required: true }]}>
-                    <Input style={{borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"  />
+                    <Input style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"  />
                   </Form.Item>
                     <Button  
                     size="large" 
