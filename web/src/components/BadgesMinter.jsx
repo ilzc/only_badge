@@ -153,8 +153,7 @@ export default function BadgesMinter() {
 
       <div className="flex flex-col">
         <h1 className="mb-8 text-7xl text-pink-600 font-extrabold text-center">Mint a New Item</h1>
-        {/* <RarityScale /> */}
-
+        <div className="ml-20">
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
@@ -219,6 +218,10 @@ export default function BadgesMinter() {
             </Form.Item>
           </Form>
         )}
+
+
+        </div>
+        
       </div>
     </div>
   )
