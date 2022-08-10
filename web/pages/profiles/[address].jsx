@@ -24,12 +24,13 @@ export default function Profile() {
     <div className="main-container pt-12 pb-24">
       <PageTitle>{address}</PageTitle>
       <main>
-        <div className="bg-white border border-gray-200 p-6 mb-12 rounded-md flex flex-col items-center justify-center relative">
+        <div className="bg-white p-6 mb-16 rounded-md flex flex-col items-center justify-center relative " >
+          <img src="/images/MyBadge-bg-picture.svg" alt="MyBadge-bg-picture" />
           <div className="absolute top-5 right-5 w-full flex flex-row-reverse">
             <ProfileQuestionPopover />
           </div>
 
-          <div className="w-20 h-20 relative">
+          <div className="w-20 h-20 -mt-40 relative">
             <Avatar address={address} />
           </div>
           <div className="font-mono text-gray mt-2">
