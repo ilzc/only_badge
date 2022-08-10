@@ -87,7 +87,7 @@ export default function ClaimBadges() {
                     <Button  
                     size="large" 
                     sizetype="primary" 
-                    style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'100px',paddingRight:'100px',background:'#cd6091',border:'white'}}
+                    // style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'100px',paddingRight:'100px',background:'#cd6091',border:'white'}}
                      htmlType="submit" disabled={isLoading} 
                      loading={isLoading} 
                      shape="round">

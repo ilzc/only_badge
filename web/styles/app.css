@@ -2,8 +2,9 @@
 
 
 .ant-btn-round:hover {
-    background: rgb(208, 144, 144) !important;
-    border-color: rgb(208, 144, 144) !important;
+    background: #f0f0f0 !important;
+    border-color: #cd6091 !important;
+    color: #cd6091!important;
     }
 
 .ant-btn-round {

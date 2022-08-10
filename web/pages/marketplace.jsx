@@ -14,6 +14,7 @@ import PopularMerchants from "src/components/PopularMerchants"
 import useApiListMerchants from "src/hooks/useApiListMerchants"
 import Footer from "src/components/Footer"
 
+
 const PER_PAGE = 12
 
 const MainContent = ({queryState}) => {
@@ -55,7 +56,7 @@ const MainContent = ({queryState}) => {
         <div className=" font-extrabold text-4xl text-gray-darkest">Marketplace</div>
         {!!currentUser && (
           <Link href={paths.profile(currentUser.addr)}>
-            <a className="rounded uppercase font-bold text-sm text-white rounded-full bg-green-600 hover:opacity-80 py-2.5 px-5">
+            <a className=" uppercase font-bold text-sm text-white rounded-full bg-pink-600 hover:opacity-70 py-2.5 px-5">
               List My Badges
             </a>
           </Link>
