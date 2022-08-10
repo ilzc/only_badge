@@ -219,6 +219,10 @@ export default function BadgesMinter() {
             </Form.Item>
           </Form>
         )}
+
+
+      
+        
       </div>
     </div>
   )

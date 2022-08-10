@@ -72,7 +72,7 @@ export default function ClaimBadges() {
     
     <div className="flex flex-col flex-auto text-center">
       <h1 className="mb-20 text-7xl text-pink-600 font-extrabold text-center">Claim a badge</h1>
-        <div className="flex-auto">
+        <div className="flex-auto -ml-8">
           {isLoading ? (
             <TransactionLoading status={transactionStatus} />
           ) : (
@@ -87,6 +87,7 @@ export default function ClaimBadges() {
                     <Button  
                     size="large" 
                     sizetype="primary" 
+                    
                     // style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'100px',paddingRight:'100px',background:'#cd6091',border:'white'}}
                      htmlType="submit" disabled={isLoading} 
                      loading={isLoading} 
