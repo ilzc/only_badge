@@ -209,7 +209,7 @@ export default function BadgesMinter() {
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
               <Button 
               size="large"
-              style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'150px',paddingRight:'150px',background:'#cd6091',border:'2px solid #f3f3f3'}}
+              // style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'150px',paddingRight:'150px',background:'#cd6091',border:'2px solid #f3f3f3'}}
               type="primary" 
               htmlType="submit" 
               disabled={isLoading && isUploading} loading={isLoading || isUploading}
