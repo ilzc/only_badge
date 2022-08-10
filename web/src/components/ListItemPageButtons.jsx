@@ -45,6 +45,7 @@ export default function ListItemPageButtons({item}) {
             onClick={onPurchaseClick}
             disabled={!!currentUser && !userHasEnoughFunds}
             roundedFull={true}
+            className="ant-btn-round"
           >
             Purchase
           </Button>

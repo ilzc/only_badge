@@ -21,10 +21,10 @@ export default function ResultPage() {
     title={title}
     subTitle={msg}
     extra={[
-      <Button type="primary" key="console" onClick={onBtn1Click}>
+      <Button type="primary" key="console" onClick={onBtn1Click} shape="round">
         {btn1Text}
       </Button>,
-      <Button key="buy" onClick={onBtn2Click}>{btn2Text}</Button>,
+      <Button key="buy" onClick={onBtn2Click} shape="round">{btn2Text}</Button>,
     ]}
     ></Result>
   )

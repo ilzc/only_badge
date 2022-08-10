@@ -31,6 +31,8 @@ export default function KittyItem() {
 
   console.log("listing:" + JSON.stringify(listing))
   console.log("item:" + JSON.stringify(item))
+
+  console.log("isSellable:" + isSellable)
   
 
   return (
