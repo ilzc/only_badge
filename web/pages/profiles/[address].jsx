@@ -13,7 +13,7 @@ import Footer from "src/components/Footer"
 
 const getTabClasses = selected =>
   `text-3xl mx-4 text-gray-darkest border-b-2 pb-0.5 hover:opacity-80 ${
-    selected ? "border-green" : "border-transparent"
+    selected ? "border-pink" : "border-transparent"
   }`
 
 export default function Profile() {

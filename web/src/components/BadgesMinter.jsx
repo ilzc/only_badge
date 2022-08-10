@@ -152,15 +152,15 @@ export default function BadgesMinter() {
       {/* <MinterLoader isLoading={isLoading} /> */}
 
       <div className="flex flex-col">
-        <h1 className="mb-8 text-7xl text-pink-600 font-extrabold text-center">Mint a New Item</h1>
+        <h1 className="mb-8 text-7xl text-pink-600 font-extrabold text-center">Create a New Badge</h1>
         {/* <RarityScale /> */}
 
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} requiredMark={false} colon={false} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"Test Badge", max:1, description: "描述", royalty_cut: 0, royalty_receiver: address}}>
-            <Form.Item  wrapperCol={{span: 5}} name={['recipient']} label="Address" rules={[{ required: true }]} >
+          <Form {...layout} requiredMark={false} colon={false} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"Test Badge", max:1, description: "", royalty_cut: 0, royalty_receiver: address}}>
+            <Form.Item  wrapperCol={{span: 5}} name={['recipient']} label="Creator" rules={[{ required: true }]} >
               <Input disabled={true} style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
             <Form.Item wrapperCol={{span: 5}} name={['name']} label="Badge name" rules={[{ required: true }]}>
@@ -169,8 +169,8 @@ export default function BadgesMinter() {
             <Form.Item  name={['max']} label="Total supply" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
               <InputNumber style={{paddingLeft:'10px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
-            <Form.Item wrapperCol={{span: 5}} name={['claim_code']} label="Claim Code" rules={[{ required: true }]}>
-              <Input style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large" />
+            <Form.Item wrapperCol={{span: 5}} name={['claim_code']} label="Claim code" rules={[{ required: true }]}>
+              <Input style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}}size="large"/>
             </Form.Item>
             <Form.Item name={['externalURL']} label="Website">
               <Input style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
@@ -197,13 +197,13 @@ export default function BadgesMinter() {
             <Form.Item name={['description']} label="Description">
               <Input.TextArea rows={6} style={{paddingLeft:'10px',borderRadius: '10px', background: '#f9f9f9',border:'white'}} size="large" />
             </Form.Item>
-            <Form.Item name={['royalty_cut']} label="版税(%)" rules={[{ type: 'number', min: 0, max: 50, default: 0, required: true}]}>
+            <Form.Item name={['royalty_cut']} label="Creator Fee(%)" rules={[{ type: 'number', min: 0, max: 50, default: 0, required: true}]}>
               <InputNumber style={{paddingLeft:'10px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
-            <Form.Item name={['royalty_description']} label="Royalty Description ">
+            <Form.Item name={['royalty_description']} label="Fee Description ">
               <Input style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large" />
             </Form.Item>
-            <Form.Item wrapperCol={{span: 5}} name={['royalty_receiver']} label="Royalty Receiver">
+            <Form.Item wrapperCol={{span: 5}} name={['royalty_receiver']} label="Fee Receiver">
               <Input style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>

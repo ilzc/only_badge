@@ -46,11 +46,15 @@
     color: #000000 !important;
 }
 
-/* .border-green {
+.border-pink {
     --tw-border-opacity: 1;
     border-color: rgb(208 144 144 / var(--tw-border-opacity));
-} */
+}
 
 .text-pink {
     color: #cd6091;
+}
+
+.center {
+  text-align:center;
 }
