@@ -70,7 +70,7 @@ export default function PopularMerchants({items, queryState, updateQuery}) {
           </div>
         </div>
       </div> */}
-      <div className="mt-8 mb-10 2xl:latest-store-list-items">
+      <div className="mt-8 mb-10 1xl:latest-store-list-items">
         <div
           className="overflow-x-auto pb-5"
           // onScroll={onDebouncedScroll}
