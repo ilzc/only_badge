@@ -160,7 +160,7 @@ export default function NFTMinter() {
       {/* <MinterLoader isLoading={isLoading} /> */}
 
       <div className="mb-32">
-        <h1 className="mb-8 text-6xl text-pink-600 font-extrabold text-center mb-24">Create Project</h1>
+        <h1 className="mb-16 text-7xl text-pink-600 font-extrabold text-center">Create Project</h1>
         {/* <RarityScale /> */}
 
         
@@ -168,14 +168,14 @@ export default function NFTMinter() {
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
-            <Form.Item name={['name']} label="Project Name" rules={[{ required: true }]} >
-              <Input placeholder="Input Your Project Name"/>
+          <Form requiredMark={false} colon={false} {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+            <Form.Item labelCol={{span: 10}} wrapperCol={{span: 5}} name={['name']} label="Project Name" rules={[{ required: true }]} >
+              <Input size="large" style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} placeholder="Input Your Project Name"/>
             </Form.Item>
             {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
               <Input />
             </Form.Item> */}
-            <Form.Item name={['image']} label="Project logo" rules={[{ required: true }]} >
+            <Form.Item labelCol={{span: 10}} wrapperCol={{span: 5}} name={['image']} label="Project logo" rules={[{ required: true }]} >
               <Upload listType="picture-card" beforeUpload={beforeUpload}  customRequest={handleUpload} onPreview={handlePreview} onChange={handleChange}>
                 {fileList.length >= 1 ? null : uploadButton}
               </Upload>
@@ -195,7 +195,13 @@ export default function NFTMinter() {
                 />
               </Modal>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading || isUploading} loading={isLoading || isUploading}>
+              <Button 
+              size="large" 
+              type="primary" 
+              htmlType="submit" 
+              style={{marginTop:'10px',marginLeft:'120px',color:'#f0f0f0',paddingLeft:'70px',paddingRight:'70px',background:'#cd6091',border:'white'}}
+              disabled={isLoading || isUploading} loading={isLoading || isUploading}
+              shape="round">
                 Submit
               </Button>
             </Form.Item>

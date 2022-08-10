@@ -77,17 +77,17 @@ export default function ClaimBadges() {
             <TransactionLoading status={transactionStatus} />
           ) : (
             <>
-                <Form requiredMark={false}  labelCol={{span: 10}} wrapperCol={{span: 5}} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: curUserAddress}} >
-                  <Form.Item  name={['claimCode']} label="Code" rules={[{ required: true }]} >
-                    <Input style={{borderRadius: '30px', background: '#ededed',}} size="large"   />
+                <Form requiredMark={false} colon={false} labelCol={{span: 10}} wrapperCol={{span: 5}} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: curUserAddress}} >
+                  <Form.Item color="#394048" name={['claimCode']} label="Code" rules={[{ required: true }]} >
+                    <Input style={{borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"  />
                   </Form.Item>
                   <Form.Item  name={['recipient']} label="Recipient" rules={[{ required: true }]}>
-                    <Input style={{borderRadius: '30px', background: '#f0f0f0'}} size="large"  />
+                    <Input style={{borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"  />
                   </Form.Item>
                     <Button  
                     size="large" 
                     sizetype="primary" 
-                    style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'100px',paddingRight:'100px',background:'#cd6091',border:'2px solid #f3f3f3'}}
+                    style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'100px',paddingRight:'100px',background:'#cd6091',border:'white'}}
                      htmlType="submit" disabled={isLoading} 
                      loading={isLoading} 
                      shape="round">

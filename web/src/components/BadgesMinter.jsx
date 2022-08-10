@@ -152,28 +152,28 @@ export default function BadgesMinter() {
       {/* <MinterLoader isLoading={isLoading} /> */}
 
       <div className="flex flex-col">
-        <h1 className="mb-8 text-6xl text-pink-600 font-extrabold text-center">Mint a New Item</h1>
+        <h1 className="mb-8 text-7xl text-pink-600 font-extrabold text-center">Mint a New Item</h1>
         {/* <RarityScale /> */}
 
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"Test Badge", max:1, description: "描述", royalty_cut: 0, royalty_receiver: address}}>
-            <Form.Item name={['recipient']} label="Address" rules={[{ required: true }]} >
-              <Input disabled={true}/>
+          <Form {...layout} requiredMark={false} colon={false} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: address, name:"Test Badge", max:1, description: "描述", royalty_cut: 0, royalty_receiver: address}}>
+            <Form.Item  wrapperCol={{span: 5}} name={['recipient']} label="Address" rules={[{ required: true }]} >
+              <Input disabled={true} style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
-            <Form.Item name={['name']} label="Badge name" rules={[{ required: true }]}>
-              <Input />
+            <Form.Item wrapperCol={{span: 5}} name={['name']} label="Badge name" rules={[{ required: true }]}>
+              <Input style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
-            <Form.Item name={['max']} label="Total supply" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
-              <InputNumber />
+            <Form.Item  name={['max']} label="Total supply" rules={[{ type: 'number', min: 0, max: 9999, default: 9999, required: true }]}>
+              <InputNumber style={{paddingLeft:'10px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
-            <Form.Item name={['claim_code']} label="Claim Code" rules={[{ required: true }]}>
-              <Input />
+            <Form.Item wrapperCol={{span: 5}} name={['claim_code']} label="Claim Code" rules={[{ required: true }]}>
+              <Input style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large" />
             </Form.Item>
             <Form.Item name={['externalURL']} label="Website">
-              <Input />
+              <Input style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
             <Form.Item name={['badge_image']}  label="Badge Picture" rules={[{ required: true }]}>
               <Upload listType="picture-card" beforeUpload={beforeUpload} customRequest={handleUpload} onPreview={handlePreview} onChange={handleChange}>
@@ -195,19 +195,25 @@ export default function BadgesMinter() {
                 />
               </Modal>
             <Form.Item name={['description']} label="Description">
-              <Input.TextArea />
+              <Input.TextArea rows={6} style={{paddingLeft:'10px',borderRadius: '10px', background: '#f9f9f9',border:'white'}} size="large" />
             </Form.Item>
-            <Form.Item name={['royalty_cut']} label="版税(%)" rules={[{ type: 'number', min: 0, max: 50, default: 0, required: true }]}>
-              <InputNumber />
+            <Form.Item name={['royalty_cut']} label="版税(%)" rules={[{ type: 'number', min: 0, max: 50, default: 0, required: true}]}>
+              <InputNumber style={{paddingLeft:'10px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
             <Form.Item name={['royalty_description']} label="Royalty Description ">
-              <Input />
+              <Input style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large" />
             </Form.Item>
-            <Form.Item name={['royalty_receiver']} label="Royalty Receiver">
-              <Input />
+            <Form.Item wrapperCol={{span: 5}} name={['royalty_receiver']} label="Royalty Receiver">
+              <Input style={{paddingLeft:'30px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} size="large"/>
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit" disabled={isLoading && isUploading} loading={isLoading || isUploading}>
+              <Button 
+              size="large"
+              style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'150px',paddingRight:'150px',background:'#cd6091',border:'2px solid #f3f3f3'}}
+              type="primary" 
+              htmlType="submit" 
+              disabled={isLoading && isUploading} loading={isLoading || isUploading}
+              shape="round">
                 Submit
               </Button>
             </Form.Item>
