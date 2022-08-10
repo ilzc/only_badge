@@ -21,7 +21,7 @@ export default function Mint() {
     <div>
       <PageTitle>Mint</PageTitle>
       <main>
-        <div className="main-container py-14">
+        <div className="main-container py-20">
           <AdminNav />
         </div>
       </main>

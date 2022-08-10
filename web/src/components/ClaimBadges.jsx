@@ -7,6 +7,9 @@ import { Button, Form, Input, InputNumber, Upload } from 'antd';
 import {useRouter} from "next/router"
 import {paths, STATUS_SUCCESS, STATUS_FAILED, TYPE} from "src/global/constants"
 import {useEffect} from "react"
+import 'antd-button-color/dist/css/style.css'
+
+
 
 
 export default function ClaimBadges() {
@@ -61,32 +64,44 @@ export default function ClaimBadges() {
   if (!currentUser) return null
   const curUserAddress = currentUser.addr
 
+
+
+
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2">
-
-      <div className="flex flex-col pr-4 mt-14 lg:mt-24 lg:pt-20 lg:pl-14">
-        <h1 className="mb-10 text-5xl text-gray-darkest">Claim a badge</h1>
-
-        {isLoading ? (
-          <TransactionLoading status={transactionStatus} />
-        ) : (
-          <>
-            <Form name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: curUserAddress}}>
-              <Form.Item name={['claimCode']} label="Code" rules={[{ required: true }]} >
-                <Input />
-              </Form.Item>
-              <Form.Item name={['recipient']} label="Recipient" rules={[{ required: true }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit" disabled={isLoading} loading={isLoading}>
-                  Claim
-                </Button>
-              </Form.Item>
-            </Form>
-          </>
-        )}
-      </div>
+    
+    <div className="flex flex-col flex-auto text-center">
+      <h1 className="mb-20 text-7xl text-pink-600 font-extrabold text-center">Claim a badge</h1>
+        <div className="flex-auto">
+          {isLoading ? (
+            <TransactionLoading status={transactionStatus} />
+          ) : (
+            <>
+                <Form requiredMark={false}  labelCol={{span: 10}} wrapperCol={{span: 5}} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{recipient: curUserAddress}} >
+                  <Form.Item  name={['claimCode']} label="Code" rules={[{ required: true }]} >
+                    <Input style={{borderRadius: '30px', background: '#ededed',}} size="large"   />
+                  </Form.Item>
+                  <Form.Item  name={['recipient']} label="Recipient" rules={[{ required: true }]}>
+                    <Input style={{borderRadius: '30px', background: '#f0f0f0'}} size="large"  />
+                  </Form.Item>
+                    <Button  
+                    size="large" 
+                    sizetype="primary" 
+                    style={{marginLeft:'40px',color:'#f0f0f0',paddingLeft:'100px',paddingRight:'100px',background:'#cd6091',border:'2px solid #f3f3f3'}}
+                     htmlType="submit" disabled={isLoading} 
+                     loading={isLoading} 
+                     shape="round">
+                      Claim
+                    </Button>
+                </Form>
+              
+            </>
+          )}
+        </div>
+      
+    
     </div>
+      
+    
   )
 }

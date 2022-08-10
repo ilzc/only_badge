@@ -29,14 +29,14 @@ export default function HomeEmptyMessage() {
 
     <div className="justify-items-center mt-10">
       <div className="flex bg-white text-center pb-1 md:pb-1 ">
-        <h1 className="flex-auto text-6xl md:text-8xl font-extrabold leading-normal tracking-tighter mb-4">Make your idea to be 
+        <h1 className="flex-auto text-6xl md:text-8xl font-extrabold leading-normal tracking-tighter mt-14 mb-10">Make your idea to be 
         <p className="break-words" >
         <span className="bg-clip-text text-transparent bg-gradient-to-tl from-blue-500  via-orange-500  via-indigo-600 via-red-300 to-teal-400">OnlyBadge</span>
         </p>
         </h1>
       </div>
 
-      <div className="bg-white text-center -mt-12 ">
+      <div className="bg-white text-center mt-10 ">
         <div className="bg-white rounded-md inline-flex flex-col justify-center stroke-2">
             {/* <img
               src="/images/newonlybadgelogo.svg"
@@ -48,7 +48,7 @@ export default function HomeEmptyMessage() {
               Get started by minting your first Badges!
             </p>
             
-            <Button onClick={logInOrMint} className="bg-gradient-to-tl from-blue-500 via-red-300 to-violet-500 ring-4 ring-indigo-300 ring-opacity-50">
+            <Button onClick={logInOrMint} className="bg-gradient-to-tl from-blue-500 via-red-300 to-violet-500 ring-2 ring-indigo-300 ring-opacity-50">
               Claim Now
             </Button>
             

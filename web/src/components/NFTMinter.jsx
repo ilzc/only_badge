@@ -9,6 +9,8 @@ import React, { useState, useEffect } from "react"
 import {paths, STATUS_SUCCESS, STATUS_FAILED, TYPE} from "src/global/constants"
 import {useRouter} from "next/router"
 import useMintNFTMinter from "src/hooks/useMintNFTMinter"
+import Footer from "./Footer";
+
 
 
 const layout = {
@@ -157,8 +159,8 @@ export default function NFTMinter() {
     <div className="">
       {/* <MinterLoader isLoading={isLoading} /> */}
 
-      <div className="">
-        <h1 className="mb-8 text-6xl text-pink-600 font-extrabold text-center">Create Project</h1>
+      <div className="mb-32">
+        <h1 className="mb-8 text-6xl text-pink-600 font-extrabold text-center mb-24">Create Project</h1>
         {/* <RarityScale /> */}
 
         
@@ -167,7 +169,7 @@ export default function NFTMinter() {
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
           <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"Input Your Project Name"}}>
-            <Form.Item name={['name']} label="Project Name" rules={[{ required: true }]} >
+            <Form.Item  name={['name']} label="Project Name" rules={[{ required: true }]} >
               <Input />
             </Form.Item>
             {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
@@ -200,6 +202,7 @@ export default function NFTMinter() {
           </Form>
         )}
       </div>
+      <Footer/>
       
 
     </div>

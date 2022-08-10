@@ -152,7 +152,7 @@ export default function BadgesMinter() {
       {/* <MinterLoader isLoading={isLoading} /> */}
 
       <div className="flex flex-col">
-        <h1 className="mb-8 text-6xl text-gray-darkest font-extrabold text-center">Mint a New Item</h1>
+        <h1 className="mb-8 text-6xl text-pink-600 font-extrabold text-center">Mint a New Item</h1>
         {/* <RarityScale /> */}
 
         {isLoading ? (

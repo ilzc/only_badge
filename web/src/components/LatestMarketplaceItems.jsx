@@ -13,7 +13,7 @@ export default function LatestMarketplaceItems({items}) {
 
   return (
     <div className="bg-white">
-      <div className="main-container py-14">
+      <div className="main-container py-20">
         <h2 className="text-3xl text-gray mb-1">Marketplace listings</h2>
         <div className="text-xl text-gray-light mb-7">
           Kitty Items resold by other users.

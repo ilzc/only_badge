@@ -2,6 +2,7 @@ import ClaimBadges from "src/components/ClaimBadges"
 import BadgesMinter from "src/components/BadgesMinter"
 import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
+import Footer from "src/components/Footer"
 
 export default function Mint() {
 //   const {isLoggedInAsAdmin, setShowAdminLoginDialog} = useAppContext()
@@ -26,6 +27,7 @@ export default function Mint() {
           <BadgesMinter />
         </div>
       </main>
+      <Footer/>
     </div>
   )
 }

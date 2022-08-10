@@ -25,7 +25,7 @@ export default function Header() {
               <img
                 src="/images/newonlybadgelogo.svg"
                 alt="OnlyBadge"
-                width="250"
+                width="200"
                 // height="60"
               />
             </div>

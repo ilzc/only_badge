@@ -9,6 +9,7 @@ import ProfileListings from "src/components/ProfileListings"
 import ProfileQuestionPopover from "src/components/ProfileQuestionPopover"
 import {CHAIN_ENV_TESTNET, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
+import Footer from "src/components/Footer"
 
 const getTabClasses = selected =>
   `text-3xl mx-4 text-gray-darkest border-b-2 pb-0.5 hover:opacity-80 ${
@@ -68,6 +69,7 @@ export default function Profile() {
           </Tab.Panels>
         </Tab.Group>
       </main>
+      
     </div>
   )
 }

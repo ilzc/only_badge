@@ -5,11 +5,11 @@ import {itemGradientClass} from "src/util/classes"
 export default function RarityScale({highlightedRarity}) {
   return (
     <div className="mb-10 text-gray-light text-sm">
-      <div className="flex justify-between items-center uppercase font-bold text-xs pb-2 px-2">
+      {/* <div className="flex justify-between items-center uppercase font-bold text-xs pb-2 px-2">
         <div>Rarity Scale</div>
         <div>Minting Chance</div>
-      </div>
-      {Object.keys(ITEM_RARITY_MAP)
+      </div> */}
+      {/* {Object.keys(ITEM_RARITY_MAP)
         .reverse()
         .map(key => (
           <div
@@ -28,7 +28,7 @@ export default function RarityScale({highlightedRarity}) {
               {ITEM_RARITY_PROBABILITIES[key]}%
             </div>
           </div>
-        ))}
+        ))} */}
     </div>
   )
 }

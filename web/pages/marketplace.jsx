@@ -12,6 +12,7 @@ import useAppContext from "src/hooks/useAppContext"
 import {cleanObject} from "src/util/object"
 import PopularMerchants from "src/components/PopularMerchants"
 import useApiListMerchants from "src/hooks/useApiListMerchants"
+import Footer from "src/components/Footer"
 
 const PER_PAGE = 12
 
@@ -49,12 +50,12 @@ const MainContent = ({queryState}) => {
   const onPageClick = (newPage, scroll) => updateQuery({page: newPage}, scroll)
 
   return (
-    <div className="main-container py-14">
+    <div className="main-container mx-auto py-20">
       <div className="flex justify-between items-center mb-12">
-        <h1 className="text-3xl text-gray-darkest">Marketplace</h1>
+        <div className=" font-extrabold text-4xl text-gray-darkest">Marketplace</div>
         {!!currentUser && (
           <Link href={paths.profile(currentUser.addr)}>
-            <a className="rounded uppercase font-bold text-sm text-white rounded-full bg-gold hover:opacity-80 py-2.5 px-5">
+            <a className="rounded uppercase font-bold text-sm text-white rounded-full bg-green-600 hover:opacity-80 py-2.5 px-5">
               List My Badges
             </a>
           </Link>
@@ -128,6 +129,7 @@ export default function Marketplace() {
           <MainContent queryState={queryState} />
         </div>
       </main>
+      <Footer/>
     </div>
   )
 }
