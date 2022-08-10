@@ -42,12 +42,13 @@ export default function SellListItem({item}) {
               label="Price"
               inputClassName="text-right pr-4"
               step="any"
+
             />
             <Button
               type="submit"
               disabled={!price}
               roundedFull={true}
-              className="mt-5"
+              className="mt-5 ant-btn-list"
             >
               List My Badges
             </Button>

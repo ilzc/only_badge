@@ -55,7 +55,7 @@ export default function KittyItem() {
                 {item.name}
               </h1>
               <Descriptions bordered>
-                <Descriptions.Item label="Badge ID" span={3}>{item.id}</Descriptions.Item>
+                <Descriptions.Item label="Badge ID" span={3}>#{item.id}</Descriptions.Item>
                 <Descriptions.Item label="Creator" span={3} className="link"><Link href={paths.marketplace({creator:item.creator})} passHref>{item.creator}</Link></Descriptions.Item>
                 <Descriptions.Item label="Number" span={1}>{item.number}</Descriptions.Item>
                 <Descriptions.Item label="Total">{item.max}</Descriptions.Item>
