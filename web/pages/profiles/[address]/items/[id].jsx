@@ -33,7 +33,7 @@ export default function KittyItem() {
 
   return (
     <div className="main-container pt-12 pb-24 w-full">
-      <PageTitle>{["Kitty Item", id].filter(Boolean).join(" ")}</PageTitle>
+      <PageTitle>{[item?.name, id].filter(Boolean).join(" ID:")}</PageTitle>
       <main>
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-x-14">
           <ListItemImage
@@ -51,17 +51,17 @@ export default function KittyItem() {
                 {item.name}
               </h1>
               <Descriptions bordered>
-                <Descriptions.Item label="ID" span={3}>{item.id}</Descriptions.Item>
+                <Descriptions.Item label="Badge ID" span={3}>{item.id}</Descriptions.Item>
                 <Descriptions.Item label="Number">{item.number}</Descriptions.Item>
                 <Descriptions.Item label="Max">{item.max}</Descriptions.Item>
-                <Descriptions.Item label="On Sell" span={3}>
-                  <Badge status="processing" text="Running" />
+                <Descriptions.Item label="Status" span={3}>
+                {!!listing ? (<div className="mr-5">Listing</div>):(<div className="mr-5">Not Listing</div>)}
                 </Descriptions.Item>
-                <Descriptions.Item label="Website" span={3}><a href={item.externalURL} target="_blank">{item.externalURL}</a></Descriptions.Item>
+                {!!item.externalURL && (<Descriptions.Item label="Website" span={3}><a href={item.externalURL} target="_blank">{item.externalURL}</a></Descriptions.Item>)}
                 <Descriptions.Item label="Description" span={3}>{item.description}</Descriptions.Item>
-                {!!item.royalty_cut && (<Descriptions.Item label="Cut">{item.royalty_cut}</Descriptions.Item>)}
-                {!!item.royalty_receiver && (<Descriptions.Item label="Receiver">{item.royalty_receiver}</Descriptions.Item>)}
-                {!!item.royalty_description && (<Descriptions.Item label="Receiver" span={3}>{item.royalty_description}</Descriptions.Item>)}
+                {!!item.royalty_cut && (<Descriptions.Item label="Creator fee">{item.royalty_cut}</Descriptions.Item>)}
+                {/* {!!item.royalty_receiver && (<Descriptions.Item label="Receiver">{item.royalty_receiver}</Descriptions.Item>)} */}
+                {!!item.royalty_description && (<Descriptions.Item label="Description" span={3}>{item.royalty_description}</Descriptions.Item>)}
               </Descriptions>
               {isSellable ? (
                 <SellListItem item={item} />
@@ -77,7 +77,7 @@ export default function KittyItem() {
                   </div>
 
                   <div className="mt-8">
-                    <RarityScale highlightedRarity={item.rarity} />
+                    {/* <RarityScale highlightedRarity={item.rarity} /> */}
                   </div>
                   <ListItemPageButtons item={listing} />
                 </>

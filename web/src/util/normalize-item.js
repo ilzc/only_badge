@@ -44,7 +44,7 @@ export function normalizeBadges(item) {
     badge_image: item.badge_image,
     description: item.description,
     number: item.number,
-    max: item.number,
+    max: item.max,
     royalty_cut: item.royalty_cut,
     royalty_description: item.royalty_description,
     royalty_receiver: item.royalty_receiver,

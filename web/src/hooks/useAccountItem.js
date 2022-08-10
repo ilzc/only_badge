@@ -19,6 +19,7 @@ export default function useAccountItem(address, id, listing) {
     compAccountItemKey(address, id),
     fetchAccountItem
   )
+  console.log("useAccountItem:" + JSON.stringify(data))
   const item = data ? normalizeBadges(data, listing) : undefined
   console.log("normalizeBadges:" + JSON.stringify(item))
   return {item, error, isLoading: !data && !error}
