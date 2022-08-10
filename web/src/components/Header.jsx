@@ -34,7 +34,7 @@ export default function Header() {
                 Only Badge
               </div>
               <div className="text-sm sm:ml-3 text-gray-darkest">
-                A web3 bridge connecting merchants and customers
+                A web3 bridge connecting merchants and customers on Flow.
               </div>
             </div> */}
           </a>
@@ -44,7 +44,7 @@ export default function Header() {
             <>
               <div className="mr-2 md:mr-4">
                 <HeaderLink href={paths.root}>Home</HeaderLink>
-                <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
+                <HeaderLink href={paths.marketplace()}>Marketplace</HeaderLink>
                 {!!currentUser && (
                   <HeaderLink href={paths.profile(currentUser.addr)}>My Badges</HeaderLink>
                 )}

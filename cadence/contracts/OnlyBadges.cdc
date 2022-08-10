@@ -112,7 +112,7 @@ pub contract OnlyBadges: NonFungibleToken {
                     )
                 case Type<MetadataViews.ExternalURL>():
                     return MetadataViews.ExternalURL(
-                        url: self.externalURL ?? ""
+                         self.externalURL ?? ""
                     )
                 case Type<MetadataViews.Royalty>():
                     if (self.royalty_receiver != nil) {
@@ -140,13 +140,13 @@ pub contract OnlyBadges: NonFungibleToken {
             // should be the same as the argument to the function
             post {
                 (result == nil) || (result?.id == id):
-                    "Cannot borrow KittyItem reference: The ID of the returned reference is incorrect"
+                    "Cannot borrow OnlyBadge reference: The ID of the returned reference is incorrect"
             }
         }
     }
 
     // Collection
-    // A collection of KittyItem NFTs owned by an account
+    // A collection of OnlyBadge NFTs owned by an account
     //
     pub resource Collection: OnlyBadgesCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
@@ -198,9 +198,9 @@ pub contract OnlyBadges: NonFungibleToken {
         }
 
         // borrowOnlyBadges
-        // Gets a reference to an NFT in the collection as a KittyItem,
+        // Gets a reference to an NFT in the collection as a OnlyBadge,
         // exposing all of its fields (including the typeID & rarityID).
-        // This is safe as there are no functions that can be called on the KittyItem.
+        // This is safe as there are no functions that can be called on the OnlyBadge.
         //
         pub fun borrowOnlyBadges(id: UInt64): &OnlyBadges.NFT? {
             if self.ownedNFTs[id] != nil {
@@ -239,7 +239,7 @@ pub contract OnlyBadges: NonFungibleToken {
     pub resource interface ClaimablePublic {
         pub fun claimNFT(recipient: Address, claimCode: String)
         pub fun claimCodeExists(key: String): Bool
-        pub fun depositClaimCodeNFT(id: UInt64, key: String, createdNFT: @NonFungibleToken.NFT)
+        pub fun depositClaimCodeNFT(ids: [UInt64], key: String, createdNFTs: @[NonFungibleToken.NFT])
     }
 
     //AdminMinter hold by Admin
@@ -269,8 +269,8 @@ pub contract OnlyBadges: NonFungibleToken {
         pub fun claimNFT(recipient: Address, claimCode: String) {
             let nftIDs = self.claimableIDs[claimCode] ?? panic("claim code not found")
             if nftIDs.length > 0 {
-                let nftID: UInt64 = nftIDs.remove(at: 0)
-                let nft <- self.claimableNFTs.remove(key: nftID) ?? panic("nftID not found")
+                let nftID: UInt64 = self.claimableIDs[claimCode]!.removeFirst()
+                let nft <- self.claimableNFTs.remove(key: nftID) ?? panic("nftID not found:".concat(nftID.toString()))
 
                 // get the public account object for the recipient
                 let recipientAccount = getAccount(recipient)
@@ -285,7 +285,7 @@ pub contract OnlyBadges: NonFungibleToken {
                 receiver.deposit(token: <- nft)
 
                 //clean dict when no nft can be
-                if nftIDs.length == 0 {
+                if nftIDs.length == 1 {
                     self.claimableIDs.remove(key: claimCode)
                 }
                 emit Claimed(owner: recipient, id: nftID)
@@ -299,12 +299,20 @@ pub contract OnlyBadges: NonFungibleToken {
             return self.claimableIDs.containsKey(key)
         }
 
-        pub fun depositClaimCodeNFT(id: UInt64, key: String, createdNFT: @NonFungibleToken.NFT) {
-            if !self.claimCodeExists(key: key) {
-                self.claimableIDs[key!] = []
+        pub fun depositClaimCodeNFT(ids: [UInt64], key: String, createdNFTs: @[NonFungibleToken.NFT]) {
+            if ids.length != createdNFTs.length {
+                panic("id count does not match nft count.")
             }
-            self.claimableIDs[key!]!.append(id)
-            self.claimableNFTs[id] <-! createdNFT
+            if !self.claimCodeExists(key: key) {
+                self.claimableIDs[key] = []
+            }
+            for id in ids {
+                self.claimableIDs[key]!.append(id)
+                let old <-self.claimableNFTs.insert(key: id, <- createdNFTs.remove(at:0))
+                destroy  old
+                // self.claimableNFTs[id] <- createdNFTs.remove(at:0)
+            }
+            destroy createdNFTs
         }
 
         destroy() {
@@ -336,7 +344,6 @@ pub contract OnlyBadges: NonFungibleToken {
             name: String, 
             description: String, 
             badge_image: MetadataViews.IPFSFile,
-            number: UInt64,
             max: UInt64?,
             claim_code: String?,
             royalty_cut: UFix64?,
@@ -369,42 +376,57 @@ pub contract OnlyBadges: NonFungibleToken {
                 .borrow<&{OnlyBadges.OnlyBadgesCollectionPublic}>()
                 ?? panic("Could not get receiver reference to the NFT Collection")
 
-            var createdNFT  <- create OnlyBadges.NFT(
-                                                id: OnlyBadges.totalSupply, 
-                                                creator: recipient,
-                                                name: name, 
-                                                description: description, 
-                                                badge_image: badge_image,
-                                                number: number,
-                                                max: max,
-                                                royalty_cut: royalty_cut,
-                                                royalty_description: royalty_description,
-                                                royalty_receiver: royalty_receiver_capability,
-                                                externalURL: externalURL)
-            
+            var curNumber:UInt64 = 0
+            let badgesNfts: @[NonFungibleToken.NFT] <- []
+            let ids: [UInt64] = []
+            while curNumber < max! {
+                var createdNFT  <- create OnlyBadges.NFT(
+                                                    id: OnlyBadges.totalSupply, 
+                                                    creator: recipient,
+                                                    name: name, 
+                                                    description: description, 
+                                                    badge_image: badge_image,
+                                                    number: curNumber,
+                                                    max: max,
+                                                    royalty_cut: royalty_cut,
+                                                    royalty_description: royalty_description,
+                                                    royalty_receiver: royalty_receiver_capability,
+                                                    externalURL: externalURL)
+                
+                if claim_code != nil {
+                    ids.append(OnlyBadges.totalSupply)
+                    badgesNfts.append(<- createdNFT)
+                }
+                else {
+                    receiver.deposit(token: <- createdNFT)
+                }
+
+                emit Minted(
+                    owner: recipient,
+                    id: OnlyBadges.totalSupply,
+                    name: name,
+                    badge_image: badge_image,
+                    number: curNumber,
+                    max: max
+                )
+
+                OnlyBadges.totalSupply = OnlyBadges.totalSupply + (1 as UInt64)
+                curNumber = curNumber + 1
+            }
+
             if claim_code != nil {
-                adminClaimable.depositClaimCodeNFT(id: OnlyBadges.totalSupply,key: claim_code!, createdNFT: <- createdNFT)
+                adminClaimable.depositClaimCodeNFT(ids: ids,key: claim_code!, createdNFTs: <- badgesNfts)
+                
+            } else {
+                destroy badgesNfts
             }
-            else {
-                receiver.deposit(token: <- createdNFT)
-            }
-
-            emit Minted(
-                owner: recipient,
-                id: OnlyBadges.totalSupply,
-                name: name,
-                badge_image: badge_image,
-                number: number,
-                max: max
-            )
-
-            OnlyBadges.totalSupply = OnlyBadges.totalSupply + (1 as UInt64)
+            
         }
 
     }
 
     // fetch
-    // Get a reference to a KittyItem from an account's Collection, if available.
+    // Get a reference to a OnlyBadge from an account's Collection, if available.
     // If an account does not have a OnlyBadges.Collection, panic.
     // If it has a collection but does not contain the itemID, return nil.
     // If it has a collection and that collection contains the itemID, return a reference to that.
@@ -414,7 +436,7 @@ pub contract OnlyBadges: NonFungibleToken {
             .getCapability(OnlyBadges.CollectionPublicPath)!
             .borrow<&OnlyBadges.Collection{OnlyBadges.OnlyBadgesCollectionPublic}>()
             ?? panic("Couldn't get collection")
-        // We trust OnlyBadges.Collection.borowKittyItem to get the correct itemID
+        // We trust OnlyBadges.Collection.borowOnlyBadge to get the correct itemID
         // (it checks it before returning it).
         return collection.borrowOnlyBadges(id: itemID)
     }
@@ -424,10 +446,6 @@ pub contract OnlyBadges: NonFungibleToken {
     init() {
 
         // Set our named paths
-        // self.CollectionStoragePath = /storage/OnlyBadgesCollectionV14
-        // self.CollectionPublicPath = /public/OnlyBadgesCollectionV14
-        // self.MinterStoragePath = /storage/OnlyBadgesMinterV14
-
         self.CollectionStoragePath = /storage/onlyBadgesItemsCollection
         self.CollectionPublicPath = /public/onlyBadgesItemsCollection
         self.MinterStoragePath = /storage/onlyBadgesItemsMinter
@@ -438,8 +456,6 @@ pub contract OnlyBadges: NonFungibleToken {
         self.totalSupply = 0
 
         // Create a Minter resource and save it to storage
-        // let minter <- create NFTMinter()
-        // self.account.save(<-minter, to: self.MinterStoragePath)
         let minter <- create AdminMinter()
         self.account.save(<-minter, to: self.AdminMinterStoragePath)
 

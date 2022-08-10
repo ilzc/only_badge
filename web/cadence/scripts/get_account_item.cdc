@@ -4,6 +4,7 @@ import OnlyBadges from 0xOnlyBadges
 
 pub struct KittyItem {
   pub let name: String
+  pub let creator: Address
   pub let description: String
   pub let badge_image: String
 
@@ -26,6 +27,7 @@ pub struct KittyItem {
 
   init(
     name: String,
+    creator: Address,
     description: String,
     badge_image: String,
     id: UInt64,
@@ -39,6 +41,7 @@ pub struct KittyItem {
     externalURL: String?
   ) {
     self.name = name
+    self.creator = creator
     self.description = description
     self.badge_image = badge_image
 
@@ -102,6 +105,7 @@ pub fun fetch(address: Address, id: UInt64): KittyItem? {
 
         return KittyItem(
           name: display.name,
+          creator: item.creator,
           description: display.description,
           badge_image: item.badge_image.cid,
           id: id,

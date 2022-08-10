@@ -125,7 +125,7 @@ export default function NFTMinter() {
     console.log("upload file")
     console.log(file)
     let fileName = file.name;
-    let fileType = fileName.split('.')[1];
+    let fileType = fileName.split('.').pop();
     let renameFile = new File( [file],"nft_img"  +  '.' + fileType, option)
     uploadNftStorage(renameFile, "OnlyBadge", "Merchants Logo", 
       (responseUrl, data, ipnft) => {
@@ -168,9 +168,9 @@ export default function NFTMinter() {
           <TransactionLoading status={transactionStatus} />
         ) : (
           // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{name:"Input Your Project Name"}}>
-            <Form.Item  name={['name']} label="Project Name" rules={[{ required: true }]} >
-              <Input />
+          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+            <Form.Item name={['name']} label="Project Name" rules={[{ required: true }]} >
+              <Input placeholder="Input Your Project Name"/>
             </Form.Item>
             {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
               <Input />

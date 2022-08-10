@@ -120,7 +120,7 @@ export default function BadgesMinter() {
     console.log("upload file")
     console.log(file)
     let fileName = file.name;
-    let fileType = fileName.split('.')[1];
+    let fileType = fileName.split('.').pop();
     let renameFile = new File( [file],"nft_img"  +  '.' + fileType, option)
     uploadNftStorage(renameFile, "OnlyBadge", "Merchants Logo", 
       (responseUrl, data, ipnft) => {

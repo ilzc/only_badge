@@ -20,7 +20,7 @@ export default function SellListItem({item}) {
     <div>
       <div className="text-gray mb-5 mt-10">
         <div className="font-bold">
-          Items of this rarity usually sell for{" "}
+          Sell for{" "}
           {/* {formattedCurrency(ITEM_RARITY_PRICE_MAP[item.rarity].toString())}{" "} */}
           FLOW.
         </div>

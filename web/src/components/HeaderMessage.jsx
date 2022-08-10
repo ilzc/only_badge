@@ -54,7 +54,7 @@ export default function HeaderMessage() {
                 Log in
               </button>
             {" "}
-            to the Service Account and initialize it to get started.
+            to explore the web3 Badges world.
           </>
         )}
       </HeaderContainer>
