@@ -7,7 +7,7 @@ import { Button, Form, Input, InputNumber, Upload } from 'antd';
 import {useRouter} from "next/router"
 import {paths, STATUS_SUCCESS, STATUS_FAILED, TYPE} from "src/global/constants"
 import {useEffect} from "react"
-import 'antd-button-color/dist/css/style.css'
+// import 'antd-button-color/dist/css/style.css'
 
 
 

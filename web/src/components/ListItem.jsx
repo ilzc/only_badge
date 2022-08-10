@@ -58,7 +58,7 @@ export default function ListItem({
       <div>
         {showOwnerInfo && <OwnerInfo address={item.owner} />}
         <div className="flex justify-between items-center mt-5 gap-4">
-          <div className="flex flex-col">
+          <div className="flex flex-col link">
             <Link href={profileUrl}>
               <a className="text-lg font-semibold">{item.name}</a>
             </Link>
