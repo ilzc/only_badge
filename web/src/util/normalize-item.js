@@ -41,6 +41,7 @@ export function normalizeBadges(item) {
     owner: item.owner,
     id: item.id,
     name: item.name,
+    creator: item.creator,
     badge_image: item.badge_image,
     description: item.description,
     number: item.number,

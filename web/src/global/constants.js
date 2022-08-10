@@ -27,7 +27,7 @@ export const getParamsString = params => {
 
 export const paths = {
   root: "/",
-  marketplace: "/marketplace",
+  marketplace: params => `/marketplace${getParamsString(params)}`,
   adminMint: "/admin/mint",
   profile: address => `/profiles/${address}`,
   profileItem: (address, id) => `/profiles/${address}/items/${id}`,

@@ -140,13 +140,13 @@ pub contract OnlyBadges: NonFungibleToken {
             // should be the same as the argument to the function
             post {
                 (result == nil) || (result?.id == id):
-                    "Cannot borrow KittyItem reference: The ID of the returned reference is incorrect"
+                    "Cannot borrow OnlyBadge reference: The ID of the returned reference is incorrect"
             }
         }
     }
 
     // Collection
-    // A collection of KittyItem NFTs owned by an account
+    // A collection of OnlyBadge NFTs owned by an account
     //
     pub resource Collection: OnlyBadgesCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
@@ -198,9 +198,9 @@ pub contract OnlyBadges: NonFungibleToken {
         }
 
         // borrowOnlyBadges
-        // Gets a reference to an NFT in the collection as a KittyItem,
+        // Gets a reference to an NFT in the collection as a OnlyBadge,
         // exposing all of its fields (including the typeID & rarityID).
-        // This is safe as there are no functions that can be called on the KittyItem.
+        // This is safe as there are no functions that can be called on the OnlyBadge.
         //
         pub fun borrowOnlyBadges(id: UInt64): &OnlyBadges.NFT? {
             if self.ownedNFTs[id] != nil {
@@ -426,7 +426,7 @@ pub contract OnlyBadges: NonFungibleToken {
     }
 
     // fetch
-    // Get a reference to a KittyItem from an account's Collection, if available.
+    // Get a reference to a OnlyBadge from an account's Collection, if available.
     // If an account does not have a OnlyBadges.Collection, panic.
     // If it has a collection but does not contain the itemID, return nil.
     // If it has a collection and that collection contains the itemID, return a reference to that.
@@ -436,7 +436,7 @@ pub contract OnlyBadges: NonFungibleToken {
             .getCapability(OnlyBadges.CollectionPublicPath)!
             .borrow<&OnlyBadges.Collection{OnlyBadges.OnlyBadgesCollectionPublic}>()
             ?? panic("Couldn't get collection")
-        // We trust OnlyBadges.Collection.borowKittyItem to get the correct itemID
+        // We trust OnlyBadges.Collection.borowOnlyBadge to get the correct itemID
         // (it checks it before returning it).
         return collection.borrowOnlyBadges(id: itemID)
     }
@@ -456,8 +456,6 @@ pub contract OnlyBadges: NonFungibleToken {
         self.totalSupply = 0
 
         // Create a Minter resource and save it to storage
-        // let minter <- create NFTMinter()
-        // self.account.save(<-minter, to: self.MinterStoragePath)
         let minter <- create AdminMinter()
         self.account.save(<-minter, to: self.AdminMinterStoragePath)
 
