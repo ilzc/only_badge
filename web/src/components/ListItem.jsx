@@ -63,7 +63,7 @@ export default function ListItem({
               <a className="text-lg font-semibold">{item.name}</a>
             </Link>
             <Link href={profileUrl}>
-              <a className="text-sm font text-gray-light">#{item.id}</a>
+              <p className="text-sm font text-gray-light">#{item.id}</p>
             </Link>
           </div>
           <div className="flex items-center">

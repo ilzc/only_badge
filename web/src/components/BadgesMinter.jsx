@@ -155,6 +155,7 @@ export default function BadgesMinter() {
         <h1 className="mb-8 text-7xl text-pink-600 font-extrabold text-center">Create a New Badge</h1>
         {/* <RarityScale /> */}
 
+        <div className="ml-20">
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
@@ -221,6 +222,7 @@ export default function BadgesMinter() {
         )}
 
 
+        </div>
       
         
       </div>
