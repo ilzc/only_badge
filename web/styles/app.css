@@ -58,3 +58,12 @@
 .center {
   text-align:center;
 }
+
+
+.ant-btn-list {
+    color:#f0f0f0 !important;
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+    background:#cd6091 !important;
+    border:2px solid #f3f3f3 !important;
+}
