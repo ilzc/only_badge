@@ -1,4 +1,4 @@
-const appTitle = "Kitty Items"
+const appTitle = "OnlyBadge"
 
 const isDev = process.env.NODE_ENV === "development"
 

@@ -34,7 +34,7 @@ export default function Header() {
                 Only Badge
               </div>
               <div className="text-sm sm:ml-3 text-gray-darkest">
-                A web3 bridge connecting merchants and customers
+                A web3 bridge connecting merchants and customers on Flow.
               </div>
             </div> */}
           </a>
