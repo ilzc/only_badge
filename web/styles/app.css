@@ -1,1 +1,16 @@
 @import '~antd/dist/antd.css';
+
+
+.ant-btn-round:hover {
+    background: rgb(208, 144, 144) !important;
+    border-color: rgb(208, 144, 144) !important;
+    }
+
+.ant-btn-round {
+    margin-left: 40px !important;  
+    color:#f0f0f0 !important;
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+    background:#cd6091 !important;
+    border:2px solid #f3f3f3 !important;
+}
