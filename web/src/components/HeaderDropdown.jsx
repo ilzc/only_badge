@@ -8,8 +8,8 @@ import useAppContext from "src/hooks/useAppContext"
 
 const menuItemClasses = active =>
   `${
-    active ? "bg-green" : ""
-  } hover:bg-green text-sm group flex rounded-md items-center w-full px-2 py-1`
+    active ? "dropdown-item" : ""
+  } hover:dropdown-item text-sm group flex rounded-md items-center w-full px-2 py-1`
 
 export default function HeaderDropdown() {
   const {currentUser, setFlashMessage, switchToAdminView} = useAppContext()
@@ -54,7 +54,7 @@ export default function HeaderDropdown() {
             <div className="font-mono text-xs text-center font-bold text-gray-darkest p-1.5">
               {address}
             </div>
-            <div className="px-1 py-2">
+            <div className="px-1 py-2 dropdown-menu">
               {/* <Menu.Item>
                 {({active}) => (
                   <Link href={paths.profile(currentUser.addr)}>

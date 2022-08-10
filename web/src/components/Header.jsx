@@ -42,7 +42,7 @@ export default function Header() {
         <div className="flex items-center">
           {!isAdminPath && (
             <>
-              <div className="mr-2 md:mr-4">
+              <div className="mr-2 md:mr-4 menu">
                 <HeaderLink href={paths.root}>Home</HeaderLink>
                 <HeaderLink href={paths.marketplace()}>Marketplace</HeaderLink>
                 {!!currentUser && (
