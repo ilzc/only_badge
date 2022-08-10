@@ -8,12 +8,11 @@ export default function OwnerInfo({address, size = "sm"}) {
   const {currentUser} = useAppContext()
   return (
     <Link href={paths.profile(address)} passHref>
-      <div className="link">
       <a className="inline-flex items-center mt-6 -mb-1 hover:opacity-80">
         <div className={`relative ${size === "lg" ? "w-16 h-16" : "w-8 h-8"}`}>
           <Avatar address={address} />
         </div>
-        <divj
+        <div
           className={`ml-4 font-mono text-xs ${
             currentUser?.addr === address
               ? "text-green-dark"
@@ -23,7 +22,6 @@ export default function OwnerInfo({address, size = "sm"}) {
           {address}
         </div>
       </a>
-      </div>
     </Link>
   )
 }
