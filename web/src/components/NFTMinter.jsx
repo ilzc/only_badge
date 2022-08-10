@@ -160,7 +160,7 @@ export default function NFTMinter() {
       {/* <MinterLoader isLoading={isLoading} /> */}
 
       <div className="mb-32">
-        <h1 className="mb-16 text-7xl text-pink-600 font-extrabold text-center">Create Project</h1>
+        <h1 className="mb-16 text-7xl text-pink-600 font-extrabold text-center">Setup Profile</h1>
 
         <div className="ml-20">
           {isLoading ? (
@@ -168,13 +168,13 @@ export default function NFTMinter() {
           ) : (
             // <Button onClick={mint} disabled={isLoading} roundedFull={true}>
             <Form requiredMark={false} colon={false} {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
-              <Form.Item labelCol={{span: 10}} wrapperCol={{span: 5}} name={['name']} label="Project Name" rules={[{ required: true }]} >
-                <Input size="large" style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} placeholder="Input Your Project Name"/>
+              <Form.Item labelCol={{span: 10}} wrapperCol={{span: 5}} name={['name']} label="Profile Name" rules={[{ required: true }]} >
+                <Input size="large" style={{paddingLeft:'20px',borderRadius: '30px', background: '#f9f9f9',border:'white'}} placeholder="Input Your Profile Name"/>
               </Form.Item>
               {/* <Form.Item name={['imagePath']} label="商户logo" rules={[{ required: true }]}>
                 <Input />
               </Form.Item> */}
-              <Form.Item labelCol={{span: 10}} wrapperCol={{span: 5}} name={['image']} label="Project logo" rules={[{ required: true }]} >
+              <Form.Item labelCol={{span: 10}} wrapperCol={{span: 5}} name={['image']} label="Profile logo" rules={[{ required: true }]} >
                 <Upload listType="picture-card" beforeUpload={beforeUpload}  customRequest={handleUpload} onPreview={handlePreview} onChange={handleChange}>
                   {fileList.length >= 1 ? null : uploadButton}
                 </Upload>
