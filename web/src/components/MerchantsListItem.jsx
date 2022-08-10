@@ -51,12 +51,12 @@ export default function MerchantsListItem({
       {/* </Link> */}
       <div>
         {showOwnerInfo && <OwnerInfo address={item.address} />}
-        <div className="flex justify-between items-center mt-5 gap-4">
-          <div className="flex flex-col">
+        <div className="flex justify-between items-center mt-5 gap-4 link">
+          {/* <div className="flex flex-col link"> */}
             {/* <Link> */}
-              <a className="text-lg items-center font-semibold" onClick={updateFilter}>{item.name}</a>
+              <a className="text-lg items-center font-semibold center w-full" onClick={updateFilter}>{item.name}</a>
             {/* </Link> */}
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>

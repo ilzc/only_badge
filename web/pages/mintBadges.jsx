@@ -21,7 +21,7 @@ export default function Mint() {
 
   return (
     <div>
-      <PageTitle>Mint badges</PageTitle>
+      <PageTitle>Create a new badge</PageTitle>
       <main>
         <div className="main-container py-14">
           <BadgesMinter />
