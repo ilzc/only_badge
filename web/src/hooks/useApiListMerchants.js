@@ -15,13 +15,13 @@ export default function useApiListMerchants(params) {
     // Paginated queries return an object
     // console.log("data:" + JSON.stringify(data))
     const listingsArray = Array.isArray(data) ? data : data?.results
-    const result =  listingsArray?.map(item => normalizeMerchants(item))
+    const result = listingsArray?.map(item => normalizeMerchants(item))
     console.log("result:" + JSON.stringify(result))
     return result
   }, [data])
 
   // return {listings, data, error, isLoading: !data && !error}
-  return {merchantsListings, isBadgesLoading:false}
+  return {merchantsListings, isBadgesLoading: false}
 }
 
 useApiListMerchants.propTypes = {

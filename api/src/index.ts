@@ -26,6 +26,8 @@ if (DEV) {
 
   expandEnv(config)
   envVars = config.parsed
+
+  console.log(envVars)
 }
 
 async function run() {
@@ -104,7 +106,7 @@ async function run() {
 
     const app = initApp(kittyItemsService, storefrontService)
 
-    app.listen(config.port, () => {
+    app.listen(config.port, '0.0.0.0', () => {
       console.log(`Listening on port ${config.port}!`)
     })
   }

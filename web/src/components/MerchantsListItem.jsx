@@ -26,18 +26,18 @@ export default function MerchantsListItem({
   return (
     <div className="w-full">
       {/* <Link href={profileUrl} passHref> */}
-        <a className="w-full" onClick={updateFilter}>
-          <ListItemImage
-            name={item.name}
-            // rarity={item.rarity}
-            cid={item.image}
-            address={item.address}
-            // id={item.txID}
-            size={size}
-            isStoreItem={isStoreItem}
-            classes="item-image-container-hover"
-          >
-            {/* {isStoreItem && (
+      <a className="w-full" onClick={updateFilter}>
+        <ListItemImage
+          name={item.name}
+          // rarity={item.rarity}
+          cid={item.image}
+          address={item.address}
+          // id={item.txID}
+          size={size}
+          isStoreItem={isStoreItem}
+          classes="item-image-container-hover"
+        >
+          {/* {isStoreItem && (
               <div className="absolute top-3 left-3">
                 <div
                   className={`bg-white py-1 px-4 font-bold text-sm rounded-full uppercase ${rarityTextColor}`}
@@ -46,16 +46,21 @@ export default function MerchantsListItem({
                 </div>
               </div>
             )} */}
-          </ListItemImage>
-        </a>
+        </ListItemImage>
+      </a>
       {/* </Link> */}
       <div>
         {showOwnerInfo && <OwnerInfo address={item.address} />}
         <div className="flex justify-between items-center mt-5 gap-4 link">
           {/* <div className="flex flex-col link"> */}
-            {/* <Link> */}
-              <a className="text-lg items-center font-semibold center w-full" onClick={updateFilter}>{item.name}</a>
-            {/* </Link> */}
+          {/* <Link> */}
+          <a
+            className="text-lg items-center font-semibold center w-full"
+            onClick={updateFilter}
+          >
+            {item.name}
+          </a>
+          {/* </Link> */}
           {/* </div> */}
         </div>
       </div>
@@ -69,4 +74,5 @@ MerchantsListItem.propTypes = {
   size: PropTypes.string,
   isStoreItem: PropTypes.bool,
   updateQuery: PropTypes.func.isRequired,
+  queryState: PropTypes.object,
 }

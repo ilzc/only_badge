@@ -42,7 +42,6 @@ export default function SellListItem({item}) {
               label="Price"
               inputClassName="text-right pr-4"
               step="any"
-
             />
             <Button
               type="submit"

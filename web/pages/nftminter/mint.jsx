@@ -4,7 +4,6 @@ import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
 
 export default function Mint() {
-
   return (
     <div>
       <PageTitle>Setup Profile</PageTitle>

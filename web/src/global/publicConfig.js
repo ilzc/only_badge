@@ -34,8 +34,7 @@ const apiOnlyBadgesListBadges =
 if (!apiOnlyBadgesListBadges)
   throw new Error("Missing NEXT_PUBLIC_API_ONLY_BADGES_LIST_BADGES")
 
-const signWithAdminMinter =
-  process.env.NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER
+const signWithAdminMinter = process.env.NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER
 if (!signWithAdminMinter)
   throw new Error("Missing NEXT_PUBLIC_API_SIGN_WITH_ADMIN_MINTER")
 

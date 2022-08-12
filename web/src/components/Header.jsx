@@ -46,7 +46,9 @@ export default function Header() {
                 <HeaderLink href={paths.root}>Home</HeaderLink>
                 <HeaderLink href={paths.marketplace()}>Marketplace</HeaderLink>
                 {!!currentUser && (
-                  <HeaderLink href={paths.profile(currentUser.addr)}>My Badges</HeaderLink>
+                  <HeaderLink href={paths.profile(currentUser.addr)}>
+                    My Badges
+                  </HeaderLink>
                 )}
               </div>
               {!!currentUser && (

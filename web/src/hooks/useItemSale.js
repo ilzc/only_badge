@@ -50,7 +50,6 @@ export default function useItemSale(itemID) {
   )
 
   const sell = async (item, price) => {
-
     if (!item) throw new Error("Missing item")
     if (!price) throw new Error("Missing price")
 

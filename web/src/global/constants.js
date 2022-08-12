@@ -15,8 +15,7 @@ export const ERROR = "ERROR"
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
 
-export const BASE_HTML_TITLE =
-  "OnlyBadge"
+export const BASE_HTML_TITLE = "OnlyBadge"
 
 export const getParamsString = params => {
   if (typeof params !== "object") return ""
@@ -52,7 +51,7 @@ export const paths = {
   mintBadges: "/mintBadges",
   mintNFTMinter: "/nftminter/mint",
   apiListMerchants: params =>
-  `${publicConfig.apiOnlyBadgesListMerchants}${getParamsString(params)}`,
+    `${publicConfig.apiOnlyBadgesListMerchants}${getParamsString(params)}`,
   result: "/result",
   // apiListBadgesNFT: params =>
   // `${publicConfig.apiOnlyBadgesListBadges}${getParamsString(params)}`,
@@ -102,11 +101,11 @@ export const TRANSACTION_STATUS_MAP = {
   5: "Transaction Expired",
 }
 
-export const STATUS_SUCCESS = 'success'
-export const STATUS_FAILED = 'error'
+export const STATUS_SUCCESS = "success"
+export const STATUS_FAILED = "error"
 export const TYPE = {
-  NORMAL: 'normal',
-  CLAIMED: 'claimed',
+  NORMAL: "normal",
+  CLAIMED: "claimed",
 }
 
 export const DECLINE_RESPONSE = "Declined: Externally Halted"

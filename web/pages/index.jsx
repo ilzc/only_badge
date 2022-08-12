@@ -9,25 +9,22 @@ import useApiListBadges from "src/hooks/useApiListBadges"
 
 export default function Home() {
   const {listings, isLoading} = useApiListMerchants()
-  const { badges, badgesLoading} = useApiListBadges()
+  const {badges, badgesLoading} = useApiListBadges()
 
   return (
     <div>
       <PageTitle>Home</PageTitle>
       <main>
-        {
-      (listings && listings.length > 0 ? (
-        <>
-          {/* <PopularMerchants items={listings} /> */}
-          <LatestStoreItems items={badges} />
-        </>
-      )
-          : (
-        <HomeEmptyMessage />
-      ))
-          }
+        {listings && listings.length > 0 ? (
+          <>
+            {/* <PopularMerchants items={listings} /> */}
+            <LatestStoreItems items={badges} />
+          </>
+        ) : (
+          <HomeEmptyMessage />
+        )}
       </main>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

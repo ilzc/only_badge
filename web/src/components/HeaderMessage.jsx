@@ -10,7 +10,7 @@ import useLogin from "src/hooks/useLogin"
 
 const HeaderContainer = ({children}) => {
   return (
-    <div className= "bg-gradient-to-tl from-blue-500  via-orange-500  via-indigo-600 via-red-300 to-teal-400 text-white text-md font-bold text-center py-6 px-6">
+    <div className="bg-gradient-to-tl from-blue-500  via-orange-500  via-indigo-600 via-red-300 to-teal-400 text-white text-md font-bold text-center py-6 px-6">
       {children}
     </div>
   )
@@ -50,10 +50,9 @@ export default function HeaderMessage() {
       <HeaderContainer>
         {!currentUser && (
           <>
-              <button onClick={logIn} className={HEADER_MESSAGE_BUTTON_CLASSES}>
-                Log in
-              </button>
-            {" "}
+            <button onClick={logIn} className={HEADER_MESSAGE_BUTTON_CLASSES}>
+              Log in
+            </button>{" "}
             to explore the web3 Badges world.
           </>
         )}

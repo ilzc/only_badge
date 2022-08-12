@@ -5,19 +5,19 @@ import useAppContext from "src/hooks/useAppContext"
 import Footer from "src/components/Footer"
 
 export default function Mint() {
-//   const {isLoggedInAsAdmin, setShowAdminLoginDialog} = useAppContext()
+  //   const {isLoggedInAsAdmin, setShowAdminLoginDialog} = useAppContext()
 
-//   const onAdminLoginClick = () => {
-//     setShowAdminLoginDialog(true)
-//   }
+  //   const onAdminLoginClick = () => {
+  //     setShowAdminLoginDialog(true)
+  //   }
 
-//   if (!isLoggedInAsAdmin) {
-//     return (
-//       <div className="flex items-center justify-center mt-14">
-//         <button onClick={onAdminLoginClick}>Log In to Admin View</button>
-//       </div>
-//     )
-//   }
+  //   if (!isLoggedInAsAdmin) {
+  //     return (
+  //       <div className="flex items-center justify-center mt-14">
+  //         <button onClick={onAdminLoginClick}>Log In to Admin View</button>
+  //       </div>
+  //     )
+  //   }
 
   return (
     <div>
@@ -27,7 +27,7 @@ export default function Mint() {
           <BadgesMinter />
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

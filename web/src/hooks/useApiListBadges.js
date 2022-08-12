@@ -14,13 +14,13 @@ export default function useApiListBadges(params) {
   const badges = useMemo(() => {
     // Paginated queries return an object
     const listingsArray = Array.isArray(data) ? data : data?.results
-    const result =  listingsArray?.map(item => normalizeBadges(item))
+    const result = listingsArray?.map(item => normalizeBadges(item))
     console.log("result1:" + JSON.stringify(result))
     return result
   }, [data])
 
   // return {listings, data, error, isLoading: !data && !error}
-  return {badges, isLoading:false}
+  return {badges, isLoading: false}
 }
 
 useApiListBadges.propTypes = {

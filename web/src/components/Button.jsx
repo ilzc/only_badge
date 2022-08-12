@@ -7,8 +7,7 @@ const COLOR_CLASS = {
   outline: "bg-gray-50 border border-gray-200",
   blue: "bg-blue",
   purple: "bg-purple",
-  pink: "bg-pink-600"
-
+  pink: "bg-pink-600",
 }
 
 const getButtonClasses = (color, roundedFull, className) => {

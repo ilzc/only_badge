@@ -9,7 +9,6 @@ const ITEMS_LENGTH = 10
 const ITEM_WIDTH = 232
 
 export default function PopularMerchants({items, queryState, updateQuery}) {
-
   const listRef = useRef()
   const [reachedScrollEnd, setReachedScrollEnd] = useState(false)
   const [offsetWidth, setOffsetWidth] = useState(0)
@@ -19,7 +18,6 @@ export default function PopularMerchants({items, queryState, updateQuery}) {
   //   .sort((a, b) => b.itemID - a.itemID)
 
   const storeItems = items
-
 
   // const firstVisibleItem = useMemo(
   //   () => Math.ceil(scrollLeft / ITEM_WIDTH),
@@ -77,15 +75,22 @@ export default function PopularMerchants({items, queryState, updateQuery}) {
           ref={listRef}
         >
           <div className="whitespace-nowrap flex -ml-2 lg:pr-3">
-            {storeItems && storeItems.map(item => (
-              <div
-                key={item.txID}
-                className="flex justify-center px-4"
-                style={{minWidth: ITEM_WIDTH}}
-              >
-                <MerchantsListItem item={item} size="sm" isStoreItem={true} queryState={queryState} updateQuery={updateQuery}/>
-              </div>
-            ))}
+            {storeItems &&
+              storeItems.map(item => (
+                <div
+                  key={item.txID}
+                  className="flex justify-center px-4"
+                  style={{minWidth: ITEM_WIDTH}}
+                >
+                  <MerchantsListItem
+                    item={item}
+                    size="sm"
+                    isStoreItem={true}
+                    queryState={queryState}
+                    updateQuery={updateQuery}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -96,6 +101,6 @@ export default function PopularMerchants({items, queryState, updateQuery}) {
 
 PopularMerchants.propTypes = {
   items: PropTypes.arrayOf(normalizedMerchantItemType),
+  updateQuery: PropTypes.func.isRequired,
+  queryState: PropTypes.object,
 }
-
-

@@ -21,7 +21,7 @@ export default function HeaderDropdown() {
   const signOut = () => {
     fcl.unauthenticate()
     setFlashMessage(flashMessages.loggedOutSuccess)
-    window.location.href = '/'
+    window.location.href = "/"
   }
 
   return (
@@ -63,14 +63,14 @@ export default function HeaderDropdown() {
                 )}
               </Menu.Item> */}
               <Menu.Item>
-              {({active}) => (
+                {({active}) => (
                   <Link href={paths.mintNFTMinter}>
                     <a className={menuItemClasses(active)}>Setup Profile</a>
                   </Link>
                 )}
               </Menu.Item>
               <Menu.Item>
-              {({active}) => (
+                {({active}) => (
                   <Link href={paths.mintBadges}>
                     <a className={menuItemClasses(active)}>Create Badge</a>
                   </Link>

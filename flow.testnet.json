@@ -1,8 +1,8 @@
 {
   "accounts": {
     "testnet-account": {
-      "address": "0xd690a7c342e6d090",
-      "keys": "46727eb055711c592a690666e645e7a76153ff737ed186311bde90907ff658fd"
+      "address": "0xfee52c2891929ed3",
+      "keys": "5847e0b1b59e7e50c757f24cc762fb81007c9bb867ade209fe7eadf3a6682f010xfee52c2891929ed3"
     }
   },
   "deployments": {

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, {useState} from "react"
 // import styles from './styles.module.css'
 
-function createInputComponent({ multiple, accept }) {
-  const el = document.createElement('input')
+function createInputComponent({multiple, accept}) {
+  const el = document.createElement("input")
   // set input config
-  el.type = 'file'
+  el.type = "file"
   el.accept = accept
   el.multiple = multiple
   // return file input element
@@ -16,7 +16,7 @@ export const useFileUpload = () => {
   let userCallback = () => {}
 
   // Handle onChange event
-  const onChange = async (e) => {
+  const onChange = async e => {
     const parsedFiles = []
     const target = e.target
 
@@ -36,7 +36,7 @@ export const useFileUpload = () => {
         source: URL.createObjectURL(file),
         name: file.name,
         size: file.size,
-        file // original file object
+        file, // original file object
       }
 
       // add to parsed file list
@@ -44,7 +44,7 @@ export const useFileUpload = () => {
     }
 
     // remove event listener after operation
-    target.removeEventListener('change', onChange)
+    target.removeEventListener("change", onChange)
 
     // remove input element after operation
     target.remove()
@@ -64,21 +64,18 @@ export const useFileUpload = () => {
 
   // Handle upload
   const uploadFile = (
-    { accept, multiple } = { accept: '', multiple: false },
+    {accept, multiple} = {accept: "", multiple: false},
     cb
   ) => {
-    if (typeof cb === 'function') {
+    if (typeof cb === "function") {
       userCallback = cb
     }
     // create virtual input element
-    const inputEL = createInputComponent({ multiple, accept })
+    const inputEL = createInputComponent({multiple, accept})
     // add event listener
-    inputEL.addEventListener('change', onChange)
+    inputEL.addEventListener("change", onChange)
     inputEL.click()
   }
 
   return React.useMemo(() => [files, uploadFile], [files])
 }
-
-    
-

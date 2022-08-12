@@ -9,14 +9,11 @@ import SellListItem from "src/components/SellListItem"
 import useAccountItem from "src/hooks/useAccountItem"
 import useApiListing from "src/hooks/useApiListing"
 import useAppContext from "src/hooks/useAppContext"
-import { Badge, Descriptions } from 'antd';
+import {Badge, Descriptions} from "antd"
 import Link from "next/link"
 import {paths} from "src/global/constants"
 
 export default function KittyItem() {
-
-
-
   const router = useRouter()
   const {currentUser} = useAppContext()
   const {address, id} = router.query
@@ -33,7 +30,6 @@ export default function KittyItem() {
   console.log("item:" + JSON.stringify(item))
 
   console.log("isSellable:" + isSellable)
-  
 
   return (
     <div className="main-container pt-12 pb-24 w-full">
@@ -55,18 +51,49 @@ export default function KittyItem() {
                 {item.name}
               </h1>
               <Descriptions bordered>
-                <Descriptions.Item label="Badge ID" span={3}>#{item.id}</Descriptions.Item>
-                <Descriptions.Item label="Creator" span={3} className="link"><Link href={paths.marketplace({creator:item.creator})} passHref>{item.creator}</Link></Descriptions.Item>
-                <Descriptions.Item label="Number" span={1}>{item.number}</Descriptions.Item>
+                <Descriptions.Item label="Badge ID" span={3}>
+                  #{item.id}
+                </Descriptions.Item>
+                <Descriptions.Item label="Creator" span={3} className="link">
+                  <Link
+                    href={paths.marketplace({creator: item.creator})}
+                    passHref
+                  >
+                    {item.creator}
+                  </Link>
+                </Descriptions.Item>
+                <Descriptions.Item label="Number" span={1}>
+                  {item.number}
+                </Descriptions.Item>
                 <Descriptions.Item label="Total">{item.max}</Descriptions.Item>
                 <Descriptions.Item label="Status" span={3}>
-                {!!listing ? (<div className="mr-5">Listing</div>):(<div className="mr-5">Not Listing</div>)}
+                  {!!listing ? (
+                    <div className="mr-5">Listing</div>
+                  ) : (
+                    <div className="mr-5">Not Listing</div>
+                  )}
                 </Descriptions.Item>
-                {!!item.externalURL && (<Descriptions.Item label="Website" span={3}><a href={item.externalURL} target="_blank">{item.externalURL}</a></Descriptions.Item>)}
-                {!!item.royalty_cut && (<Descriptions.Item label="Creator fee" span={3}>{parseInt(item.royalty_cut)}%</Descriptions.Item>)}
+                {!!item.externalURL && (
+                  <Descriptions.Item label="Website" span={3}>
+                    <a href={item.externalURL} target="_blank" rel="noreferrer">
+                      {item.externalURL}
+                    </a>
+                  </Descriptions.Item>
+                )}
+                {!!item.royalty_cut && (
+                  <Descriptions.Item label="Creator fee" span={3}>
+                    {parseInt(item.royalty_cut)}%
+                  </Descriptions.Item>
+                )}
                 {/* {!!item.royalty_receiver && (<Descriptions.Item label="Receiver">{item.royalty_receiver}</Descriptions.Item>)} */}
-                <Descriptions.Item label="Description" span={3}>{item.description}</Descriptions.Item>
-                {!!item.royalty_description && (<Descriptions.Item label="Fee description" span={3}>{item.royalty_description}</Descriptions.Item>)}
+                <Descriptions.Item label="Description" span={3}>
+                  {item.description}
+                </Descriptions.Item>
+                {!!item.royalty_description && (
+                  <Descriptions.Item label="Fee description" span={3}>
+                    {item.royalty_description}
+                  </Descriptions.Item>
+                )}
               </Descriptions>
               {isSellable ? (
                 <SellListItem item={item} />

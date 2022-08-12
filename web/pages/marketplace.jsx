@@ -14,7 +14,6 @@ import PopularMerchants from "src/components/PopularMerchants"
 import useApiListMerchants from "src/hooks/useApiListMerchants"
 import Footer from "src/components/Footer"
 
-
 const PER_PAGE = 12
 
 const MainContent = ({queryState}) => {
@@ -53,7 +52,9 @@ const MainContent = ({queryState}) => {
   return (
     <div className="main-container mx-auto py-14">
       <div className="text-center mb-8 ">
-        <div className="-mt-8 text-center font-extrabold text-7xl bg-clip-text text-transparent bg-gradient-to-tl from-teal-500  via-orange-500  via-indigo-600 via-red-300 to-blue-400 ">Marketplace</div>
+        <div className="-mt-8 text-center font-extrabold text-7xl bg-clip-text text-transparent bg-gradient-to-tl from-teal-500  via-orange-500  via-indigo-600 via-red-300 to-blue-400 ">
+          Marketplace
+        </div>
         {/* {!!currentUser && (
           <Link href={paths.profile(currentUser.addr)}>
             <a className=" uppercase font-bold text-m text-white rounded-full bg-pink-600 hover:opacity-70 marketplace-list-my-badges-button">
@@ -79,19 +80,17 @@ const MainContent = ({queryState}) => {
       )} */}
 
       {typeof queryState !== "undefined" && (
-        <PopularMerchants items={merchantsListings} updateQuery={updateQuery}/>
-       )}
+        <PopularMerchants items={merchantsListings} updateQuery={updateQuery} />
+      )}
 
       <div className="main-container flex pt-10 flex-col sm:flex-row ">
         <div className="flex ml-48">
           <div className="mr-96 -ml-48">
-              <h1 className="text-4xl text-gray-darkest mb-1">
-                Badges Listing
-              </h1>
-              <div className="text-xl text-gray-light">
-                Check out the latest listing badges.
-              </div>
+            <h1 className="text-4xl text-gray-darkest mb-1">Badges Listing</h1>
+            <div className="text-xl text-gray-light">
+              Check out the latest listing badges.
             </div>
+          </div>
           <div className="ml-96">
             {!!currentUser && (
               <Link href={paths.profile(currentUser.addr)}>
@@ -101,7 +100,6 @@ const MainContent = ({queryState}) => {
               </Link>
             )}
           </div>
-
         </div>
       </div>
       {!!listings && <ListItems items={listings} />}
@@ -142,7 +140,7 @@ export default function Marketplace() {
           <MainContent queryState={queryState} />
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

@@ -13,7 +13,7 @@ export default function Claim() {
           <ClaimBadges />
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

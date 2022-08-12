@@ -24,7 +24,7 @@ export default function Profile() {
     <div className="main-container pt-12 pb-24">
       <PageTitle>{address}</PageTitle>
       <main>
-        <div className="bg-white p-6 mb-16 rounded-md flex flex-col items-center justify-center relative " >
+        <div className="bg-white p-6 mb-16 rounded-md flex flex-col items-center justify-center relative ">
           <img src="/images/MyBadge-bg-picture.svg" alt="MyBadge-bg-picture" />
           <div className="absolute top-5 right-5 w-full flex flex-row-reverse">
             <ProfileQuestionPopover />
@@ -36,7 +36,11 @@ export default function Profile() {
           <div className="font-mono text-gray mt-2">
             {publicConfig.chainEnv === CHAIN_ENV_TESTNET ? (
               <Link href={paths.flowscanAcct(address)} passHref>
-                <a className="hover:opacity-80" target="_blank">
+                <a
+                  className="hover:opacity-80"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {address}
                 </a>
               </Link>
@@ -70,7 +74,6 @@ export default function Profile() {
           </Tab.Panels>
         </Tab.Group>
       </main>
-      
     </div>
   )
 }

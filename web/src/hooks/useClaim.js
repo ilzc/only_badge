@@ -36,28 +36,31 @@ export default function useClaim() {
     setTransactionStatus(tx)
   }
 
-  const mintAndList = async (reqValues) => {
-
+  const mintAndList = async reqValues => {
     console.log("reqValues:" + reqValues.recipient)
 
     setIsMintingLoading(true)
 
-    const newTxId = await fcl.mutate({
-      cadence: CLAIM_BADGES_SCRIPT,
-      args: (arg, t) => [
-        arg(publicConfig.contractKittyItems, t.Address),
-        arg(reqValues.recipient, t.Address),
-        arg(reqValues.claimCode, t.String),
-      ],
-      limit: 9999,
-    }).catch(()=>{setIsMintingLoading(false)});
+    const newTxId = await fcl
+      .mutate({
+        cadence: CLAIM_BADGES_SCRIPT,
+        args: (arg, t) => [
+          arg(publicConfig.contractKittyItems, t.Address),
+          arg(reqValues.recipient, t.Address),
+          arg(reqValues.claimCode, t.String),
+        ],
+        limit: 9999,
+      })
+      .catch(() => {
+        setIsMintingLoading(false)
+      })
 
-    console.log(newTxId);
-    if(newTxId) {
+    console.log(newTxId)
+    if (newTxId) {
       txStateSubscribeRef.current = fcl.tx(newTxId).subscribe(tx => {
-            console.log("tx" + JSON.stringify(tx))
-            if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
-          })
+        console.log("tx" + JSON.stringify(tx))
+        if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+      })
     }
   }
 
@@ -70,5 +73,4 @@ export default function useClaim() {
 
   const isLoading = isMintingLoading
   return [{isLoading, transactionAction, transactionStatus}, mintAndList]
-  
 }

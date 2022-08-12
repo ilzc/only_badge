@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import {useLayoutEffect, useMemo, useRef, useState} from "react"
 import ListItem from "src/components/ListItem"
 import {storeItemsSelector} from "src/global/selectors"
-import {normalizedBadges} from "src/global/types"
+import {apiListingType} from "src/global/types"
 import {useDebouncedCallback} from "use-debounce"
 
 const ITEMS_LENGTH = 10
@@ -81,9 +81,7 @@ export default function LatestStoreItems({items}) {
     <>
       <div className="main-container flex pt-10 flex-col sm:flex-row">
         <div>
-          <h1 className="text-4xl text-gray-darkest mb-1">
-            Latest Badges
-          </h1>
+          <h1 className="text-4xl text-gray-darkest mb-1">Latest Badges</h1>
           <div className="text-xl text-gray-light">
             Check out the latest freshly-minted Badges.
           </div>
@@ -118,15 +116,16 @@ export default function LatestStoreItems({items}) {
           ref={listRef}
         >
           <div className="whitespace-nowrap flex -ml-2 lg:pr-3">
-            {storeItems && storeItems.map(item => (
-              <div
-                key={item.id}
-                className="flex justify-center px-4"
-                style={{minWidth: ITEM_WIDTH}}
-              >
-                <ListItem item={item} size="sm" isStoreItem={true} />
-              </div>
-            ))}
+            {storeItems &&
+              storeItems.map(item => (
+                <div
+                  key={item.id}
+                  className="flex justify-center px-4"
+                  style={{minWidth: ITEM_WIDTH}}
+                >
+                  <ListItem item={item} size="sm" isStoreItem={true} />
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -136,7 +135,7 @@ export default function LatestStoreItems({items}) {
 }
 
 LatestStoreItems.propTypes = {
-  // items: PropTypes.arrayOf(normalizedBadges),
+  items: PropTypes.arrayOf(apiListingType),
 }
 
 PageButton.propTypes = {

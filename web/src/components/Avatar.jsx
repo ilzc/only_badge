@@ -8,9 +8,7 @@ const avatarUrl = hash =>
 
 export default function Avatar({address}) {
   if (address === publicConfig.flowAddress) {
-    return (
-      <img src="/images/badge-logo.svg" alt="Badge" width="100%" />
-    )
+    return <img src="/images/badge-logo.svg" alt="Badge" width="100%" />
   }
 
   return (
