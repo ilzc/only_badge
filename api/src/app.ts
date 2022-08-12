@@ -1,6 +1,8 @@
 import {json, urlencoded} from "body-parser"
 import cors from "cors"
 import express, {Request, Response} from "express"
+import https from "https"
+import fs from 'fs'
 import "express-async-errors"
 import path from "path"
 import initKittyItemsRouter from "./routes/kitty-items"
@@ -9,6 +11,17 @@ import {KittyItemsService} from "./services/kitty-items"
 import {StorefrontService} from "./services/storefront"
 
 const V1 = "/v1/"
+
+// Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/api.onlybadge.life/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/api.onlybadge.life/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/api.onlybadge.life/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 // Init all routes, setup middlewares and dependencies
 const initApp = (
@@ -54,6 +67,12 @@ const initApp = (
   app.all("*", async (req: Request, res: Response) => {
     return res.sendStatus(404)
   })
+
+  const httpsServer = https.createServer(credentials, app);
+
+  httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+  });
 
   return app
 }
